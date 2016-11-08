@@ -1,4 +1,3 @@
-
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,24 +10,28 @@ import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "count",
-    "mean",
-    "sum"
+    "stamina_per_owner",
+    "intellect_per_owner",
+    "pet_type",
+    "owner_coefficients",
 })
 
 @EqualsAndHashCode
 @Getter
 @ToString
-public class FightActualAmount {
+public class Pet {
+	
+	@JsonProperty("stamina_per_owner")
+	private double staminaPerOwner;
 
-    
-    @JsonProperty("count")
-    private Double count;
-    
-    @JsonProperty("mean")
-    private Double mean;
-    
-    @JsonProperty("sum")
-    private Double sum;
- 
+	@JsonProperty("intellect_per_owner")
+	private double intellectPerOwner;
+	
+	@JsonProperty("pet_type")
+	private String petType;
+	
+	@JsonProperty("owner_coefficients")
+	private OwnerCoefficient ownerCoefficients;
+
+
 }

@@ -32,7 +32,7 @@ public class Control {
 			File result = simcExecuter.execute(inputs);
 
 			simulationcraft = mapper.readValue(result, SimulationCraft.class);
-			result.delete();
+		//	result.delete();
 
 			
 			//Test outputs
