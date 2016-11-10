@@ -16,7 +16,11 @@ import lombok.ToString;
     "mean",
     "min",
     "name",
-    "sum"
+    "sum",
+    "variance",
+    "std_dev",
+    "mean_variance",
+    "mean_std_dev"
 })
 
 @EqualsAndHashCode
@@ -43,4 +47,16 @@ public class Htps {
     @JsonProperty("sum")
     private Double sum;
  
+    @JsonProperty("variance")
+    private Double variance;
+    
+    @JsonProperty("std_dev")
+    private Double std_dev;
+    
+    @JsonProperty("mean_variance")
+    private Double mean_variance;
+    
+    @JsonProperty("mean_std_dev")
+    private Double mean_std_dev;
+    
 }

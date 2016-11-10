@@ -2,6 +2,7 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.EqualsAndHashCode;
@@ -10,13 +11,14 @@ import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-
+	"timeline"
 })
 
-//TODO Leeres Object?
 @EqualsAndHashCode
 @Getter
 @ToString
 public class HealthChanges {
 
+	@JsonProperty("timeline")
+	private Timeline timeline;
 }

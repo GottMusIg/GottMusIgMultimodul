@@ -48,7 +48,8 @@ import lombok.ToString;
     "school_type",
     "tooltip",
     "powers",
-    "rank_str"
+    "rank_str",
+    "desc_vars"
 })
 
 @EqualsAndHashCode
@@ -162,4 +163,6 @@ public class SpellData {
     @JsonProperty("rank_str")
     private String rank_str;
 
+    @JsonProperty("desc_vars")
+    private String desc_vars;
 }

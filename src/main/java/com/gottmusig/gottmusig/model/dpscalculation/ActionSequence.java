@@ -19,7 +19,8 @@ import lombok.ToString;
     "resource_max_snapshot",
     "resource_snapshot",
     "target_name",
-    "time"
+    "time",
+    "wait_time"
 })
 @EqualsAndHashCode
 @Getter
@@ -43,5 +44,8 @@ public class ActionSequence {
     
     @JsonProperty("time")
     private Double time;
+    
+    @JsonProperty("wait_time")
+    private Double wait_time;
 
 }

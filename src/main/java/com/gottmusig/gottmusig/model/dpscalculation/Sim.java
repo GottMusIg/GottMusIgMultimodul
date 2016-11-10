@@ -76,7 +76,8 @@ import lombok.ToString;
     "travel_variance",
     "vary_combat_length",
     "world_lag_stddev",
-    "world_lag"
+    "world_lag",
+    "errors"
 })
 
 @EqualsAndHashCode
@@ -156,6 +157,9 @@ public class Sim {
     
     @JsonProperty("healing_players")
     private List<HealingPlayer> healingPlayers = new ArrayList<HealingPlayer>();
+    
+    @JsonProperty("errors")
+    private List<String> errors = new ArrayList<String>();
     
     @JsonProperty("ignite_sampling_delta")
     private Double igniteSamplingDelta;

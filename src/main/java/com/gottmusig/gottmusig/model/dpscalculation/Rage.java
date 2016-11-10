@@ -15,7 +15,9 @@ import lombok.ToString;
     "max",
     "mean",
     "min",
-    "sum"
+    "sum",
+    "actual",
+    "overflow"
 })
 
 @EqualsAndHashCode
@@ -38,5 +40,11 @@ public class Rage {
     
     @JsonProperty("sum")
     private Double sum;
+    
+    @JsonProperty("actual")
+    private Double acutual;
+    
+    @JsonProperty("overflow")
+    private Double overflow;
 
 }

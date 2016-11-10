@@ -15,7 +15,9 @@ import lombok.ToString;
     "max",
     "mean",
     "min",
-    "sum"
+    "sum",
+    "actual",
+    "overflow"
 })
 
 @EqualsAndHashCode
@@ -38,4 +40,9 @@ public class Chi {
     @JsonProperty("sum")
     private Double sum;
 
+    @JsonProperty("actual")
+    private Double actual;
+    
+    @JsonProperty("overflow")
+    private Double overflow;
 }

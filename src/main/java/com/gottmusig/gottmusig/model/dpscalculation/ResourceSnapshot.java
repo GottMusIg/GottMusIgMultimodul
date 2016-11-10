@@ -16,7 +16,13 @@ import lombok.ToString;
     "energy",
     "health",
     "mana",
-    "rage"
+    "rage",
+    "fury",
+    "runic_power",
+    "rune",
+    "chi",
+    "soul_shard",
+    "focus"
 })
 
 @EqualsAndHashCode
@@ -43,4 +49,21 @@ public class ResourceSnapshot {
     @JsonProperty("rage")
     private Double rage;
  
+    @JsonProperty("fury")
+    private Double fury;
+    
+    @JsonProperty("runic_power")
+    private Double runic_power;
+    
+    @JsonProperty("rune")
+    private Double rune;
+    
+    @JsonProperty("chi")
+    private Double chi;
+    
+    @JsonProperty("soul_shard")
+    private Double soul_shard;
+    
+    @JsonProperty("focus")
+    private Double focus;
 }

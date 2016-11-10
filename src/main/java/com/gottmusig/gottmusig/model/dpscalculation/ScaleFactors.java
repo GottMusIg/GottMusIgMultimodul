@@ -16,7 +16,10 @@ import lombok.ToString;
     "Int",
     "Mastery",
     "SP",
-    "Vers"
+    "Vers",
+    "Agi",
+    "AP",
+    "Wdps"
 })
 
 @EqualsAndHashCode
@@ -42,5 +45,13 @@ public class ScaleFactors {
     
     @JsonProperty("Vers")
     private Double vers;
+    
+    @JsonProperty("Agi")
+    private Double agi;
+    
+    @JsonProperty("AP")
+    private double ap;
 
+    @JsonProperty("Wdps")
+    private double wdps;
 }

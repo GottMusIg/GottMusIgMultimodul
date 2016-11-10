@@ -32,15 +32,12 @@ public class Control {
 			File result = simcExecuter.execute(inputs);
 
 			simulationcraft = mapper.readValue(result, SimulationCraft.class);
-		//	result.delete();
+			result.delete();
 
 			
-			//Test outputs
+			//Test output
 			System.out.println(simulationcraft.getSim().getPlayers().get(0).getName());
-			System.out.println(simulationcraft.getSim().getPlayers().get(0).getCollectedData().getDps().getMean());
 
-			System.out.println(simulationcraft.getSim().getPlayers().get(0).getCollectedData().getResourceTimelines()
-					.get(0).getResource());
 
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();

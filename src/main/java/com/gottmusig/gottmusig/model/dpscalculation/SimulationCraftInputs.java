@@ -3,8 +3,8 @@ package com.gottmusig.gottmusig.model.dpscalculation;
 import lombok.Builder;
 import lombok.Getter;
 
-@Builder
 @Getter
+@Builder
 public class SimulationCraftInputs {
 
 	private String region;
