@@ -40,8 +40,6 @@ public class SimCraftDataBoundary {
 			@QueryParam("server") String server, @QueryParam("user") String user) {
 
 		SimulationCraft simulationCraftData = control.getSimulationCraftData(region, server, user);
-
 		return Response.status(200).entity(simulationCraftData).build();
-
 	}
 }

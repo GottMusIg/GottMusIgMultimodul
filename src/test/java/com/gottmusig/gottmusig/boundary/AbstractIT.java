@@ -19,10 +19,10 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AbstractIT {
+public class AbstractIT extends AbstractBoundaryTest {
 
 	@ArquillianResource
-	URI baseUri;
+	private URI baseUri;
 
 	@Deployment(testable = false)
 	static WebArchive createTestArchive() {
@@ -62,8 +62,7 @@ public class AbstractIT {
 		}
 	}
 
-
-	public String get(String path) {
+	protected String get(String path) {
 
 		Client c = ClientBuilder.newClient();
 		WebTarget target = c.target(baseUri).path(path);
