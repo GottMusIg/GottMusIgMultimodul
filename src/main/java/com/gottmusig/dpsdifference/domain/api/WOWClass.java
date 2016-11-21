@@ -1,13 +1,14 @@
 package com.gottmusig.dpsdifference.domain.api;
 
-import java.util.List;
+import com.gottmusig.dpsdifference.domain.Entity;
+
 
 /**
  * @author leong
  * @since 13.11.2016
  */
-public interface WOWClass {
+public interface WOWClass extends Entity {
 
-    ClassSpecification getSpecification();
-    List<WOWClass> getAllClasses();
+    String getName();
+
 }
