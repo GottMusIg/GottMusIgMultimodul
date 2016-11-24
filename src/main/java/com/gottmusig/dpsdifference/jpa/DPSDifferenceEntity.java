@@ -1,40 +1,31 @@
 package com.gottmusig.dpsdifference.jpa;
 
-import com.gottmusig.dpsdifference.domain.api.ClassSpecification;
 import com.gottmusig.dpsdifference.domain.api.DPSDifference;
 import com.gottmusig.dpsdifference.domain.api.SpecificationDPS;
-import org.springframework.data.repository.CrudRepository;
+import com.gottmusig.dpsdifference.jpa.SpecificationDPSEntity.SpecificationDPSRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.List;
 
 /**
  * @author Leon Gottschick
  * @since 0.0.1
  */
-@Entity
-@Table(name = "dpsdifference")
+
 public class DPSDifferenceEntity implements DPSDifference {
 
-    @EmbeddedId
-    private NumericSequenceId id;
+    @Autowired SpecificationDPSRepository specificationDPSRepository;
 
-    private SpecificationDPS specificationDPS;
     private List<SpecificationDPS> DPSValues;
 
-    public DPSDifferenceEntity(NumericSequenceId id) {
-        this.id = new NumericSequenceId();
+    public DPSDifferenceEntity() {
     }
 
-    @Override
-    public SpecificationDPS getSpecificationDPS(ClassSpecification classSpecification) {
-        return specificationDPS;
-    }
-
-    public void setSpecificationDPS(SpecificationDPS specificationDPS) {
-        this.specificationDPS = specificationDPS;
+    /*
+    for testing //TODO FIX ME
+     */
+    public void addSpecificationDPS(SpecificationDPS specificationDPS) {
+        specificationDPSRepository.save((SpecificationDPSEntity) specificationDPS);
     }
 
     @Override
@@ -44,20 +35,6 @@ public class DPSDifferenceEntity implements DPSDifference {
 
     public void setDPSValues(List<SpecificationDPS> DPSValues) {
         this.DPSValues = DPSValues;
-    }
-
-    @Override
-    public NumericSequenceId getId() {
-        return id;
-    }
-    public void setId(NumericSequenceId id) {
-        this.id = id;
-    }
-
-    public static interface DPSDifferenceRepository extends CrudRepository<DPSDifferenceEntity, NumericSequenceId> {
-
-        DPSDifferenceEntity getDPSDifference();
-
     }
 
 }

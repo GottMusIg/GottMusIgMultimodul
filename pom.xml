@@ -17,10 +17,22 @@
                 <role>Designer</role>
             </roles>
             <email>leon.gottschick2@web.de</email>
-            <project>GOttMusIg</project>
             <url>https://gottmusig.wordpress.com/</url>
         </developer>
     </developers>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <licenses>
         <license>
@@ -99,7 +111,7 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.jpa</artifactId>
-            <version>2.6.0</version>
+            <version>2.5.0</version>
         </dependency>
     </dependencies>
 

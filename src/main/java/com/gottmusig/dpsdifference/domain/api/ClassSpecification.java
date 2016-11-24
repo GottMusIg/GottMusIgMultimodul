@@ -9,7 +9,19 @@ import com.gottmusig.dpsdifference.domain.Entity;
  */
 public interface ClassSpecification extends Entity {
 
+    /**
+     *
+     * @return the name of the Specification
+     */
     String getName();
 
+
+    /**
+     *
+     * @return the WOWClass the Specification is belonging to
+     */
     WOWClass getWOWClass();
+
+
+
 }

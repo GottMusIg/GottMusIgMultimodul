@@ -1,27 +1,28 @@
 package com.gottmusig.dpsdifference.jpa;
 
 import com.gottmusig.dpsdifference.domain.api.ClassSpecification;
-import com.gottmusig.dpsdifference.domain.api.WOWClass;
+import org.springframework.data.repository.CrudRepository;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author leong
  * @since 20.11.2016
  */
 @Entity
-@Table(name = "classspecification")
+@Table(name = "classSpecification")
 public class ClassSpecificationEntity implements ClassSpecification {
 
     @EmbeddedId
     private NumericSequenceId id;
 
     private String name;
-    private WOWClass wowClass;
 
-    public ClassSpecificationEntity(NumericSequenceId id) {
+    @OneToOne
+    @JoinColumn(name="wowClassId", referencedColumnName= "id")
+    private WOWClassEntity wowClass;
+
+    public ClassSpecificationEntity() {
         this.id = new NumericSequenceId();
     }
 
@@ -30,13 +31,25 @@ public class ClassSpecificationEntity implements ClassSpecification {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
-    public WOWClass getWOWClass() {
+    public WOWClassEntity getWOWClass() {
         return wowClass;
+    }
+
+    public void setWowClass(WOWClassEntity wowClass) {
+        this.wowClass = wowClass;
     }
 
     @Override
     public NumericSequenceId getId() {
         return id;
+    }
+
+    public static interface ClassSpecificationRepoitory extends CrudRepository<ClassSpecificationEntity, NumericSequenceId> {
+
     }
 }

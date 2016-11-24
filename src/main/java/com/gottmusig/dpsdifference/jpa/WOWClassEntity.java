@@ -1,6 +1,7 @@
 package com.gottmusig.dpsdifference.jpa;
 
 import com.gottmusig.dpsdifference.domain.api.WOWClass;
+import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ public class WOWClassEntity implements WOWClass {
 
     private String name;
 
-    public WOWClassEntity(NumericSequenceId id) {
+    public WOWClassEntity() {
         this.id = new NumericSequenceId();
     }
 
@@ -28,8 +29,16 @@ public class WOWClassEntity implements WOWClass {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public NumericSequenceId getId() {
         return id;
+    }
+
+    public static interface WOWClassRepository extends CrudRepository<WOWClassEntity, NumericSequenceId> {
+
     }
 }

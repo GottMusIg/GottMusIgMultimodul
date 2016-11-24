@@ -8,8 +8,16 @@ import com.gottmusig.dpsdifference.domain.Entity;
  */
 public interface SpecificationDPS extends Entity {
 
+    /**
+     *
+     * @return the DPS value of this Specification
+     */
     int getSpecificationDPS();
 
+    /**
+     *
+     * @return the corresponding Specification to this SpecificationDPS
+     */
     ClassSpecification getSpecification();
 
 }

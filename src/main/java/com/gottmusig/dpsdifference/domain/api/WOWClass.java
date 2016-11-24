@@ -9,6 +9,10 @@ import com.gottmusig.dpsdifference.domain.Entity;
  */
 public interface WOWClass extends Entity {
 
+    /**
+     *
+     * @return the name of the WoW class
+     */
     String getName();
 
 }
