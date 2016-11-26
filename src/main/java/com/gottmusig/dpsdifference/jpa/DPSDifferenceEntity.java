@@ -15,6 +15,7 @@ import java.util.List;
 public class DPSDifferenceEntity implements DPSDifference {
 
     @Autowired SpecificationDPSRepository specificationDPSRepository;
+    @Autowired WOWClassEntity.WOWClassRepository classRepository;
 
     private List<SpecificationDPS> DPSValues;
 
@@ -27,6 +28,7 @@ public class DPSDifferenceEntity implements DPSDifference {
     public void addSpecificationDPS(SpecificationDPS specificationDPS) {
         specificationDPSRepository.save((SpecificationDPSEntity) specificationDPS);
     }
+
 
     @Override
     public List<SpecificationDPS> getAllDPSValues() {

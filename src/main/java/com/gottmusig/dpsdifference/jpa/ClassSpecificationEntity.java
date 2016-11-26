@@ -14,12 +14,13 @@ import javax.persistence.*;
 public class ClassSpecificationEntity implements ClassSpecification {
 
     @EmbeddedId
+    @Column(name = "id")
     private NumericSequenceId id;
 
     private String name;
 
     @OneToOne
-    @JoinColumn(name="wowClassId", referencedColumnName= "id")
+    @JoinColumn(name="WOWClass_id", referencedColumnName= "id")
     private WOWClassEntity wowClass;
 
     public ClassSpecificationEntity() {
@@ -47,6 +48,10 @@ public class ClassSpecificationEntity implements ClassSpecification {
     @Override
     public NumericSequenceId getId() {
         return id;
+    }
+
+    public void setId(NumericSequenceId id) {
+        this.id = id;
     }
 
     public static interface ClassSpecificationRepoitory extends CrudRepository<ClassSpecificationEntity, NumericSequenceId> {

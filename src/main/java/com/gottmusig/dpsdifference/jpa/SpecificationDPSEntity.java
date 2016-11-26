@@ -11,7 +11,7 @@ import javax.persistence.*;
  * @since 20.11.2016
  */
 @Entity
-@Table(name = "classdps")
+@Table(name = "specificationdps")
 @EntityListeners(SpringEntityListener.class)
 public class SpecificationDPSEntity implements SpecificationDPS {
 
@@ -21,7 +21,7 @@ public class SpecificationDPSEntity implements SpecificationDPS {
     private int dps;
 
     @OneToOne
-    @JoinColumn(name = "classSpecificationId", referencedColumnName = "id")
+    @JoinColumn(name = "classSpecification_id", referencedColumnName = "id")
     private ClassSpecificationEntity specification;
 
     public SpecificationDPSEntity() {

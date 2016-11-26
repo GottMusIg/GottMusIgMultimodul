@@ -18,12 +18,13 @@ public class Application {
         ApplicationContext context = new AnnotationConfigApplicationContext(DPSDifferenceConfiguration.class);
         DPSDifference dpsDifference = context.getBean(DPSDifference.class);
         SpecificationDPSEntity specificationDPS = new SpecificationDPSEntity();
-        specificationDPS.setDps(400000);
+        specificationDPS.setDps(500000);
         ClassSpecificationEntity specification = new ClassSpecificationEntity();
         specification.setName("Penis");
         WOWClassEntity wowClass = new WOWClassEntity();
-        wowClass.setName("Dödel");
+        wowClass.setName("Phallus");
         specification.setWowClass(wowClass);
+        specificationDPS.setSpecification(specification);
         dpsDifference.addSpecificationDPS(specificationDPS);
     }
 }
