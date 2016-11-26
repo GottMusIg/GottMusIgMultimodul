@@ -20,9 +20,9 @@ public class Application {
         SpecificationDPSEntity specificationDPS = new SpecificationDPSEntity();
         specificationDPS.setDps(500000);
         ClassSpecificationEntity specification = new ClassSpecificationEntity();
-        specification.setName("Furor");
+        specification.setName("Frost");
         WOWClassEntity wowClass = new WOWClassEntity();
-        wowClass.setName("Krieger");
+        wowClass.setName("Magier");
         specification.setWowClass(wowClass);
         specificationDPS.setSpecification(specification);
         dpsDifference.addSpecificationDPS(specificationDPS);
