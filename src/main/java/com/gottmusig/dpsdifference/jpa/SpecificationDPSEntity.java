@@ -55,7 +55,18 @@ public class SpecificationDPSEntity implements SpecificationDPS {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "SpecificationDPSEntity{" +
+                "id=" + id +
+                ", dps=" + dps +
+                ", specification=" + specification +
+                '}';
+    }
+
     public static interface SpecificationDPSRepository extends CrudRepository<SpecificationDPSEntity, NumericSequenceId> {
+
+        SpecificationDPSEntity findBySpecification(ClassSpecificationEntity classSpecification);
 
     }
 }

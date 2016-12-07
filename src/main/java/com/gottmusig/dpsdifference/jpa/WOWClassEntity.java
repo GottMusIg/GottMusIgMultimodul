@@ -44,5 +44,7 @@ public class WOWClassEntity implements WOWClass {
 
     public static interface WOWClassRepository extends CrudRepository<WOWClassEntity, NumericSequenceId> {
 
+       WOWClassEntity findByName(String name);
+        
     }
 }

@@ -1,6 +1,10 @@
 package com.gottmusig.dpsdifference.domain.api;
 
-import java.util.List;
+import com.gottmusig.dpsdifference.jpa.ClassSpecificationEntity;
+import com.gottmusig.dpsdifference.jpa.SpecificationDPSEntity;
+import com.gottmusig.dpsdifference.jpa.WOWClassEntity;
+
+import java.util.Optional;
 
 /**
  * Implementation of the simulated DPS Values for all WoW Classes and Specifications
@@ -12,12 +16,23 @@ import java.util.List;
  */
 public interface DPSDifference {
 
+    Optional<ClassSpecificationEntity> findClassSpecification(String name);
+
+    Optional<WOWClassEntity> findWOWClass(String name);
+
+    WOWClassEntity addWOWClass(String name);
+
+    ClassSpecificationEntity addClassSpecification(String specificationName, String className);
+
+
     /**
      *
      * @return A list of all DPS values
      */
-    List<SpecificationDPS> getAllDPSValues();
+    Iterable<SpecificationDPSEntity> getAllDPSValues();
+
+    Optional<SpecificationDPSEntity> findSpecificationDPS(String specificationName);
 
 
-    void addSpecificationDPS(SpecificationDPS specificationDPS);
+    void addSpecificationDPS(int dps, String specificationName, String className);
 }

@@ -54,7 +54,9 @@ public class ClassSpecificationEntity implements ClassSpecification {
         this.id = id;
     }
 
-    public static interface ClassSpecificationRepoitory extends CrudRepository<ClassSpecificationEntity, NumericSequenceId> {
+    public static interface ClassSpecificationRepository extends CrudRepository<ClassSpecificationEntity, NumericSequenceId> {
+
+        ClassSpecificationEntity findByName(String name);
 
     }
 }
