@@ -4,6 +4,7 @@ import com.gottmusig.dpsdifference.jpa.ClassSpecificationEntity;
 import com.gottmusig.dpsdifference.jpa.SpecificationDPSEntity;
 import com.gottmusig.dpsdifference.jpa.WOWClassEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,7 +30,7 @@ public interface DPSDifference {
      *
      * @return A list of all DPS values
      */
-    Iterable<SpecificationDPSEntity> getAllDPSValues();
+    List<SpecificationDPSEntity> getAllDPSValues();
 
     Optional<SpecificationDPSEntity> findSpecificationDPS(String specificationName);
 
