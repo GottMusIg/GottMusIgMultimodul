@@ -18,12 +18,12 @@ public class Application {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(DPSDifferenceConfiguration.class);
         DPSDifference dpsDifference = context.getBean(DPSDifference.class);
-            dpsDifference.addSpecificationDPS(0,"Furor","Krieger");
-            dpsDifference.addSpecificationDPS(0,"Waffen","Krieger");
-            dpsDifference.addSpecificationDPS(0,"Schutz","Krieger");
+            dpsDifference.addSpecificationDPS(300000,"Fury","Warrior");
+            dpsDifference.addSpecificationDPS(200000,"Arms","Warrior");
+            dpsDifference.addSpecificationDPS(100000,"Protection","Warrior");
 
-            dpsDifference.addSpecificationDPS(0,"Heilig","Paladin");
-            dpsDifference.addSpecificationDPS(0,"Schutz","Paladin");
+            dpsDifference.addSpecificationDPS(50,"Heilig","Paladin");
+            dpsDifference.addSpecificationDPS(20000,"Schutz","Paladin");
             dpsDifference.addSpecificationDPS(0,"Vergeltung","Paladin");
 
             dpsDifference.addSpecificationDPS(0,"Tierherrschaft", "Jäger");

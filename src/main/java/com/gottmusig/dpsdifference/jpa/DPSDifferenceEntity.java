@@ -88,7 +88,12 @@ public class DPSDifferenceEntity implements DPSDifference {
     public List<SpecificationDPSEntity> getAllDPSValues() {
         return ((List<SpecificationDPSEntity>) specificationDPSRepository.findAll())
                                                                          .stream()
-                                                                         .sorted(Comparator.comparingInt(SpecificationDPSEntity::getSpecificationDPS))
+                                                                         .sorted(new Comparator<SpecificationDPSEntity>() {
+                                                                             @Override
+                                                                             public int compare(SpecificationDPSEntity o1, SpecificationDPSEntity o2) {
+                                                                                 return o1.getSpecificationDPS() < o2.getSpecificationDPS() ? 1 : (o1 == o2 ? 0 : -1);
+                                                                             }
+                                                                         })
                                                                          .collect(Collectors.toList());
     }
 
