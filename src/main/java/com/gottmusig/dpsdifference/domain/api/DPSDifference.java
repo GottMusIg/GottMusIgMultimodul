@@ -35,4 +35,7 @@ public interface DPSDifference {
 
 
     void addSpecificationDPS(int dps, String specificationName, String className);
+
+
+    SpecificationDPSEntity getMaxDPSValue();
 }

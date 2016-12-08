@@ -10,7 +10,7 @@ import javax.persistence.*;
  * @since 20.11.2016
  */
 @Entity
-@Table(name = "classSpecification")
+@Table(name = "classspecification")
 public class ClassSpecificationEntity implements ClassSpecification {
 
     @EmbeddedId

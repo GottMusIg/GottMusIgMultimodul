@@ -92,6 +92,9 @@ public class DPSDifferenceEntity implements DPSDifference {
                                                                          .collect(Collectors.toList());
     }
 
-
+    @Override
+    public SpecificationDPSEntity getMaxDPSValue() {
+        return getAllDPSValues().get(0);
+    }
 
 }
