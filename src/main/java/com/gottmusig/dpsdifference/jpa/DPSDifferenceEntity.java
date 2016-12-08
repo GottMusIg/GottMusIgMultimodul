@@ -98,8 +98,8 @@ public class DPSDifferenceEntity implements DPSDifference {
     }
 
     @Override
-    public SpecificationDPSEntity getMaxDPSValue() {
-        return getAllDPSValues().get(0);
+    public int getMaxDPSValue() {
+        return getAllDPSValues().get(0).getSpecificationDPS();
     }
 
 }
