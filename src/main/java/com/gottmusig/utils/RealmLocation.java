@@ -1,4 +1,4 @@
-package com.gottmusig.searchcharacter.utils;
+package com.gottmusig.utils;
 
 import java.util.Arrays;
 import java.util.List;

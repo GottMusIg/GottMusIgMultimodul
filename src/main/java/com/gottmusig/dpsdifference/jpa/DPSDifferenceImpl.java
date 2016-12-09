@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
  * @since 0.0.1
  */
 
-public class DPSDifferenceEntity implements DPSDifference {
+public class DPSDifferenceImpl implements DPSDifference {
 
     @Autowired private SpecificationDPSRepository specificationDPSRepository;
     @Autowired private ClassSpecificationRepository classSpecificationRepository;
     @Autowired private WOWClassRepository classRepository;
 
-    public DPSDifferenceEntity() {
+    public DPSDifferenceImpl() {
     }
 
     /*
@@ -37,7 +37,7 @@ public class DPSDifferenceEntity implements DPSDifference {
         else
             specificationDPS.setSpecification(addClassSpecification(specificationName, className));
 
-        specificationDPSRepository.save((SpecificationDPSEntity) specificationDPS);
+        specificationDPSRepository.save(specificationDPS);
     }
 
     private boolean isSpecificationAndClassPresent(ClassSpecificationEntity classSpecificationEntity, String className) {

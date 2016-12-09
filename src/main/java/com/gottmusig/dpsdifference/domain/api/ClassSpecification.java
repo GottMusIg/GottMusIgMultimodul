@@ -1,7 +1,7 @@
 package com.gottmusig.dpsdifference.domain.api;
 
 
-import com.gottmusig.dpsdifference.domain.Entity;
+import com.gottmusig.utils.Entity;
 /**
  * @author Leon Gottschick
  * @since 0.0.1

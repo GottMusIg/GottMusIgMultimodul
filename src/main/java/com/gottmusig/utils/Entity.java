@@ -1,4 +1,4 @@
-package com.gottmusig.dpsdifference.domain;
+package com.gottmusig.utils;
 
 import java.io.Serializable;
 

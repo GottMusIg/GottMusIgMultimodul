@@ -1,21 +1,23 @@
-package com.gottmusig.dpsdifference.configuration;
+package com.gottmusig.searchcharacter.configuration;
 
 import com.gottmusig.configuration.JpaConfiguration;
-import com.gottmusig.dpsdifference.jpa.DPSDifferenceImpl;
+import com.gottmusig.searchcharacter.jpa.SearchCharacterImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
  * @author leong
- * @since 24.11.2016
+ * @since 09.12.2016
  */
+
 @Configuration
 @Import(JpaConfiguration.class)
-public class DPSDifferenceConfiguration {
+public class SearchCharacterConfiguration {
 
     @Bean
-    public DPSDifferenceImpl dpsDifferenceEntity() {
-        return new DPSDifferenceImpl();
+    public SearchCharacterImpl searchCharacterEntity() {
+        return new SearchCharacterImpl();
     }
+
 }

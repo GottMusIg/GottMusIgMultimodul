@@ -1,4 +1,4 @@
-package com.gottmusig.dpsdifference.configuration;
+package com.gottmusig.configuration;
 
 import com.gottmusig.dpsdifference.jpa.SpringEntityListener;
 import com.mysql.jdbc.Driver;
