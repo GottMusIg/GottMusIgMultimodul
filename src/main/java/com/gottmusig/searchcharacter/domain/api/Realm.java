@@ -1,7 +1,7 @@
 package com.gottmusig.searchcharacter.domain.api;
 
+import com.gottmusig.searchcharacter.jpa.RealmLocationEntity;
 import com.gottmusig.utils.Entity;
-import com.gottmusig.utils.RealmLocation;
 
 /**
  * @author leong
@@ -11,6 +11,6 @@ public interface Realm extends Entity {
 
     String getName();
 
-    RealmLocation getLocation();
+    RealmLocationEntity.Location getLocation();
 
 }

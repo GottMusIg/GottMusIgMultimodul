@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
 public class SearchCharacterConfiguration {
 
     @Bean
-    public SearchCharacterImpl searchCharacterEntity() {
+    public SearchCharacterImpl searchCharacterImpl() {
         return new SearchCharacterImpl();
     }
 

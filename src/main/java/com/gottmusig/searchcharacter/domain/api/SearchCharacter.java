@@ -1,7 +1,6 @@
 package com.gottmusig.searchcharacter.domain.api;
 
-import com.gottmusig.searchcharacter.jpa.RealmEntity;
-import com.gottmusig.utils.RealmLocation;
+import com.gottmusig.searchcharacter.jpa.RealmLocationEntity;
 
 import java.util.List;
 
@@ -11,10 +10,10 @@ import java.util.List;
  */
 public interface SearchCharacter {
 
-    List<RealmEntity> getRealms(RealmLocation location);
+    List<RealmLocationEntity> getAllLocations();
 
-    List<RealmLocation> getAllLocations();
+    String searchCharacter(RealmLocationEntity location, Realm realm, String characterName);
 
-    String searchCharacter(RealmLocation location, Realm realm, String characterName);
+
 
 }

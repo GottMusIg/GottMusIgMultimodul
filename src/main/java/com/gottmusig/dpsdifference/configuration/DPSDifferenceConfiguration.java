@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
 public class DPSDifferenceConfiguration {
 
     @Bean
-    public DPSDifferenceImpl dpsDifferenceEntity() {
+    public DPSDifferenceImpl dpsDifferenceImpl() {
         return new DPSDifferenceImpl();
     }
 }

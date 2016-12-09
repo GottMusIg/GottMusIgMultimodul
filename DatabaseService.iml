@@ -6,6 +6,7 @@
         <fileset id="fileset" name="Spring Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/java/com/gottmusig/dpsdifference/configuration/JpaConfiguration.java</file>
           <file>file://$MODULE_DIR$/src/main/java/com/gottmusig/dpsdifference/configuration/DPSDifferenceConfiguration.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/gottmusig/searchcharacter/configuration/SearchCharacterConfiguration.java</file>
         </fileset>
       </configuration>
     </facet>
