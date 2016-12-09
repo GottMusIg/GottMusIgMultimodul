@@ -12,59 +12,57 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Application {
 
-
-
-
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(DPSDifferenceConfiguration.class);
         DPSDifference dpsDifference = context.getBean(DPSDifference.class);
+
             dpsDifference.addSpecificationDPS(300000,"Fury","Warrior");
             dpsDifference.addSpecificationDPS(200000,"Arms","Warrior");
             dpsDifference.addSpecificationDPS(100000,"Protection","Warrior");
 
-            dpsDifference.addSpecificationDPS(50,"Heilig","Paladin");
-            dpsDifference.addSpecificationDPS(20000,"Schutz","Paladin");
-            dpsDifference.addSpecificationDPS(0,"Vergeltung","Paladin");
+            dpsDifference.addSpecificationDPS(50,"Holy","Paladin");
+            dpsDifference.addSpecificationDPS(20000,"Protection","Paladin");
+            dpsDifference.addSpecificationDPS(100,"Retribution","Paladin");
 
-            dpsDifference.addSpecificationDPS(0,"Tierherrschaft", "Jäger");
-            dpsDifference.addSpecificationDPS(0,"Treffsicherheit", "Jäger");
-            dpsDifference.addSpecificationDPS(0,"Überleben", "Jäger");
+            dpsDifference.addSpecificationDPS(700000,"Beast Mastery","Hunter");
+            dpsDifference.addSpecificationDPS(200000,"Marksmanship","Hunter");
+            dpsDifference.addSpecificationDPS(100000,"Survival","Hunter");
 
-            dpsDifference.addSpecificationDPS(0,"Meucheln", "Schurke");
-            dpsDifference.addSpecificationDPS(0,"Gesetzlosigkeit", "Schurke");
-            dpsDifference.addSpecificationDPS(0,"Täuschung", "Schurke");
+            dpsDifference.addSpecificationDPS(480000,"Assassination","Rogue");
+            dpsDifference.addSpecificationDPS(240000,"Outlaw","Rogue");
+            dpsDifference.addSpecificationDPS(190000,"Subtlety","Rogue");
 
-            dpsDifference.addSpecificationDPS(0,"Heilig", "Priester");
-            dpsDifference.addSpecificationDPS(0,"Schatten", "Priester");
-            dpsDifference.addSpecificationDPS(0,"Disziplin", "Priester");
+            dpsDifference.addSpecificationDPS(263845,"Holy","Priest");
+            dpsDifference.addSpecificationDPS(67325,"Shadow","Priest");
+            dpsDifference.addSpecificationDPS(622345,"Discipline","Priest");
 
-            dpsDifference.addSpecificationDPS(0,"Blut", "Todesritter");
-            dpsDifference.addSpecificationDPS(0,"Frost", "Todesritter");
-            dpsDifference.addSpecificationDPS(0,"Unheilig", "Todesritter");
+            dpsDifference.addSpecificationDPS(124346,"Blood","Death Knight");
+            dpsDifference.addSpecificationDPS(153753,"Frost","Death Knight");
+            dpsDifference.addSpecificationDPS(362634,"Unholy","Death Knight");
 
-            dpsDifference.addSpecificationDPS(0,"Elementar", "Schamane");
-            dpsDifference.addSpecificationDPS(0,"Verstärkung", "Schamane");
-            dpsDifference.addSpecificationDPS(0,"Wiederherstellung", "Schamane");
+            dpsDifference.addSpecificationDPS(14124,"Elemental","Shaman");
+            dpsDifference.addSpecificationDPS(151144,"Enhancement","Shaman");
+            dpsDifference.addSpecificationDPS(1613,"Restoration","Shaman");
 
-            dpsDifference.addSpecificationDPS(0,"Frost", "Magier");
-            dpsDifference.addSpecificationDPS(0,"Arkan", "Magier");
-            dpsDifference.addSpecificationDPS(0,"Feuer", "Magier");
+            dpsDifference.addSpecificationDPS(151342,"Frost","Mage");
+            dpsDifference.addSpecificationDPS(135151,"Arcane","Mage");
+            dpsDifference.addSpecificationDPS(664532,"Fire","Mage");
 
-            dpsDifference.addSpecificationDPS(0,"Dämonologie", "Hexenmeister");
-            dpsDifference.addSpecificationDPS(0,"Zerstörung", "Hexenmeister");
-            dpsDifference.addSpecificationDPS(0,"Gebrechen", "Hexenmeister");
+            dpsDifference.addSpecificationDPS(266234,"Demonology","Warlock");
+            dpsDifference.addSpecificationDPS(567743,"Destruction","Warlock");
+            dpsDifference.addSpecificationDPS(243262,"Affliction","Warlock");
 
-            dpsDifference.addSpecificationDPS(0,"Braumeister", "Mönch");
-            dpsDifference.addSpecificationDPS(0,"Windläufer", "Mönch");
-            dpsDifference.addSpecificationDPS(0,"Nebelwirker", "Mönch");
+            dpsDifference.addSpecificationDPS(235,"Brewmaster","Monk");
+            dpsDifference.addSpecificationDPS(236235,"Windwalker","Monk");
+            dpsDifference.addSpecificationDPS(26234,"Mistweaver","Monk");
 
-            dpsDifference.addSpecificationDPS(0,"Wächter", "Druide");
-            dpsDifference.addSpecificationDPS(0,"Gleichgewicht", "Druide");
-            dpsDifference.addSpecificationDPS(0,"Wilder Kampf", "Druide");
-            dpsDifference.addSpecificationDPS(0,"Wiederherstellung", "Druide");
+            dpsDifference.addSpecificationDPS(242352,"Guardian","Druid");
+            dpsDifference.addSpecificationDPS(221123,"Balance","Druid");
+            dpsDifference.addSpecificationDPS(379965,"Feral","Druid");
+            dpsDifference.addSpecificationDPS(7000,"Restoration","Druid");
 
-            dpsDifference.addSpecificationDPS(0,"Verwüstung", "Dämonenjäger");
-            dpsDifference.addSpecificationDPS(0,"Rachsucht", "Dämonenjäger");
+            dpsDifference.addSpecificationDPS(700000,"Havoc","Demon Hunter");
+            dpsDifference.addSpecificationDPS(346242,"Vengeance","Demon Hunter");
 
     }
 }

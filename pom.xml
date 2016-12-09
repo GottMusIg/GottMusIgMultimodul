@@ -48,6 +48,16 @@
         <org.springframework.version>4.1.4.RELEASE</org.springframework.version>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>myMavenRepo.write</id>
+            <url>${myMavenRepo.write.url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>myMavenRepo.write</id>
+            <url>${myMavenRepo.write.url}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
