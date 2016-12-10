@@ -13,7 +13,7 @@ public interface SearchCharacter {
 
     List<Location> getAllLocations();
 
-    String searchCharacter(Location location, Realm realm, String characterName);
+    String searchCharacter(Location location, String realm, String characterName);
 
     void saveRealm(String name, Location location);
 
