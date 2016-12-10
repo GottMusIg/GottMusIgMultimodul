@@ -1,13 +1,12 @@
 package com.gottmusig.rest.blizzard;
 
 
-import com.gottmusig.rest.blizzard.utils.UrlBuilder;
-import com.gottmusig.utils.PropertyLoader;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+
+import com.gottmusig.utils.PropertyLoader;
 
 /**
  * @author leong
@@ -16,9 +15,14 @@ import javax.ws.rs.core.MediaType;
 public class RestClient {
 
     private final static String BLIZZARD_PROPERTIES="src/main/resources/blizzard.properties";
+	
+    private String path;
+	private String key;
 
-    public RestClient() {
-        PropertyLoader.loadProperties(BLIZZARD_PROPERTIES);
+    public RestClient(String path, String key) {
+        this.path = path;
+		this.key = key;
+		PropertyLoader.loadProperties(BLIZZARD_PROPERTIES);
     }
 
     /**
@@ -45,7 +49,14 @@ public class RestClient {
     }
 
     public String searchCharacter(String location, String realm, String characterName) {
-        return request(UrlBuilder.buildUrl("character/"+realm+"/"+characterName));
+        return request(this.path + 
+        			   "character/" +
+        			   realm + 
+        			   "/" + 
+        			   characterName + 
+        			   "?locale=en_GB" +
+                	   "&apikey=" + 
+        			   this.key);
     }
 
 }

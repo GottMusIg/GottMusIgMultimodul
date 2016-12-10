@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 @Import(JpaConfiguration.class)
+@PropertySource({"classpath:/blizzard.properties"})
 public class SearchCharacterConfiguration {
 
     @Autowired Environment env;
@@ -27,7 +29,9 @@ public class SearchCharacterConfiguration {
 
     @Bean
     public RestClient restClient(){
-        return new RestClient();
+    	RestClient restClient = new RestClient(env.getProperty("api.path"),
+    										   env.getProperty("api.key"));
+        return restClient;
     }
 
 }
