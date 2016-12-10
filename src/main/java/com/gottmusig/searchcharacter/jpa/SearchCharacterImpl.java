@@ -21,9 +21,7 @@ public class SearchCharacterImpl implements SearchCharacter {
 
     @Override
     public List<RealmLocationEntity> getAllLocations() {
-
         return (RealmLocation.Location.getLocations()).stream().map(RealmLocationEntity::new).collect(Collectors.toList());
-
     }
 
     @Override
@@ -40,7 +38,7 @@ public class SearchCharacterImpl implements SearchCharacter {
     }
 
     @Override
-    public List<RealmEntity> getAllRealms(Location location) {
+    public List<RealmEntity> getAllRealms() {
 
         return ((List<RealmEntity>)realmRepository.findAll());
 
