@@ -1,49 +1,48 @@
 package com.gottmusig.gottmusig.facade;
 
-import java.io.File;
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottmusig.gottmusig.gateway.SimCraftExecuter;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraftInputs;
 
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @NoArgsConstructor
+@Slf4j
 public class Control {
 
-	private ObjectMapper mapper = new ObjectMapper();
 	private SimCraftExecuter simcExecuter = new SimCraftExecuter();
+	private SimulationCraft simulationcraft = null;
 
-	public SimulationCraft getSimulationCraftData(String region, String server, String user) {
+	public SimulationCraft getSpecificSimulationCraftData(String region, String server, String user) {
 
-		SimulationCraft simulationcraft = null;
 		SimulationCraftInputs inputs = SimulationCraftInputs.builder() //
 				.region(region) //
 				.server(server) //
 				.user(user)//
-				.command("calculate_scale_factors=0") //Als command sollte später n File mitgegeben werden, in dem alle 
-													//Einstellungen für die Simulation definiert sind.
+				.command("calculate_scale_factors=0") //TODO
 				.build();
 
 		try {
-
-			File result = simcExecuter.execute(inputs);
-
-			simulationcraft = mapper.readValue(result, SimulationCraft.class);
-			result.delete();
-
-			
-			//Test output
+			simulationcraft = simcExecuter.execute(inputs);
+			// Test output
 			System.out.println(simulationcraft.getSim().getPlayers().get(0).getName());
 
-
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return simulationcraft;
+	}
 
+	public String getDpsForStartPage(String command) {
+		try {
+			return simcExecuter.execute(command);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 }
