@@ -14,6 +14,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Application {
 
+
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(SearchCharacterConfiguration.class);
         SearchCharacter searchCharacter = context.getBean(SearchCharacter.class);
@@ -21,6 +22,8 @@ public class Application {
         realmEntity.setName("Blackhand");
         realmEntity.setLocation(Location.de_DE);
         System.out.println(searchCharacter.getAllRealms());
-        System.out.println(searchCharacter.searchCharacter(Location.de_DE, realmEntity,"Malahkh"));
+        System.out.println(searchCharacter.searchCharacter(Location.de_DE, realmEntity.getName(),"Malahkh"));
+
+
     }
 }

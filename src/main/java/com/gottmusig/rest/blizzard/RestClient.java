@@ -17,7 +17,9 @@ public class RestClient {
 
     private final static String BLIZZARD_PROPERTIES="src/main/resources/blizzard.properties";
 
-    public RestClient() {}
+    public RestClient() {
+        PropertyLoader.loadProperties(BLIZZARD_PROPERTIES);
+    }
 
     /**
      * https://eu.api.battle.net/wow/realm/status?locale=en_GB&apikey=apikey
@@ -42,9 +44,7 @@ public class RestClient {
         return response;
     }
 
-    public static String searchCharacter(String location, String realm, String characterName) {
-        PropertyLoader.loadProperties(BLIZZARD_PROPERTIES);
-        System.out.println(UrlBuilder.buildUrl("character/"+realm+"/"+characterName));
+    public String searchCharacter(String location, String realm, String characterName) {
         return request(UrlBuilder.buildUrl("character/"+realm+"/"+characterName));
     }
 

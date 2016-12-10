@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class SearchCharacterImpl implements SearchCharacter {
 
     @Autowired private RealmEntity.RealmRepository realmRepository;
+    @Autowired private RestClient restClient;
 
     @Override
     public List<Location> getAllLocations() {
@@ -23,7 +24,7 @@ public class SearchCharacterImpl implements SearchCharacter {
 
     @Override
     public String searchCharacter(Location location, String realm, String characterName) {
-        return RestClient.searchCharacter(location.name(),realm,characterName);
+        return restClient.searchCharacter(location.name(),realm,characterName);
     }
 
     @Override
