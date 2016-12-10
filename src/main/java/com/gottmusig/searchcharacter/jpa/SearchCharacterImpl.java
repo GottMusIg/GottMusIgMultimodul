@@ -2,8 +2,6 @@ package com.gottmusig.searchcharacter.jpa;
 
 import com.gottmusig.rest.blizzard.RestClient;
 import com.gottmusig.searchcharacter.domain.api.Realm;
-import com.gottmusig.searchcharacter.domain.api.RealmLocation;
-import com.gottmusig.searchcharacter.domain.api.RealmLocation.Location;
 import com.gottmusig.searchcharacter.domain.api.SearchCharacter;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,13 +18,13 @@ public class SearchCharacterImpl implements SearchCharacter {
     @Autowired private RealmEntity.RealmRepository realmRepository;
 
     @Override
-    public List<RealmLocationEntity> getAllLocations() {
-        return (RealmLocation.Location.getLocations()).stream().map(RealmLocationEntity::new).collect(Collectors.toList());
+    public List<Location> getAllLocations() {
+        return (Location.getLocations());
     }
 
     @Override
-    public String searchCharacter(RealmLocationEntity location, Realm realm, String characterName) {
-        return RestClient.searchCharacter(location.getLocation().name(),realm.getName(),characterName);
+    public String searchCharacter(Location location, Realm realm, String characterName) {
+        return RestClient.searchCharacter(location.name(),realm.getName(),characterName);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.gottmusig.searchcharacter.jpa;
 
 import com.gottmusig.dpsdifference.jpa.NumericSequenceId;
 import com.gottmusig.searchcharacter.domain.api.Realm;
-import com.gottmusig.searchcharacter.domain.api.RealmLocation.Location;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.Column;
