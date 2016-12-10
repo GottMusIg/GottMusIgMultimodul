@@ -2,6 +2,7 @@ package com.gottmusig.searchcharacter.jpa;
 
 import com.gottmusig.rest.blizzard.RestClient;
 import com.gottmusig.searchcharacter.domain.api.Realm;
+import com.gottmusig.searchcharacter.domain.api.RealmLocation;
 import com.gottmusig.searchcharacter.domain.api.RealmLocation.Location;
 import com.gottmusig.searchcharacter.domain.api.SearchCharacter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,9 @@ public class SearchCharacterImpl implements SearchCharacter {
 
     @Override
     public List<RealmLocationEntity> getAllLocations() {
-        return null;
+
+        return (RealmLocation.Location.getLocations()).stream().map(RealmLocationEntity::new).collect(Collectors.toList());
+
     }
 
     @Override
@@ -32,7 +35,7 @@ public class SearchCharacterImpl implements SearchCharacter {
     public void saveRealm(String name, Location location) {
         RealmEntity realm = new RealmEntity();
         realm.setLocation(location);
-        realm.setName("Blackhand");
+        realm.setName(name);
         realmRepository.save(realm);
     }
 
