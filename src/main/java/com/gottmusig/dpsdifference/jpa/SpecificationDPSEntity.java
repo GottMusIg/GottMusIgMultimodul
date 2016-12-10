@@ -2,6 +2,7 @@ package com.gottmusig.dpsdifference.jpa;
 
 import com.gottmusig.dpsdifference.domain.api.ClassSpecification;
 import com.gottmusig.dpsdifference.domain.api.SpecificationDPS;
+import com.gottmusig.utils.SpringEntityListener;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;

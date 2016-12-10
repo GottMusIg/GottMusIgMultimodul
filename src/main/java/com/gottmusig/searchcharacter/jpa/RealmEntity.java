@@ -2,8 +2,10 @@ package com.gottmusig.searchcharacter.jpa;
 
 import com.gottmusig.dpsdifference.jpa.NumericSequenceId;
 import com.gottmusig.searchcharacter.domain.api.Realm;
+import com.gottmusig.searchcharacter.domain.api.RealmLocation.Location;
 import org.springframework.data.repository.CrudRepository;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -18,11 +20,14 @@ import java.util.List;
 public class RealmEntity implements Realm {
 
     @EmbeddedId
+    @Column(name = "id")
     private NumericSequenceId id;
 
+    @Column(name = "name")
     private String name;
 
-    private RealmLocationEntity.Location location;
+    @Column(name = "location")
+    private String location;
 
     public RealmEntity() {
         this.id = new NumericSequenceId();
@@ -38,12 +43,12 @@ public class RealmEntity implements Realm {
     }
 
     @Override
-    public RealmLocationEntity.Location getLocation() {
-        return location;
+    public Location getLocation() {
+        return Location.valueOf(location);
     }
 
-    public void setLocation(RealmLocationEntity.Location location) {
-        this.location = location;
+    public void setLocation(Location location) {
+        this.location = location.name();
     }
 
     @Override
@@ -57,8 +62,9 @@ public class RealmEntity implements Realm {
 
     public static interface RealmRepository extends CrudRepository<RealmEntity, NumericSequenceId> {
 
-        List<RealmEntity> findByLocation(RealmLocationEntity.Location location);
+        List<RealmEntity> findByLocation(String location);
 
+        RealmEntity findByName(String name);
     }
 
 }

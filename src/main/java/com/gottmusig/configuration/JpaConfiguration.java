@@ -1,6 +1,6 @@
 package com.gottmusig.configuration;
 
-import com.gottmusig.dpsdifference.jpa.SpringEntityListener;
+import com.gottmusig.utils.SpringEntityListener;
 import com.mysql.jdbc.Driver;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.persistence.config.PersistenceUnitProperties;

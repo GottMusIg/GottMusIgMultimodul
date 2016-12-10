@@ -1,17 +1,15 @@
 package com.gottmusig.searchcharacter.domain.api;
 
+import com.gottmusig.searchcharacter.jpa.RealmLocationEntity;
+
 import java.util.Arrays;
 import java.util.List;
-
-import com.gottmusig.searchcharacter.jpa.RealmLocationEntity;
 
 /**
  * @author leong
  * @since 09.12.2016
  */
 public interface RealmLocation {
-
-    List<String> getAllRealms();
 
     Location getLocation();
     
