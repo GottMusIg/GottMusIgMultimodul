@@ -60,26 +60,17 @@ public class SimCraftDataBoundary {
 		return Response.status(200).entity(simulationCraftData).build();
 	}
 
-	@Path("test")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSimulationCraftData(@QueryParam("commands") String commands){
-		log.info("Commands "+commands);
-		String simulationCraftData = control.getDpsForStartPage(commands);
-		return Response.status(200).entity(simulationCraftData).build();
-	}
-
-
 	//BSP mit curl
-	//curl -H "Content-Type:text/plain" --data "hier die commands" http://localhost:8080/gottmusig/dps 
+	//curl -H "Content-Type:text/plain" --data "Tier19H/Mage_Arcane_T19H.simc" http://localhost:8080/gottmusig/dps
 	@Path("dps")
 	@POST
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response getCommandsForCalculation(String commands) {
-		log.info("POST COMMANDS: "+commands);
-		String dps = control.getDpsForStartPage(commands);
+	public Response getCommandsForCalculation(String file) {
+		log.info("POST COMMANDS: "+file);
+		String dps = control.getDpsForStartPage(file);
 		return Response.status(200).entity(dps).build();
 
 	}
+
 }

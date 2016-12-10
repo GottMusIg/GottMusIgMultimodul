@@ -38,9 +38,10 @@ public class Control {
 
 	public String getDpsForStartPage(String command) {
 		try {
-			return simcExecuter.execute(command);
+			simulationcraft = simcExecuter.execute(command);
+			// Test output
+			return ""+(simulationcraft.getSim().getPlayers().get(0).getCollectedData().getDps().getMean()).intValue();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "";
