@@ -17,26 +17,64 @@ import java.util.Optional;
  */
 public interface DPSDifference {
 
+    /**
+     *
+     * @param name the name of the Specification to be searched in the database
+     * @return the ClassSpecificationEntity if available in the database
+     */
     Optional<ClassSpecificationEntity> findClassSpecification(String name);
 
+    /**
+     *
+     * @param name the name of the class to be searched in the database
+     * @return the WOWClassEntity if it exists in the database
+     */
     Optional<WOWClassEntity> findWOWClass(String name);
 
+    /**
+     *
+     * @param name the name of the new WoW class
+     * @return the newly created WOWClassEntity
+     */
     WOWClassEntity addWOWClass(String name);
 
+    /**
+     *
+     * @param specificationName the name of the new specification
+     * @param className the name of the corresponding class
+     * @return the newly created ClassSpecificationEntity
+     */
     ClassSpecificationEntity addClassSpecification(String specificationName, String className);
 
 
     /**
      *
-     * @return A list of all DPS values
+     * @return A list of all SpecificationDPSEntities in the database
      */
     List<SpecificationDPSEntity> getAllDPSValues();
 
+    /**
+     *
+     * @param specificationName the name of the specification the Entity is returned
+     * @return the Entity of the requested specificationDPS if available in the database
+     */
     Optional<SpecificationDPSEntity> findSpecificationDPS(String specificationName);
 
 
+    /**
+     *
+     * adds a new Specification and DPS value in the database
+     *
+     * @param dps the dps value for this specification
+     * @param specificationName the name of the specification
+     * @param className the name of the corresponding WoW class
+     */
     void addSpecificationDPS(int dps, String specificationName, String className);
 
 
+    /**
+     *
+     * @return the maximum dps value in the database (for relational scaling in the frontend)
+     */
     int getMaxDPSValue();
 }

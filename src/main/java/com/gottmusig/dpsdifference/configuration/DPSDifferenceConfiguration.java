@@ -1,6 +1,7 @@
 package com.gottmusig.dpsdifference.configuration;
 
-import com.gottmusig.dpsdifference.jpa.DPSDifferenceEntity;
+import com.gottmusig.configuration.JpaConfiguration;
+import com.gottmusig.dpsdifference.jpa.DPSDifferenceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -14,7 +15,7 @@ import org.springframework.context.annotation.Import;
 public class DPSDifferenceConfiguration {
 
     @Bean
-    public DPSDifferenceEntity dpsDifferenceEntity() {
-        return new DPSDifferenceEntity();
+    public DPSDifferenceImpl dpsDifferenceImpl() {
+        return new DPSDifferenceImpl();
     }
 }

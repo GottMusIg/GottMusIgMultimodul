@@ -1,6 +1,6 @@
 package com.gottmusig.dpsdifference.jpa;
 
-import com.gottmusig.dpsdifference.domain.Entity;
+import com.gottmusig.utils.Entity;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

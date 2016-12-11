@@ -6,7 +6,6 @@ import com.gottmusig.dpsdifference.jpa.SpecificationDPSEntity.SpecificationDPSRe
 import com.gottmusig.dpsdifference.jpa.WOWClassEntity.WOWClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,13 +15,13 @@ import java.util.stream.Collectors;
  * @since 0.0.1
  */
 
-public class DPSDifferenceEntity implements DPSDifference {
+public class DPSDifferenceImpl implements DPSDifference {
 
     @Autowired private SpecificationDPSRepository specificationDPSRepository;
     @Autowired private ClassSpecificationRepository classSpecificationRepository;
     @Autowired private WOWClassRepository classRepository;
 
-    public DPSDifferenceEntity() {
+    public DPSDifferenceImpl() {
     }
 
     /*
@@ -32,16 +31,18 @@ public class DPSDifferenceEntity implements DPSDifference {
         SpecificationDPSEntity specificationDPS = new SpecificationDPSEntity();
         specificationDPS.setDps(dps);
         Optional<ClassSpecificationEntity> specificationEntityOptional = findClassSpecification(specificationName);
-        if (specificationEntityOptional.isPresent())
-            if (specificationEntityOptional.get().getWOWClass().getName().equals(className))
+
+        if (specificationEntityOptional.isPresent() && isSpecificationAndClassPresent(specificationEntityOptional.get(),className))
                 specificationDPS.setSpecification(specificationEntityOptional.get());
-            else
-                specificationDPS.setSpecification(addClassSpecification(specificationName,className));
         else
             specificationDPS.setSpecification(addClassSpecification(specificationName, className));
 
+        specificationDPSRepository.save(specificationDPS);
+    }
 
-        specificationDPSRepository.save((SpecificationDPSEntity) specificationDPS);
+    private boolean isSpecificationAndClassPresent(ClassSpecificationEntity classSpecificationEntity, String className) {
+        Optional<WOWClassEntity> wowClassEntityOptional = findWOWClass(className);
+        return wowClassEntityOptional.isPresent() && classSpecificationEntity.getWOWClass().getName().equals(wowClassEntityOptional.get().getName());
     }
 
     public WOWClassEntity addWOWClass(String name) {
@@ -88,12 +89,7 @@ public class DPSDifferenceEntity implements DPSDifference {
     public List<SpecificationDPSEntity> getAllDPSValues() {
         return ((List<SpecificationDPSEntity>) specificationDPSRepository.findAll())
                                                                          .stream()
-                                                                         .sorted(new Comparator<SpecificationDPSEntity>() {
-                                                                             @Override
-                                                                             public int compare(SpecificationDPSEntity o1, SpecificationDPSEntity o2) {
-                                                                                 return o1.getSpecificationDPS() < o2.getSpecificationDPS() ? 1 : (o1 == o2 ? 0 : -1);
-                                                                             }
-                                                                         })
+                                                                         .sorted((o1, o2) -> o1.getSpecificationDPS() < o2.getSpecificationDPS() ? 1 : (o1 == o2 ? 0 : -1))
                                                                          .collect(Collectors.toList());
     }
 
