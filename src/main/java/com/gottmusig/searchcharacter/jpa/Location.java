@@ -7,6 +7,8 @@ import java.util.List;
  * @author lgottschick
  * @since 27.09.2016
  */
+
+//TODO figure out @Autowire in Entities
 public enum Location {
     de_DE,
     en_GB,

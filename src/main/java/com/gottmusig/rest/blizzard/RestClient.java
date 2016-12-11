@@ -6,15 +6,12 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import com.gottmusig.utils.PropertyLoader;
 
 /**
  * @author leong
  * @since 10.12.2016
  */
 public class RestClient {
-
-    private final static String BLIZZARD_PROPERTIES="src/main/resources/blizzard.properties";
 	
     private String path;
 	private String key;
@@ -22,7 +19,6 @@ public class RestClient {
     public RestClient(String path, String key) {
         this.path = path;
 		this.key = key;
-		PropertyLoader.loadProperties(BLIZZARD_PROPERTIES);
     }
 
     /**
@@ -58,6 +54,5 @@ public class RestClient {
                 	   "&apikey=" + 
         			   this.key);
     }
-
 }
 

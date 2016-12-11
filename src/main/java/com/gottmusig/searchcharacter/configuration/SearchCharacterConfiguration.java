@@ -29,9 +29,7 @@ public class SearchCharacterConfiguration {
 
     @Bean
     public RestClient restClient(){
-    	RestClient restClient = new RestClient(env.getProperty("api.path"),
-    										   env.getProperty("api.key"));
-        return restClient;
+        return new RestClient(env.getProperty("api.path"),
+                                               env.getProperty("api.key"));
     }
-
 }
