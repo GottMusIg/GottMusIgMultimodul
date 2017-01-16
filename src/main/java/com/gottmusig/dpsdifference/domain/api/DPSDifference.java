@@ -1,7 +1,6 @@
 package com.gottmusig.dpsdifference.domain.api;
 
 import com.gottmusig.dpsdifference.jpa.ClassSpecificationEntity;
-import com.gottmusig.dpsdifference.jpa.SpecificationDPSEntity;
 import com.gottmusig.dpsdifference.jpa.WOWClassEntity;
 
 import java.util.List;
@@ -22,14 +21,14 @@ public interface DPSDifference {
      * @param name the name of the Specification to be searched in the database
      * @return the ClassSpecificationEntity if available in the database
      */
-    Optional<ClassSpecificationEntity> findClassSpecification(String name);
+    Optional<ClassSpecification> findClassSpecification(String name);
 
     /**
      *
      * @param name the name of the class to be searched in the database
      * @return the WOWClassEntity if it exists in the database
      */
-    Optional<WOWClassEntity> findWOWClass(String name);
+    Optional<WOWClass> findWOWClass(String name);
 
     /**
      *
@@ -51,14 +50,14 @@ public interface DPSDifference {
      *
      * @return A list of all SpecificationDPSEntities in the database
      */
-    List<SpecificationDPSEntity> getAllDPSValues();
+    List<SpecificationDPS> getAllDPSValues();
 
     /**
      *
      * @param specificationName the name of the specification the Entity is returned
      * @return the Entity of the requested specificationDPS if available in the database
      */
-    Optional<SpecificationDPSEntity> findSpecificationDPS(String specificationName);
+    Optional<SpecificationDPS> findSpecificationDPS(String specificationName);
 
 
     /**
