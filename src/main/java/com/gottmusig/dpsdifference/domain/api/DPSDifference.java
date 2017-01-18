@@ -21,7 +21,7 @@ public interface DPSDifference {
      * @param name the name of the Specification to be searched in the database
      * @return the ClassSpecificationEntity if available in the database
      */
-    Optional<ClassSpecification> findClassSpecification(String name);
+    Optional<ClassSpecification> findClassSpecification(String name, String className);
 
     /**
      *

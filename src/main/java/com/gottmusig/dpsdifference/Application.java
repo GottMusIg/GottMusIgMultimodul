@@ -1,10 +1,14 @@
 package com.gottmusig.dpsdifference;
 
+import org.springframework.boot.SpringApplication;
+
 /**
  * @author leong
  * @since 24.11.2016
  */
-public class Application {
+
+public class Application extends SpringApplication {
+
 
 
     public static void main(String[] args) {

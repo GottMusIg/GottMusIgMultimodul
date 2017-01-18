@@ -33,19 +33,12 @@ public class DPSDifferenceImpl implements DPSDifference {
     public void addSpecificationDPS(int dps, String specificationName, String className) {
         SpecificationDPSEntity specificationDPS = new SpecificationDPSEntity();
         specificationDPS.setDps(dps);
-        Optional<ClassSpecification> specificationOptional = findClassSpecification(specificationName);
-
-        if (specificationOptional.isPresent() && isSpecificationAndClassPresent(specificationOptional.get(), className))
-            specificationDPS.setSpecification((ClassSpecificationEntity) specificationOptional.get());
-        else
-            specificationDPS.setSpecification(addClassSpecification(specificationName, className));
-
+        specificationDPS.setSpecification(getSpecification(specificationName, className));
         specificationDPSRepository.save(specificationDPS);
     }
 
-    private boolean isSpecificationAndClassPresent(ClassSpecification classSpecification, String className) {
-        Optional<WOWClass> wowClassOptional = findWOWClass(className);
-        return wowClassOptional.isPresent() && classSpecification.getWOWClass().getName().equals(wowClassOptional.get().getName());
+    private ClassSpecificationEntity getSpecification(String specificationName, String className) {
+        return (ClassSpecificationEntity) findClassSpecification(specificationName, className).orElse(addClassSpecification(specificationName, className));
     }
 
     public WOWClassEntity addWOWClass(String name) {
@@ -75,17 +68,18 @@ public class DPSDifferenceImpl implements DPSDifference {
     }
 
     @Override
-    public Optional<ClassSpecification> findClassSpecification(String name) {
-
-        return Optional.ofNullable(classSpecificationRepository.findByName(name));
-
+    public Optional<ClassSpecification> findClassSpecification(String name, String className) {
+        Optional<ClassSpecification> classSpecificationEntity = Optional.ofNullable(classSpecificationRepository.findByName(name));
+        Optional<WOWClass> wowClass = findWOWClass(className);
+        if (classSpecificationEntity.isPresent() && wowClass.isPresent() && classSpecificationEntity.get().getWOWClass().getName().equals(wowClass.get().getName()))
+            return classSpecificationEntity;
+        else
+            return Optional.empty();
     }
 
     @Override
     public Optional<WOWClass> findWOWClass(String name) {
-
         return Optional.ofNullable(classRepository.findByName(name));
-
     }
 
     @Override
