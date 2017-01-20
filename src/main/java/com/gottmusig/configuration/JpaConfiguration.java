@@ -1,6 +1,5 @@
 package com.gottmusig.configuration;
 
-import com.gottmusig.utils.SpringEntityListener;
 import com.mysql.jdbc.Driver;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -38,13 +37,13 @@ public class JpaConfiguration {
 
     @Autowired Environment env;
     @Autowired AutowireCapableBeanFactory beanFactory;
-    
-    @Bean
-    public SpringEntityListener SpringEntityListener() {
-        SpringEntityListener listener = SpringEntityListener.get();
-        listener.setBeanFactory(beanFactory);
-        return listener;
-    }
+
+//    @Bean
+//    public SpringEntityListener SpringEntityListener() {
+//        SpringEntityListener listener = SpringEntityListener.get();
+//        listener.setBeanFactory(beanFactory);
+//        return listener;
+//    }
     
     @Bean(destroyMethod="close")
     public DataSource dataSource() {

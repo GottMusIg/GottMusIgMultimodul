@@ -2,6 +2,7 @@ package com.gottmusig.searchcharacter.configuration;
 
 import com.gottmusig.configuration.JpaConfiguration;
 import com.gottmusig.rest.blizzard.RestClient;
+import com.gottmusig.searchcharacter.domain.api.SearchCharacter;
 import com.gottmusig.searchcharacter.jpa.SearchCharacterImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +24,7 @@ public class SearchCharacterConfiguration {
     @Autowired Environment env;
 
     @Bean
-    public SearchCharacterImpl searchCharacterImpl() {
+    public SearchCharacter searchCharacter() {
         return new SearchCharacterImpl();
     }
 

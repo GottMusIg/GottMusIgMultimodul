@@ -59,9 +59,9 @@ public class RealmEntity implements Realm {
         this.id = id;
     }
 
-    public static interface RealmRepository extends CrudRepository<RealmEntity, NumericSequenceId> {
+    public interface RealmRepository extends CrudRepository<RealmEntity, NumericSequenceId> {
 
-        List<RealmEntity> findByLocation(String location);
+        List<Realm> findByLocation(String location);
 
         RealmEntity findByName(String name);
     }

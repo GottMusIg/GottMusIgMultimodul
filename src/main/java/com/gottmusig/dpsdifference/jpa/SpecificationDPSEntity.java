@@ -2,7 +2,6 @@ package com.gottmusig.dpsdifference.jpa;
 
 import com.gottmusig.dpsdifference.domain.api.ClassSpecification;
 import com.gottmusig.dpsdifference.domain.api.SpecificationDPS;
-import com.gottmusig.utils.SpringEntityListener;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
@@ -13,7 +12,6 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "specificationdps")
-@EntityListeners(SpringEntityListener.class)
 public class SpecificationDPSEntity implements SpecificationDPS {
 
     @EmbeddedId
@@ -65,7 +63,7 @@ public class SpecificationDPSEntity implements SpecificationDPS {
                 '}';
     }
 
-    public static interface SpecificationDPSRepository extends CrudRepository<SpecificationDPSEntity, NumericSequenceId> {
+    public interface SpecificationDPSRepository extends CrudRepository<SpecificationDPSEntity, NumericSequenceId> {
 
         SpecificationDPSEntity findBySpecification(ClassSpecificationEntity classSpecification);
 
