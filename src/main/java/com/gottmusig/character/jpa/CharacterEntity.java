@@ -6,6 +6,7 @@ import com.gottmusig.dpsdifference.domain.api.WOWClass;
 import com.gottmusig.dpsdifference.jpa.ClassSpecificationEntity;
 import com.gottmusig.dpsdifference.jpa.NumericSequenceId;
 import com.gottmusig.searchcharacter.domain.api.Realm;
+import com.gottmusig.searchcharacter.jpa.RealmEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
@@ -29,7 +30,7 @@ public class CharacterEntity implements Character {
 
     @OneToOne
     @JoinColumn(name = "realm_id", referencedColumnName = "id")
-    private Realm realm;
+    private RealmEntity realm;
 
     @OneToOne
     @JoinColumn(name = "classSpecification_id", referencedColumnName = "id")
@@ -45,13 +46,28 @@ public class CharacterEntity implements Character {
     }
 
     @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
     public int getDPS() {
         return dps;
     }
 
     @Override
+    public void setDPS(int dps) {
+        this.dps = dps;
+    }
+
+    @Override
     public ClassSpecification getClassSpecification() {
         return classSpecification;
+    }
+
+    @Override
+    public void setClassSpecification(ClassSpecification classSpecification) {
+        this.classSpecification = (ClassSpecificationEntity) classSpecification;
     }
 
     @Override
@@ -65,11 +81,16 @@ public class CharacterEntity implements Character {
     }
 
     @Override
+    public void setRealm(Realm realm) {
+        this.realm = (RealmEntity) realm;
+    }
+
+    @Override
     public Id getId() {
         return id;
     }
 
-    public static interface CharacterRepository extends CrudRepository<CharacterEntity, NumericSequenceId> {
+    public interface CharacterRepository extends CrudRepository<CharacterEntity, NumericSequenceId> {
 
         CharacterEntity findByName(String name);
 

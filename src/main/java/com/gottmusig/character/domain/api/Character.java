@@ -15,12 +15,20 @@ public interface Character extends Entity {
 
     String getName();
 
+    void setName(String name);
+
     int getDPS();
 
+    void setDPS(int dps);
+
     ClassSpecification getClassSpecification();
+
+    void setClassSpecification(ClassSpecification classSpecification);
 
     WOWClass getWOWClass();
 
     Realm getRealm();
+
+    void setRealm(Realm realm);
 
 }

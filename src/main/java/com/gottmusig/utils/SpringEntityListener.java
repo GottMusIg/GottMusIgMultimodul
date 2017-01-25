@@ -41,10 +41,10 @@ public class SpringEntityListener {
     public void inject(Object object) {
         AutowireCapableBeanFactory beanFactory = get().getBeanFactory();
         if(beanFactory == null) {
-            LOG.warn("Bean Factory not set! Depdendencies will not be injected into: '{}'", object);
+            System.out.println("Bean Factory not set! Depdendencies will not be injected into: '{}'" + object);
             return;
         }
-        LOG.debug("Injecting dependencies into entity: '{}'.", object);
+        System.out.println("Injecting dependencies into entity: '{}'." + object);
         beanFactory.autowireBean(object);
     }
     

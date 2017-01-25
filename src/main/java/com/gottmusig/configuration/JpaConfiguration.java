@@ -1,5 +1,6 @@
 package com.gottmusig.configuration;
 
+import com.gottmusig.utils.SpringEntityListener;
 import com.mysql.jdbc.Driver;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -30,7 +31,7 @@ import java.util.Map;
  * @since 0.0.1
  */
 @Configuration
-@EnableJpaRepositories(basePackages="com.gottmusig", considerNestedRepositories=true)
+@EnableJpaRepositories(basePackages = "com.gottmusig.", considerNestedRepositories = true)
 @ComponentScan("com.gottmusig")
 @PropertySource({"classpath:/database.properties"})
 public class JpaConfiguration {
@@ -38,12 +39,12 @@ public class JpaConfiguration {
     @Autowired Environment env;
     @Autowired AutowireCapableBeanFactory beanFactory;
 
-//    @Bean
-//    public SpringEntityListener SpringEntityListener() {
-//        SpringEntityListener listener = SpringEntityListener.get();
-//        listener.setBeanFactory(beanFactory);
-//        return listener;
-//    }
+    @Bean
+    public SpringEntityListener SpringEntityListener() {
+        SpringEntityListener listener = SpringEntityListener.get();
+        listener.setBeanFactory(beanFactory);
+        return listener;
+    }
     
     @Bean(destroyMethod="close")
     public DataSource dataSource() {
