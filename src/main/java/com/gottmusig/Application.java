@@ -1,11 +1,9 @@
 package com.gottmusig;
 
 import com.gottmusig.account.configuration.AccountConfiguration;
-import com.gottmusig.account.domain.api.AccountAdministration;
-import com.gottmusig.account.jpa.AccountEntity;
 import com.gottmusig.character.configuration.CharacterConfiguration;
+import com.gottmusig.dpsdifference.configuration.DPSDifferenceConfiguration;
 import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author leong
@@ -15,17 +13,19 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class Application extends SpringApplication {
 
     public Application() {
-        super(AccountConfiguration.class, CharacterConfiguration.class);
+        super(AccountConfiguration.class, CharacterConfiguration.class, DPSDifferenceConfiguration.class);
     }
 
 
 
     public static void main(String[] args) {
+        /*
         Application application = new Application();
         ConfigurableApplicationContext run = application.run();
         AccountAdministration accountAdministration = run.getBean(AccountAdministration.class);
-        AccountEntity entity = (AccountEntity) accountAdministration.searchAccount("Penis123").get();
-        entity.addCharacter("Malahkh", "Blackhand", "Fury", "Warrior", 2);
+        DPSDifference dpsDifference = run.getBean(DPSDifference.class);
+        dpsDifference.findWOWClass("Warrior");
+*/
 
     }
 

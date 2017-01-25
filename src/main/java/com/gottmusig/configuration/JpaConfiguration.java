@@ -31,7 +31,7 @@ import java.util.Map;
  * @since 0.0.1
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "com.gottmusig.", considerNestedRepositories = true)
+@EnableJpaRepositories(basePackages = "com.gottmusig", considerNestedRepositories = true)
 @ComponentScan("com.gottmusig")
 @PropertySource({"classpath:/database.properties"})
 public class JpaConfiguration {
