@@ -36,6 +36,7 @@ public class CharacterEntity implements Character {
     @JoinColumn(name = "classSpecification_id", referencedColumnName = "id")
     private ClassSpecificationEntity classSpecification;
 
+
     public CharacterEntity() {
         this.id = new NumericSequenceId();
     }
