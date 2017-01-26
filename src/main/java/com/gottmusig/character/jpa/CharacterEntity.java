@@ -1,5 +1,7 @@
 package com.gottmusig.character.jpa;
 
+import com.gottmusig.account.domain.api.Account;
+import com.gottmusig.account.jpa.AccountEntity;
 import com.gottmusig.character.domain.api.Character;
 import com.gottmusig.dpsdifference.domain.api.ClassSpecification;
 import com.gottmusig.dpsdifference.domain.api.WOWClass;
@@ -18,14 +20,16 @@ import javax.persistence.*;
  * @since 1.0.0-SNAPSHOT
  */
 @Entity
-@Table(name = "character")
+@Table(name = "wowcharacter")
 public class CharacterEntity implements Character {
 
     @EmbeddedId
     private NumericSequenceId id;
 
+    @Column(name = "dps")
     private int dps;
 
+    @Column(name = "name")
     private String name;
 
     @OneToOne
@@ -35,6 +39,10 @@ public class CharacterEntity implements Character {
     @OneToOne
     @JoinColumn(name = "classSpecification_id", referencedColumnName = "id")
     private ClassSpecificationEntity classSpecification;
+
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private AccountEntity account;
 
 
     public CharacterEntity() {
@@ -84,6 +92,16 @@ public class CharacterEntity implements Character {
     @Override
     public void setRealm(Realm realm) {
         this.realm = (RealmEntity) realm;
+    }
+
+    @Override
+    public Account getAccount() {
+        return account;
+    }
+
+    @Override
+    public void setAccount(Account account) {
+        this.account = (AccountEntity) account;
     }
 
     @Override

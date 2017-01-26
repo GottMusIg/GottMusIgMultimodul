@@ -25,8 +25,10 @@ public class AccountEntity implements Account {
 
     @Autowired
     private transient CharacterEntity.CharacterRepository characterRepository;
+
     @Autowired
     private transient RealmEntity.RealmRepository realmRepository;
+
     @Autowired
     private transient DPSDifference dpsDifference;
 
@@ -64,13 +66,22 @@ public class AccountEntity implements Account {
     @Override
     public Character addCharacter(String name, String realm, String specification, String wowClass, int dps) {
 
-        CharacterEntity characterEntity = new CharacterEntity();
-        characterEntity.setName(name);
-        characterEntity.setClassSpecification(dpsDifference.findClassSpecification(specification, wowClass)
-                .orElse(dpsDifference.addClassSpecification(specification, wowClass)));
-        characterEntity.setRealm(realmRepository.findByName(realm));
-        characterEntity.setDPS(dps);
-        return characterRepository.save(characterEntity);
+        CharacterEntity entity = characterRepository.findByName(name);
+        if (entity == null) {
+            entity = new CharacterEntity();
+            entity.setName(name);
+            entity.setClassSpecification(dpsDifference.findClassSpecification(specification, wowClass)
+                    .orElse(dpsDifference.addClassSpecification(specification, wowClass)));
+            entity.setRealm(realmRepository.findByName(realm));
+            entity.setDPS(dps);
+            entity.setAccount(this);
+            return characterRepository.save(entity);
+        } else {
+            characterRepository.delete(entity);
+            entity.setAccount(this);
+            characterRepository.save(entity);
+        }
+        return entity;
     }
 
     @Override

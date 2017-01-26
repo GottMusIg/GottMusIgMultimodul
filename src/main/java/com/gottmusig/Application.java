@@ -1,8 +1,10 @@
 package com.gottmusig;
 
-import com.gottmusig.searchcharacter.configuration.SearchCharacterConfiguration;
-import com.gottmusig.searchcharacter.domain.api.SearchCharacter;
-import com.gottmusig.searchcharacter.jpa.Location;
+import com.gottmusig.account.configuration.AccountConfiguration;
+import com.gottmusig.account.domain.api.AccountAdministration;
+import com.gottmusig.account.jpa.AccountEntity;
+import com.gottmusig.character.domain.api.Character;
+import com.gottmusig.dpsdifference.domain.api.DPSDifference;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -14,18 +16,20 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class Application extends SpringApplication {
 
     public Application() {
-        super(SearchCharacterConfiguration.class);
+        super(AccountConfiguration.class);
     }
 
 
 
     public static void main(String[] args) {
 
+
         Application application = new Application();
         ConfigurableApplicationContext run = application.run();
-        SearchCharacter searchCharacter = run.getBean(SearchCharacter.class);
-        String character = searchCharacter.searchCharacter(Location.de_DE, "Blackhand", "Malahkh");
-        System.out.println(character);
+        DPSDifference dpsDifference = run.getBean(DPSDifference.class);
+        AccountAdministration accountAdministration = run.getBean(AccountAdministration.class);
+        AccountEntity accountEntity = (AccountEntity) accountAdministration.searchAccount("Cem").get();
+        Character character = accountEntity.addCharacter("Patin", "Blackhand", "Holy", "Priest", 2);
     }
 
 }
