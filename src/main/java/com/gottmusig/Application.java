@@ -1,9 +1,10 @@
 package com.gottmusig;
 
-import com.gottmusig.account.configuration.AccountConfiguration;
-import com.gottmusig.character.configuration.CharacterConfiguration;
-import com.gottmusig.dpsdifference.configuration.DPSDifferenceConfiguration;
+import com.gottmusig.searchcharacter.configuration.SearchCharacterConfiguration;
+import com.gottmusig.searchcharacter.domain.api.SearchCharacter;
+import com.gottmusig.searchcharacter.jpa.Location;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author leong
@@ -13,20 +14,18 @@ import org.springframework.boot.SpringApplication;
 public class Application extends SpringApplication {
 
     public Application() {
-        super(AccountConfiguration.class, CharacterConfiguration.class, DPSDifferenceConfiguration.class);
+        super(SearchCharacterConfiguration.class);
     }
 
 
 
     public static void main(String[] args) {
-        /*
+
         Application application = new Application();
         ConfigurableApplicationContext run = application.run();
-        AccountAdministration accountAdministration = run.getBean(AccountAdministration.class);
-        DPSDifference dpsDifference = run.getBean(DPSDifference.class);
-        dpsDifference.findWOWClass("Warrior");
-*/
-
+        SearchCharacter searchCharacter = run.getBean(SearchCharacter.class);
+        String character = searchCharacter.searchCharacter(Location.de_DE, "Blackhand", "Malahkh");
+        System.out.println(character);
     }
 
 }
