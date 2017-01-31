@@ -1,13 +1,6 @@
 package com.gottmusig.character.jpa;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
 import com.gottmusig.account.domain.api.Account;
 import com.gottmusig.account.jpa.AccountEntity;
@@ -18,6 +11,10 @@ import com.gottmusig.dpsdifference.jpa.ClassSpecificationEntity;
 import com.gottmusig.dpsdifference.jpa.NumericSequenceId;
 import com.gottmusig.searchcharacter.domain.api.Realm;
 import com.gottmusig.searchcharacter.jpa.RealmEntity;
+
+import org.springframework.data.repository.CrudRepository;
+
+import javax.persistence.*;
 
 /**
  * Description
@@ -119,7 +116,7 @@ public class CharacterEntity implements Character {
 
         CharacterEntity findByName(String name);
         
-        Iterable<CharacterEntity> findByAccount(Account account);
+        List<CharacterEntity> findByAccount(AccountEntity account); 
 
     }
 

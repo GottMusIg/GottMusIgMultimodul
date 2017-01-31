@@ -1,7 +1,6 @@
 package com.gottmusig.account.jpa;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -19,8 +18,6 @@ import com.gottmusig.dpsdifference.domain.api.DPSDifference;
 import com.gottmusig.dpsdifference.jpa.NumericSequenceId;
 import com.gottmusig.searchcharacter.jpa.RealmEntity;
 import com.gottmusig.utils.SpringEntityListener;
-
-import jersey.repackaged.com.google.common.collect.Lists;
 
 /**
  * Description
@@ -100,12 +97,10 @@ public class AccountEntity implements Account {
         return entity;
     }
 
+    //TODO Return Character instead of CharacterEntity 
     @Override
-    public List<Character> getCharacters() {
-        return Lists.newArrayList(characterRepository.findByAccount(this))
-													 .stream()
-													 .map(characterEntity -> (Character) characterEntity)
-													 .collect(Collectors.toList());
+    public List<CharacterEntity> getCharacters() {
+    	return characterRepository.findByAccount((AccountEntity) this);
     }
 
     @Override
