@@ -8,6 +8,8 @@ import com.gottmusig.dpsdifference.domain.api.DPSDifference;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.util.List;
+
 /**
  * @author leong
  * @since 24.11.2016
@@ -29,7 +31,7 @@ public class Application extends SpringApplication {
         DPSDifference dpsDifference = run.getBean(DPSDifference.class);
         AccountAdministration accountAdministration = run.getBean(AccountAdministration.class);
         AccountEntity accountEntity = (AccountEntity) accountAdministration.searchAccount("Cem").get();
-        Character character = accountEntity.addCharacter("Patin", "Blackhand", "Holy", "Priest", 2);
+        List<Character> characters = accountEntity.getCharacters();
     }
 
 }

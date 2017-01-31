@@ -1,16 +1,5 @@
 package com.gottmusig.account.jpa;
 
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
-
 import com.gottmusig.account.domain.api.Account;
 import com.gottmusig.character.domain.api.Character;
 import com.gottmusig.character.jpa.CharacterEntity;
@@ -18,6 +7,11 @@ import com.gottmusig.dpsdifference.domain.api.DPSDifference;
 import com.gottmusig.dpsdifference.jpa.NumericSequenceId;
 import com.gottmusig.searchcharacter.jpa.RealmEntity;
 import com.gottmusig.utils.SpringEntityListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Description
@@ -99,8 +93,8 @@ public class AccountEntity implements Account {
 
     //TODO Return Character instead of CharacterEntity 
     @Override
-    public List<CharacterEntity> getCharacters() {
-    	return characterRepository.findByAccount((AccountEntity) this);
+    public List<Character> getCharacters() {
+        return characterRepository.findByAccount(this);
     }
 
     @Override

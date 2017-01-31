@@ -1,7 +1,5 @@
 package com.gottmusig.character.jpa;
 
-import java.util.List;
-
 import com.gottmusig.account.domain.api.Account;
 import com.gottmusig.account.jpa.AccountEntity;
 import com.gottmusig.character.domain.api.Character;
@@ -11,10 +9,10 @@ import com.gottmusig.dpsdifference.jpa.ClassSpecificationEntity;
 import com.gottmusig.dpsdifference.jpa.NumericSequenceId;
 import com.gottmusig.searchcharacter.domain.api.Realm;
 import com.gottmusig.searchcharacter.jpa.RealmEntity;
-
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Description
@@ -115,8 +113,8 @@ public class CharacterEntity implements Character {
     public interface CharacterRepository extends CrudRepository<CharacterEntity, NumericSequenceId> {
 
         CharacterEntity findByName(String name);
-        
-        List<CharacterEntity> findByAccount(AccountEntity account); 
+
+        List<Character> findByAccount(AccountEntity account);
 
     }
 
