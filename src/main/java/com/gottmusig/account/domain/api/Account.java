@@ -1,5 +1,7 @@
 package com.gottmusig.account.domain.api;
 
+import java.util.List;
+
 import com.gottmusig.character.domain.api.Character;
 import com.gottmusig.utils.Entity;
 
@@ -21,5 +23,5 @@ public interface Account extends Entity {
 
     Character addCharacter(String name, String realm, String specification, String wowClass, int dps);
 
-    Iterable<Character> getCharacters();
+    List<Character> getCharacters();
 }
