@@ -36,4 +36,7 @@ public interface Character extends Entity {
 
     void setAccount(Account account);
 
+    String getThumbnailId();
+
+    void setThumbnailId(String thumbnail);
 }

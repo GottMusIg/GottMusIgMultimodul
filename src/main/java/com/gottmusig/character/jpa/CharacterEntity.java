@@ -33,6 +33,9 @@ public class CharacterEntity implements Character {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "thumbnail_id")
+    private String thumbnailId;
+
     @OneToOne
     @JoinColumn(name = "realm_id", referencedColumnName = "id")
     private RealmEntity realm;
@@ -40,7 +43,6 @@ public class CharacterEntity implements Character {
     @OneToOne
     @JoinColumn(name = "classSpecification_id", referencedColumnName = "id")
     private ClassSpecificationEntity classSpecification;
-
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private AccountEntity account;
@@ -103,6 +105,16 @@ public class CharacterEntity implements Character {
     @Override
     public void setAccount(Account account) {
         this.account = (AccountEntity) account;
+    }
+
+    @Override
+    public String getThumbnailId() {
+        return thumbnailId;
+    }
+
+    @Override
+    public void setThumbnailId(String thumbnail) {
+        this.thumbnailId = thumbnail;
     }
 
     @Override

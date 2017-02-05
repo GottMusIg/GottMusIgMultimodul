@@ -1,14 +1,11 @@
 package com.gottmusig;
 
 import com.gottmusig.account.configuration.AccountConfiguration;
-import com.gottmusig.account.domain.api.AccountAdministration;
-import com.gottmusig.account.jpa.AccountEntity;
 import com.gottmusig.character.domain.api.Character;
-import com.gottmusig.dpsdifference.domain.api.DPSDifference;
+import com.gottmusig.searchcharacter.domain.api.SearchCharacter;
+import com.gottmusig.searchcharacter.jpa.Location;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import java.util.List;
 
 /**
  * @author leong
@@ -18,7 +15,7 @@ import java.util.List;
 public class Application extends SpringApplication {
 
     public Application() {
-        super(AccountConfiguration.class);
+        super(AccountConfiguration.class, SearchCharacter.class);
     }
 
 
@@ -28,10 +25,7 @@ public class Application extends SpringApplication {
 
         Application application = new Application();
         ConfigurableApplicationContext run = application.run();
-        DPSDifference dpsDifference = run.getBean(DPSDifference.class);
-        AccountAdministration accountAdministration = run.getBean(AccountAdministration.class);
-        AccountEntity accountEntity = (AccountEntity) accountAdministration.searchAccount("Cem").get();
-        List<Character> characters = accountEntity.getCharacters();
+        SearchCharacter searchCharacter = run.getBean(SearchCharacter.class);
+        Character character = searchCharacter.searchCharacter(Location.de_DE, "Blackhand", "Malahkh").get();
     }
-
 }

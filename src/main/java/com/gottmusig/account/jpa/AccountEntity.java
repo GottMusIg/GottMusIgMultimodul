@@ -91,7 +91,6 @@ public class AccountEntity implements Account {
         return entity;
     }
 
-    //TODO Return Character instead of CharacterEntity 
     @Override
     public List<Character> getCharacters() {
         return characterRepository.findByAccount(this);

@@ -1,8 +1,10 @@
 package com.gottmusig.searchcharacter.domain.api;
 
+import com.gottmusig.character.domain.api.Character;
 import com.gottmusig.searchcharacter.jpa.Location;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author leong
@@ -23,7 +25,7 @@ public interface SearchCharacter {
      * @param characterName the name of the character to be searched via blizzard API
      * @return the JSON string of the response of the blizzard api
      */
-    String searchCharacter(Location location, String realm, String characterName);
+    Optional<Character> searchCharacter(Location location, String realm, String characterName);
 
     /**
      *

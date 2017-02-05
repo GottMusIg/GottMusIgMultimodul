@@ -49,9 +49,9 @@ public class RestClient {
         			   "character/" +
         			   realm + 
         			   "/" + 
-        			   characterName + 
-        			   "?locale=en_GB" +
-                	   "&apikey=" + 
+        			   characterName +
+                "?fields=talents&locale=en_GB" +
+                "&apikey=" +
         			   this.key);
     }
 }
