@@ -1,6 +1,7 @@
 package com.gottmusig.dpsdifference.jpa;
 
 import com.gottmusig.dpsdifference.domain.api.ClassSpecification;
+import com.gottmusig.dpsdifference.domain.api.WOWClass;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class ClassSpecificationEntity implements ClassSpecification {
     private String name;
 
     @OneToOne
-    @JoinColumn(name="WOWClass_id", referencedColumnName= "id")
+    @JoinColumn(name = "WOWClass_id", referencedColumnName = "id")
     private WOWClassEntity wowClass;
 
     public ClassSpecificationEntity() {
@@ -54,7 +55,9 @@ public class ClassSpecificationEntity implements ClassSpecification {
         this.id = id;
     }
 
-    public static interface ClassSpecificationRepository extends CrudRepository<ClassSpecificationEntity, NumericSequenceId> {
+    public interface ClassSpecificationRepository extends CrudRepository<ClassSpecificationEntity, NumericSequenceId> {
+
+        ClassSpecificationEntity findByNameAndWowClass(String name, WOWClass wowClass);
 
         ClassSpecificationEntity findByName(String name);
 

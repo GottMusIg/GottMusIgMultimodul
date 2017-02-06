@@ -73,7 +73,7 @@ public class AccountEntity implements Account {
     @Override
     public Character addCharacter(String name, String realm, String specification, String wowClass, int dps) {
 
-        CharacterEntity entity = characterRepository.findByName(name);
+        CharacterEntity entity = characterRepository.findByNameAndRealm(name, realmRepository.findByName(realm));
         if (entity == null) {
             entity = new CharacterEntity();
             entity.setName(name);

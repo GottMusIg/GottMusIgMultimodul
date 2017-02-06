@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Main configuration for all JPA aspects. Couples Eclipse Link with Spring Data JPA. 
+ * Main configuration for all JPA aspects. Couples Eclipse Link with Spring Data JPA.
  *
  * @author Leon Gottschick
  * @since 0.0.1
@@ -36,8 +36,10 @@ import java.util.Map;
 @PropertySource({"classpath:/database.properties"})
 public class JpaConfiguration {
 
-    @Autowired Environment env;
-    @Autowired AutowireCapableBeanFactory beanFactory;
+    @Autowired
+    Environment env;
+    @Autowired
+    AutowireCapableBeanFactory beanFactory;
 
     @Bean
     public SpringEntityListener SpringEntityListener() {
@@ -45,8 +47,8 @@ public class JpaConfiguration {
         listener.setBeanFactory(beanFactory);
         return listener;
     }
-    
-    @Bean(destroyMethod="close")
+
+    @Bean(destroyMethod = "close")
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(Driver.class.getName());
@@ -56,7 +58,7 @@ public class JpaConfiguration {
         dataSource.setTestOnBorrow(true);
         return dataSource;
     }
-    
+
     @Bean
     protected Map<String, Object> getVendorProperties() {
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -64,12 +66,12 @@ public class JpaConfiguration {
         map.put(PersistenceUnitProperties.LOGGING_LEVEL, "FINE");
         return map;
     }
-    
+
     @Bean
     public JpaProperties jpaProperties() {
         return new JpaProperties();
     }
-    
+
     @Bean
     protected EclipseLinkJpaVendorAdapter jpaVendorAdapter() {
         EclipseLinkJpaVendorAdapter adapter = new EclipseLinkJpaVendorAdapter();
@@ -78,7 +80,7 @@ public class JpaConfiguration {
         adapter.setGenerateDdl(false);
         return adapter;
     }
-    
+
     @Bean
     public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
         return new EntityManagerFactoryBuilder(jpaVendorAdapter(), jpaProperties(), null);
@@ -88,12 +90,12 @@ public class JpaConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         Map<String, Object> vendorProperties = getVendorProperties();
         return entityManagerFactoryBuilder().dataSource(dataSource())
-                                            .packages("com.gottmusig")
-                                            .properties(vendorProperties)
-                                            .jta(false)
-                                            .build();
+                .packages("com.gottmusig")
+                .properties(vendorProperties)
+                .jta(false)
+                .build();
     }
-    
+
     @Bean
     public PlatformTransactionManager txManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());

@@ -26,6 +26,6 @@ public class Application extends SpringApplication {
         Application application = new Application();
         ConfigurableApplicationContext run = application.run();
         SearchCharacter searchCharacter = run.getBean(SearchCharacter.class);
-        Character character = searchCharacter.searchCharacter(Location.de_DE, "Blackhand", "Malahkh").get();
+        Character character = searchCharacter.searchCharacter(Location.de_DE, "ffaf", "Malahkh").get();
     }
 }

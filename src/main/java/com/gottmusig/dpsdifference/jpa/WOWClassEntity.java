@@ -42,9 +42,9 @@ public class WOWClassEntity implements WOWClass {
         this.id = id;
     }
 
-    public static interface WOWClassRepository extends CrudRepository<WOWClassEntity, NumericSequenceId> {
+    public interface WOWClassRepository extends CrudRepository<WOWClassEntity, NumericSequenceId> {
 
-       WOWClassEntity findByName(String name);
-        
+        WOWClassEntity findByName(String name);
+
     }
 }

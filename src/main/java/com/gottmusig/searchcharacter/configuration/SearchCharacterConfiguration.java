@@ -21,7 +21,8 @@ import org.springframework.core.env.Environment;
 @PropertySource({"classpath:/blizzard.properties"})
 public class SearchCharacterConfiguration {
 
-    @Autowired Environment env;
+    @Autowired
+    Environment env;
 
     @Bean
     public SearchCharacter searchCharacter() {
@@ -29,8 +30,8 @@ public class SearchCharacterConfiguration {
     }
 
     @Bean
-    public RestClient restClient(){
+    public RestClient restClient() {
         return new RestClient(env.getProperty("api.path"),
-                                               env.getProperty("api.key"));
+                env.getProperty("api.key"));
     }
 }

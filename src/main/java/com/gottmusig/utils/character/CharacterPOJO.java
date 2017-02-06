@@ -1,5 +1,4 @@
-
-package com.gottmusig.utils;
+package com.gottmusig.utils.character;
 
 import com.google.gson.annotations.SerializedName;
 

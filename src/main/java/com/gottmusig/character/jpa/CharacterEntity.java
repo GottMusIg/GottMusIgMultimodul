@@ -124,7 +124,7 @@ public class CharacterEntity implements Character {
 
     public interface CharacterRepository extends CrudRepository<CharacterEntity, NumericSequenceId> {
 
-        CharacterEntity findByName(String name);
+        CharacterEntity findByNameAndRealm(String name, Realm realm);
 
         List<Character> findByAccount(AccountEntity account);
 

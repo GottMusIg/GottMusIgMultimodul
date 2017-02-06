@@ -10,13 +10,11 @@ import com.gottmusig.utils.Entity;
 public interface Realm extends Entity {
 
     /**
-     *
      * @return the name of the realm
      */
     String getName();
 
     /**
-     *
      * @return the location of the server
      */
     Location getLocation();

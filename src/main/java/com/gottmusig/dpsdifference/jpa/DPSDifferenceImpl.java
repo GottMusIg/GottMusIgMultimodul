@@ -20,9 +20,12 @@ import java.util.stream.Collectors;
 
 public class DPSDifferenceImpl implements DPSDifference {
 
-    @Autowired private SpecificationDPSRepository specificationDPSRepository;
-    @Autowired private ClassSpecificationRepository classSpecificationRepository;
-    @Autowired private WOWClassRepository classRepository;
+    @Autowired
+    private SpecificationDPSRepository specificationDPSRepository;
+    @Autowired
+    private ClassSpecificationRepository classSpecificationRepository;
+    @Autowired
+    private WOWClassRepository classRepository;
 
     public DPSDifferenceImpl() {
     }
@@ -69,7 +72,7 @@ public class DPSDifferenceImpl implements DPSDifference {
 
     @Override
     public Optional<ClassSpecification> findClassSpecification(String name, String className) {
-        Optional<ClassSpecification> classSpecificationEntity = Optional.ofNullable(classSpecificationRepository.findByName(name));
+        Optional<ClassSpecification> classSpecificationEntity = Optional.ofNullable(classSpecificationRepository.findByNameAndWowClass(name, classRepository.findByName(className)));
         Optional<WOWClass> wowClass = findWOWClass(className);
         if (classSpecificationEntity.isPresent() && wowClass.isPresent() && classSpecificationEntity.get().getWOWClass().getName().equals(wowClass.get().getName()))
             return classSpecificationEntity;
@@ -85,10 +88,10 @@ public class DPSDifferenceImpl implements DPSDifference {
     @Override
     public List<SpecificationDPS> getAllDPSValues() {
         return ((List<SpecificationDPSEntity>) specificationDPSRepository.findAll())
-                                                                         .stream()
-                                                                         .sorted((o1, o2) -> o1.getSpecificationDPS() < o2.getSpecificationDPS() ? 1 : (o1 == o2 ? 0 : -1))
+                .stream()
+                .sorted((o1, o2) -> o1.getSpecificationDPS() < o2.getSpecificationDPS() ? 1 : (o1 == o2 ? 0 : -1))
                 .map(specificationDPSEntity -> (SpecificationDPS) specificationDPSEntity)
-                                                                         .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
     @Override

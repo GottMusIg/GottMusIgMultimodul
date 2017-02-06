@@ -3,12 +3,14 @@ package com.gottmusig.searchcharacter.jpa;
 import com.google.gson.Gson;
 import com.gottmusig.character.domain.api.Character;
 import com.gottmusig.character.jpa.CharacterEntity;
-import com.gottmusig.dpsdifference.jpa.ClassSpecificationEntity;
+import com.gottmusig.dpsdifference.domain.api.DPSDifference;
 import com.gottmusig.rest.blizzard.RestClient;
 import com.gottmusig.searchcharacter.domain.api.Realm;
 import com.gottmusig.searchcharacter.domain.api.SearchCharacter;
 import com.gottmusig.searchcharacter.jpa.RealmEntity.RealmRepository;
-import com.gottmusig.utils.CharacterPOJO;
+import com.gottmusig.utils.character.CharacterPOJO;
+import com.gottmusig.utils.character.WOWClassId;
+import com.gottmusig.utils.exception.CharacterNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -22,12 +24,14 @@ import java.util.stream.Collectors;
 
 public class SearchCharacterImpl implements SearchCharacter {
 
-    @Autowired transient RealmRepository realmRepository;
-    @Autowired transient RestClient restClient;
     @Autowired
-    transient CharacterEntity.CharacterRepository characterRepository;
+    private transient RealmRepository realmRepository;
     @Autowired
-    transient ClassSpecificationEntity.ClassSpecificationRepository classSpecificationRepository;
+    private transient RestClient restClient;
+    @Autowired
+    private transient CharacterEntity.CharacterRepository characterRepository;
+    @Autowired
+    private transient DPSDifference dpsDifference;
 
     @Override
     public List<Location> getAllLocations() {
@@ -36,22 +40,24 @@ public class SearchCharacterImpl implements SearchCharacter {
 
     @Override
     public Optional<Character> searchCharacter(Location location, String realm, String characterName) {
-        Optional<Character> character = Optional.ofNullable(characterRepository.findByName(characterName));
-        if (!character.isPresent()) {
-            character = getCharacterFromBlizzard(restClient.searchCharacter(location.name(), realm, characterName));
+        Optional<Character> character = Optional.ofNullable(characterRepository.findByNameAndRealm(characterName, realmRepository.findByName(realm)));
+        if (character.isPresent()) {
+            return character;
         }
+        String response = null;
+        try {
+            response = restClient.searchCharacter(location.name(), realm, characterName);
+        } catch (CharacterNotFoundException e) {
+            return Optional.empty();
+        }
+        character = Optional.of(characterRepository.save((CharacterEntity) getCharacterFromResponse(response)));
         return character;
     }
 
-    private Optional<Character> getCharacterFromBlizzard(String response) {
+    private Character getCharacterFromResponse(String response) {
         Gson gson = new Gson();
-        Optional<CharacterPOJO> characterIntermediate = Optional.of(gson.fromJson(response, CharacterPOJO.class));
-        Optional<Character> characterOptional = Optional.empty();
-        if (characterIntermediate.isPresent()) {
-            Character character = convertIntermediate(characterIntermediate.get());
-            characterOptional = Optional.of(character);
-        }
-        return characterOptional;
+        CharacterPOJO characterIntermediate = gson.fromJson(response, CharacterPOJO.class);
+        return convertIntermediate(characterIntermediate);
     }
 
     private Character convertIntermediate(CharacterPOJO characterIntermediate) {
@@ -60,7 +66,9 @@ public class SearchCharacterImpl implements SearchCharacter {
         characterEntity.setRealm(realmRepository.findByName(characterIntermediate.getRealm()));
         characterEntity.setDPS(0);
         characterEntity.setName(characterIntermediate.getName());
-        characterEntity.setClassSpecification(classSpecificationRepository.findByName(characterIntermediate.getTalents().get(0).getSpec().getName()));
+        String specification = characterIntermediate.getTalents().get(0).getSpec().getName();
+        int wowClassId = Math.toIntExact(characterIntermediate.get_Class());
+        characterEntity.setClassSpecification(dpsDifference.findClassSpecification(specification, WOWClassId.getWowClassName(wowClassId)).get());
         return characterEntity;
     }
 
@@ -74,15 +82,11 @@ public class SearchCharacterImpl implements SearchCharacter {
 
     @Override
     public List<Realm> getAllRealms() {
-
         return ((List<RealmEntity>) realmRepository.findAll()).stream().map(realmEntity -> (Realm) realmEntity).collect(Collectors.toList());
-
     }
 
     @Override
     public List<String> getRealms(Location location) {
-
         return realmRepository.findByLocation(location.name()).stream().map(Realm::getName).collect(Collectors.toList());
-
     }
 }
