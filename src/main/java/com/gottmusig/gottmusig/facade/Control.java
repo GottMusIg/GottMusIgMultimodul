@@ -3,8 +3,13 @@ package com.gottmusig.gottmusig.facade;
 import java.io.IOException;
 
 import com.gottmusig.gottmusig.gateway.SimCraftExecuter;
+import com.gottmusig.gottmusig.gateway.WowHeadDatabaseGateway;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraftInputs;
+import com.gottmusig.gottmusig.model.wowhead.Classes;
+import com.gottmusig.gottmusig.model.wowhead.Quality;
+import com.gottmusig.gottmusig.model.wowhead.Slot;
+import com.gottmusig.gottmusig.model.wowhead.WowHead;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Control {
 
 	private SimCraftExecuter simcExecuter = new SimCraftExecuter();
+	private WowHeadDatabaseGateway wowHeadDatabaseGateway = new WowHeadDatabaseGateway();
 	private SimulationCraft simulationcraft = null;
 
 	public SimulationCraft getSpecificSimulationCraftData(String region, String server, String user) {
@@ -45,5 +51,16 @@ public class Control {
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+
+	public WowHead test(){
+		try {
+			return wowHeadDatabaseGateway.getItemsFor(Classes.WARRIOR, Slot.HEAD, Quality.EPIC);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
