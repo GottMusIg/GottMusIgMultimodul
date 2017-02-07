@@ -24,7 +24,7 @@ public class WowHeadTest {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSimulationCraftData() {
-
+		log.debug("Requesting WowHeadItems");
 		return Response.status(200).entity(control.test()).build();
 	}
 	

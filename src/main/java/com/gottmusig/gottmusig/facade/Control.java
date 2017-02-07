@@ -1,12 +1,19 @@
 package com.gottmusig.gottmusig.facade;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.inject.Inject;
+
+import com.gottmusig.gottmusig.gateway.BlizzardGateway;
 import com.gottmusig.gottmusig.gateway.SimCraftExecuter;
 import com.gottmusig.gottmusig.gateway.WowHeadDatabaseGateway;
+import com.gottmusig.gottmusig.model.blizzard.BlizzardItem;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraftInputs;
 import com.gottmusig.gottmusig.model.wowhead.Classes;
+import com.gottmusig.gottmusig.model.wowhead.Item;
 import com.gottmusig.gottmusig.model.wowhead.Quality;
 import com.gottmusig.gottmusig.model.wowhead.Slot;
 import com.gottmusig.gottmusig.model.wowhead.WowHead;
@@ -18,8 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Control {
 
-	private SimCraftExecuter simcExecuter = new SimCraftExecuter();
-	private WowHeadDatabaseGateway wowHeadDatabaseGateway = new WowHeadDatabaseGateway();
+	@Inject
+	private SimCraftExecuter simcExecuter;
+	@Inject
+	private WowHeadDatabaseGateway wowHeadDatabaseGateway;
+	@Inject
+	private BlizzardGateway blizzardGateway;
 	private SimulationCraft simulationcraft = null;
 
 	public SimulationCraft getSpecificSimulationCraftData(String region, String server, String user) {
@@ -54,10 +65,31 @@ public class Control {
 	}
 	
 
-	public WowHead test(){
+	public List<BlizzardItem> test(){
+		
+		List<BlizzardItem> blizzardItems = new ArrayList<>();
+		
 		try {
-			return wowHeadDatabaseGateway.getItemsFor(Classes.WARRIOR, Slot.HEAD, Quality.EPIC);
+			WowHead wowhead =  wowHeadDatabaseGateway.getItemsFor(Classes.WARRIOR, Slot.HEAD, Quality.EPIC);
+			
+			BlizzardItem blizzardItem;
+			for(Item item : wowhead.getItems()){
+				blizzardItem = blizzardGateway.getItemWithId(""+item.getId(), null);
+				blizzardItems.add(blizzardItem);
+			}
+			return blizzardItems;
+			
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public BlizzardItem blizzardTest(String id){
+		try {
+			return blizzardGateway.getItemWithId(id, null);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

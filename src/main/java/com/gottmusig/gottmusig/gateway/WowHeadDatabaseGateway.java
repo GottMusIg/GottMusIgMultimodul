@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottmusig.gottmusig.model.wowhead.Classes;
+import com.gottmusig.gottmusig.model.wowhead.Filters;
 import com.gottmusig.gottmusig.model.wowhead.Quality;
 import com.gottmusig.gottmusig.model.wowhead.Slot;
 import com.gottmusig.gottmusig.model.wowhead.WowHead;
@@ -43,7 +44,9 @@ public class WowHeadDatabaseGateway {
 		String requestUrl = buildUrl(wowClass, slot, quality);
 		Document wowheadResultPage =  Jsoup.connect(requestUrl).get();
 		String itemsAsJsonString = getJsonItemListString(wowheadResultPage);
-		return convertJsonStringToObject(itemsAsJsonString);
+		WowHead wowhead = convertJsonStringToObject(itemsAsJsonString);
+		log.debug("Found: "+wowhead.getItems().size()+ " wowheaditems :)");
+		return wowhead;
 	}
 	
 	
@@ -66,8 +69,19 @@ public class WowHeadDatabaseGateway {
 		if(slot != null){
 			finalUrl+=slot.getURLPart();
 		}
+		
+
 		log.debug("URL: "+finalUrl);
-		return finalUrl;
+		return applyStandtartfilters(finalUrl, wowClass);
+	}
+	
+	private String applyStandtartfilters(String url, Classes wowClass){
+			
+		Filters filter = Filters.RACE_SPECIFIC.setClass(wowClass);
+		Filters filter2 = Filters.CAN_BE_EQUIPPED_YES;	
+		String urlPart = Filters.mergeFiltersWith(filter, filter2);
+
+		return url += urlPart;
 	}
 	
 	private String getJsonItemListString(Document doc){

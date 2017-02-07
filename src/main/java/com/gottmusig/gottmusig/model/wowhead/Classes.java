@@ -28,6 +28,8 @@ public enum Classes {
 		return paramClass+":"+id+"/";
 	}
 	
-	
+	public int getID(){
+		return id;
+	}
 
 }
