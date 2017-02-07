@@ -3,6 +3,7 @@ package com.gottmusig.searchcharacter.jpa;
 import com.google.gson.Gson;
 import com.gottmusig.character.domain.api.Character;
 import com.gottmusig.character.jpa.CharacterEntity;
+import com.gottmusig.dpsdifference.domain.api.ClassSpecification;
 import com.gottmusig.dpsdifference.domain.api.DPSDifference;
 import com.gottmusig.rest.blizzard.RestClient;
 import com.gottmusig.searchcharacter.domain.api.Realm;
@@ -68,7 +69,10 @@ public class SearchCharacterImpl implements SearchCharacter {
         characterEntity.setName(characterIntermediate.getName());
         String specification = characterIntermediate.getTalents().get(0).getSpec().getName();
         int wowClassId = Math.toIntExact(characterIntermediate.get_Class());
-        characterEntity.setClassSpecification(dpsDifference.findClassSpecification(specification, WOWClassId.getWowClassName(wowClassId)).get());
+        Optional<ClassSpecification> classSpecification = dpsDifference.findClassSpecification(specification,
+                                                                                               WOWClassId.getWowClassName(
+                                                                                                       wowClassId));
+        classSpecification.ifPresent(characterEntity::setClassSpecification);
         return characterEntity;
     }
 

@@ -42,7 +42,7 @@ public class JpaConfiguration {
     AutowireCapableBeanFactory beanFactory;
 
     @Bean
-    public SpringEntityListener SpringEntityListener() {
+    public SpringEntityListener springEntityListener() {
         SpringEntityListener listener = SpringEntityListener.get();
         listener.setBeanFactory(beanFactory);
         return listener;
