@@ -30,7 +30,7 @@ public class SpringEntityListener {
         return INSTANCE;
     }
 
-    public AutowireCapableBeanFactory getBeanFactory() {
+    private AutowireCapableBeanFactory getBeanFactory() {
         return beanFactory;
     }
 

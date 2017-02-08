@@ -34,6 +34,7 @@ public class AccountEntity implements Account {
     @Column(name = "name")
     private String userName;
 
+    @Autowired
     public AccountEntity() {
         this.id = new NumericSequenceId();
     }
@@ -59,10 +60,19 @@ public class AccountEntity implements Account {
 
     @Override
     public Character addCharacter(Character character) {
-        CharacterAccountRelationEntity characterAccountRelation = new CharacterAccountRelationEntity();
-        characterAccountRelation.setCharacter((CharacterEntity) character);
-        characterAccountRelation.setAccount(this);
-        accountRelationRepository.save(characterAccountRelation);
+        boolean isAdded = false;
+        for (Character characterToAdd : getCharacters()) {
+            if (characterToAdd.getName().equals(character.getName()) &&
+                characterToAdd.getRealm().getName().equals(character.getRealm().getName())) {
+                isAdded = true;
+            }
+        }
+        if (!isAdded) {
+            CharacterAccountRelationEntity characterAccountRelation = new CharacterAccountRelationEntity();
+            characterAccountRelation.setCharacter((CharacterEntity) character);
+            characterAccountRelation.setAccount(this);
+            accountRelationRepository.save(characterAccountRelation);
+        }
         return character;
     }
 

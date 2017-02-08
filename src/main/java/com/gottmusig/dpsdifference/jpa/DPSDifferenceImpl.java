@@ -17,17 +17,19 @@ import java.util.stream.Collectors;
  * @author Leon Gottschick
  * @since 0.0.1
  */
-
 public class DPSDifferenceImpl implements DPSDifference {
 
-    @Autowired
-    private SpecificationDPSRepository specificationDPSRepository;
-    @Autowired
-    private ClassSpecificationRepository classSpecificationRepository;
-    @Autowired
-    private WOWClassRepository classRepository;
+    private final SpecificationDPSRepository specificationDPSRepository;
+    private final ClassSpecificationRepository classSpecificationRepository;
+    private final WOWClassRepository classRepository;
 
-    public DPSDifferenceImpl() {
+    @Autowired
+    public DPSDifferenceImpl(SpecificationDPSRepository specificationDPSRepository,
+                             ClassSpecificationRepository classSpecificationRepository,
+                             WOWClassRepository classRepository) {
+        this.specificationDPSRepository = specificationDPSRepository;
+        this.classSpecificationRepository = classSpecificationRepository;
+        this.classRepository = classRepository;
     }
 
     /*

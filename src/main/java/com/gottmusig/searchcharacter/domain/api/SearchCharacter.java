@@ -42,4 +42,5 @@ public interface SearchCharacter {
      * @return List of all realms available in the database for given location
      */
     List<String> getRealms(Location location);
+
 }

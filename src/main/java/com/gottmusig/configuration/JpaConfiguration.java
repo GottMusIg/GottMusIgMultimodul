@@ -1,13 +1,12 @@
 package com.gottmusig.configuration;
 
 import com.gottmusig.utils.SpringEntityListener;
-import com.mysql.jdbc.Driver;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -33,13 +32,17 @@ import java.util.Map;
 @Configuration
 @EnableJpaRepositories(basePackages = "com.gottmusig", considerNestedRepositories = true)
 @ComponentScan("com.gottmusig")
-@PropertySource({"classpath:/database.properties"})
+@PropertySource({ "classpath:database.properties" })
 public class JpaConfiguration {
 
+    private final Environment env;
+    private final AutowireCapableBeanFactory beanFactory;
+
     @Autowired
-    Environment env;
-    @Autowired
-    AutowireCapableBeanFactory beanFactory;
+    public JpaConfiguration(Environment env, AutowireCapableBeanFactory beanFactory) {
+        this.env = env;
+        this.beanFactory = beanFactory;
+    }
 
     @Bean
     public SpringEntityListener springEntityListener() {
@@ -48,20 +51,19 @@ public class JpaConfiguration {
         return listener;
     }
 
-    @Bean(destroyMethod = "close")
+    @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(Driver.class.getName());
         dataSource.setUrl(env.getRequiredProperty("datasource.url"));
         dataSource.setUsername(env.getRequiredProperty("datasource.username"));
         dataSource.setPassword(env.getRequiredProperty("datasource.password"));
-        dataSource.setTestOnBorrow(true);
+        dataSource.setTestOnBorrow(false);
         return dataSource;
     }
 
     @Bean
     protected Map<String, Object> getVendorProperties() {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put(PersistenceUnitProperties.WEAVING, Boolean.FALSE.toString());
         map.put(PersistenceUnitProperties.LOGGING_LEVEL, "FINE");
         return map;
@@ -76,28 +78,28 @@ public class JpaConfiguration {
     protected EclipseLinkJpaVendorAdapter jpaVendorAdapter() {
         EclipseLinkJpaVendorAdapter adapter = new EclipseLinkJpaVendorAdapter();
         adapter.setDatabase(Database.MYSQL);
-        adapter.setShowSql(true);
+        adapter.setShowSql(false);
         adapter.setGenerateDdl(false);
         return adapter;
     }
 
     @Bean
     public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
-        return new EntityManagerFactoryBuilder(jpaVendorAdapter(), jpaProperties(), null);
+        return new EntityManagerFactoryBuilder(jpaVendorAdapter(), jpaProperties().getProperties(), null);
     }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         Map<String, Object> vendorProperties = getVendorProperties();
         return entityManagerFactoryBuilder().dataSource(dataSource())
-                .packages("com.gottmusig")
-                .properties(vendorProperties)
-                .jta(false)
-                .build();
+                                            .packages("com.gottmusig")
+                                            .properties(vendorProperties)
+                                            .jta(true)
+                                            .build();
     }
 
     @Bean
-    public PlatformTransactionManager txManager() {
+    public PlatformTransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 }

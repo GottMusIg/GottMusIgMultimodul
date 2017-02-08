@@ -22,17 +22,23 @@ import java.util.stream.Collectors;
  * @author leong
  * @since 09.12.2016
  */
-
 public class SearchCharacterImpl implements SearchCharacter {
 
+    private final transient RealmRepository realmRepository;
+    private final transient RestClient restClient;
+    private final transient CharacterEntity.CharacterRepository characterRepository;
+    private final transient DPSDifference dpsDifference;
+
     @Autowired
-    private transient RealmRepository realmRepository;
-    @Autowired
-    private transient RestClient restClient;
-    @Autowired
-    private transient CharacterEntity.CharacterRepository characterRepository;
-    @Autowired
-    private transient DPSDifference dpsDifference;
+    public SearchCharacterImpl(RealmRepository realmRepository,
+                               RestClient restClient,
+                               CharacterEntity.CharacterRepository characterRepository,
+                               DPSDifference dpsDifference) {
+        this.realmRepository = realmRepository;
+        this.restClient = restClient;
+        this.characterRepository = characterRepository;
+        this.dpsDifference = dpsDifference;
+    }
 
     @Override
     public List<Location> getAllLocations() {
@@ -45,7 +51,7 @@ public class SearchCharacterImpl implements SearchCharacter {
         if (character.isPresent()) {
             return character;
         }
-        String response = null;
+        String response;
         try {
             response = restClient.searchCharacter(location.name(), realm, characterName);
         } catch (CharacterNotFoundException e) {

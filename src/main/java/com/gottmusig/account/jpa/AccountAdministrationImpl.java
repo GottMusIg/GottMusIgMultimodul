@@ -13,8 +13,12 @@ import java.util.Optional;
  */
 public class AccountAdministrationImpl implements AccountAdministration {
 
+    private final AccountRepository accountRepository;
+
     @Autowired
-    private AccountRepository accountRepository;
+    public AccountAdministrationImpl(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     @Override
     public Account register(String name, String password) {

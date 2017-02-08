@@ -2,6 +2,7 @@ package com.gottmusig.dpsdifference.domain.api;
 
 import com.gottmusig.dpsdifference.jpa.ClassSpecificationEntity;
 import com.gottmusig.dpsdifference.jpa.WOWClassEntity;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.Optional;
  * @author Leon Gottschick
  * @since 0.0.1
  */
+@Component
 public interface DPSDifference {
 
     /**
