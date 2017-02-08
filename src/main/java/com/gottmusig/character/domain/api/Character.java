@@ -1,6 +1,5 @@
 package com.gottmusig.character.domain.api;
 
-import com.gottmusig.account.domain.api.Account;
 import com.gottmusig.dpsdifference.domain.api.ClassSpecification;
 import com.gottmusig.dpsdifference.domain.api.WOWClass;
 import com.gottmusig.searchcharacter.domain.api.Realm;
@@ -31,10 +30,6 @@ public interface Character extends Entity {
     Realm getRealm();
 
     void setRealm(Realm realm);
-
-    Account getAccount();
-
-    void setAccount(Account account);
 
     String getThumbnailId();
 

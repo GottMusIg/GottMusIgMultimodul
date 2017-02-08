@@ -14,5 +14,4 @@ public interface AccountAdministration {
 
     Optional<Account> searchAccount(String userName);
 
-
 }

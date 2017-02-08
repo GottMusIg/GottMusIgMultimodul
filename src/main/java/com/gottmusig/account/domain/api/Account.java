@@ -21,7 +21,7 @@ public interface Account extends Entity {
 
     void setPassword(String password);
 
-    Character addCharacter(String name, String realm, String specification, String wowClass, int dps);
+    Character addCharacter(Character character);
 
     List<Character> getCharacters();
 }

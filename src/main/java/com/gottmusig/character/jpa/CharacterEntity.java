@@ -1,7 +1,5 @@
 package com.gottmusig.character.jpa;
 
-import com.gottmusig.account.domain.api.Account;
-import com.gottmusig.account.jpa.AccountEntity;
 import com.gottmusig.character.domain.api.Character;
 import com.gottmusig.dpsdifference.domain.api.ClassSpecification;
 import com.gottmusig.dpsdifference.domain.api.WOWClass;
@@ -12,7 +10,6 @@ import com.gottmusig.searchcharacter.jpa.RealmEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Description
@@ -43,9 +40,6 @@ public class CharacterEntity implements Character {
     @OneToOne
     @JoinColumn(name = "classSpecification_id", referencedColumnName = "id")
     private ClassSpecificationEntity classSpecification;
-    @OneToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private AccountEntity account;
 
 
     public CharacterEntity() {
@@ -98,16 +92,6 @@ public class CharacterEntity implements Character {
     }
 
     @Override
-    public Account getAccount() {
-        return account;
-    }
-
-    @Override
-    public void setAccount(Account account) {
-        this.account = (AccountEntity) account;
-    }
-
-    @Override
     public String getThumbnailId() {
         return thumbnailId;
     }
@@ -118,15 +102,13 @@ public class CharacterEntity implements Character {
     }
 
     @Override
-    public Id getId() {
+    public NumericSequenceId getId() {
         return id;
     }
 
     public interface CharacterRepository extends CrudRepository<CharacterEntity, NumericSequenceId> {
 
         CharacterEntity findByNameAndRealm(String name, Realm realm);
-
-        List<Character> findByAccount(AccountEntity account);
 
     }
 

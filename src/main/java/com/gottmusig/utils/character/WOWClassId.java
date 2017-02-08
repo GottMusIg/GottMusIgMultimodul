@@ -18,8 +18,7 @@ public enum WOWClassId {
     }
 
     public static String getWowClassName(int id) {
-        String classs = WOWClassId.values()[id-1].wowClassName;
-        return classs;
+        return WOWClassId.values()[id - 1].wowClassName;
     }
 
 

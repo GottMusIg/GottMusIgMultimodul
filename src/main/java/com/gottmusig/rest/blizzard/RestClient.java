@@ -49,9 +49,7 @@ public class RestClient implements Closeable {
                 realm +
                 "/" +
                 characterName +
-                "?fields=talents&locale=en_GB" +
-                "&apikey=" +
-                this.key);
+                "?fields=talents&locale=en_GB");
 
         if (response.getStatus() != 200) {
             throw new CharacterNotFoundException("Character not found!");
