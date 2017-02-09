@@ -1,5 +1,7 @@
 package com.gottmusig.gottmusig.model.wowhead;
 
+import com.gottmusig.gottmusig.model.blizzard.WowChar;
+
 public enum Filters {
 
 	CAN_BE_EQUIPPED_YES(195,1,0),
@@ -10,6 +12,9 @@ public enum Filters {
 	private final int param3;
 	
 	public static final String FILTER_PARAM = "?filter=";
+	public static final String MIN_REQ_LEVEL_FILTER = "min-req-level:";
+	public static final String MAX_REQ_LEVEL_FILTER = "max-req-level:";
+	
 	
 	Filters(int param1, int param2, int param3){
 		this.param1 = param1;
@@ -22,7 +27,7 @@ public enum Filters {
 		this.param3 = param3;
 		//param 2 wird gesetzt wenn der Race_Specific filter gebraucht wird
 	}
-	
+
 	public Filters setClass(Classes wowClass){
 		if(this.equals(RACE_SPECIFIC)){
 			this.param2 = wowClass.getID();
@@ -46,6 +51,13 @@ public enum Filters {
 		return param3;
 	}
 	
+	public static String getMinRequiredLevelUrlPart(int charLvl){		
+		return MIN_REQ_LEVEL_FILTER+charLvl+"/";
+	}
+	
+	public static String getMaxRequiredLevelUrlPart(int charLvl){		
+		return MAX_REQ_LEVEL_FILTER+charLvl+"/";
+	}
 	
 	public static String mergeFiltersWith(Filters... filters){
 		String param1 = "";

@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.gottmusig.gottmusig.facade.Control;
+import com.gottmusig.gottmusig.facade.ItemComparison;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,13 @@ public class SimCraftDataBoundary {
 
 	@Inject
 	private Control control;
+	@Inject
+	private ItemComparison itemcomparison;
 
 	/**
 	 * For Testing try this urls Magier:
 	 * http://localhost:8080/gottmusig/simulationcraftdata?region=eu&server=
-	 * Blackrock&user=Døsenöffner Krieger:
+	 * Blackrock&user=Dï¿½senï¿½ffner Krieger:
 	 * http://localhost:8080/gottmusig/simulationcraftdata?region=eu&server=
 	 * Blackhand&user=Malahkh Deamonhunter:
 	 * http://localhost:8080/gottmusig/simulationcraftdata?region=eu&server=Krag
@@ -39,7 +42,7 @@ public class SimCraftDataBoundary {
 	 * http://localhost:8080/gottmusig/simulationcraftdata?region=eu&server=
 	 * Aegwynn&user=Dexliz Paladin:
 	 * http://localhost:8080/gottmusig/simulationcraftdata?region=eu&server=
-	 * Arathor&user=Cavyxd Mönch:
+	 * Arathor&user=Cavyxd Mï¿½nch:
 	 * http://localhost:8080/gottmusig/simulationcraftdata?region=eu&server=
 	 * Arathor&user=Nepho Hexenmeister:
 	 * http://localhost:8080/gottmusig/simulationcraftdata?region=eu&server=
@@ -70,7 +73,21 @@ public class SimCraftDataBoundary {
 		log.info("POST COMMANDS: "+file);
 		String dps = control.getDpsForStartPage(file);
 		return Response.status(200).entity(dps).build();
-
+	}
+	
+	@Path("slotItem")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSlotItemList(@QueryParam("region") String region, //
+			@QueryParam("server") String server, @QueryParam("user") String user, @QueryParam("slot") String slot) {
+		
+		SimulationCraft simulationCraft=null;
+		try {
+			simulationCraft = itemcomparison.getItemSlotRanking(region, server,user,slot);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Response.status(200).entity(simulationCraft).build();
 	}
 
 }

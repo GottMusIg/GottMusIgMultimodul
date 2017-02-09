@@ -1,24 +1,28 @@
 package com.gottmusig.gottmusig.model.wowhead;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum Slot {
 	
-	HEAD(1),
-	NECK(2),
-	SHOULDER(3),
+	HEAD(1, "head="),
+	NECK(2, "neck="),
+	SHOULDER(3, "shoulders="),
 	SHIRT(4),
-	CHEST(5),
-	WAIST(6),
-	LEGS(7),
-	FEET(8),
+	CHEST(5, "chest="),
+	WAIST(6, "waist="),
+	LEGS(7, "legs="),
+	FEET(8, "feet="),
 	WRIST(9),
-	HANDS(10),
-	FINGER(11),
-	TRINKET(12),
+	HANDS(10, "hands="),
+	FINGER(11, "finger1=", "finger2="),
+	TRINKET(12, "trinket1=", "trinket2="),
 	ONE_HAND(13),
 	SHIELD(14),
 	RANGED(15),
-	BACK(16),
-	TWO_HAND(17),
+	BACK(16, "back="),
+	TWO_HAND(17, "main_hand="),
 	BAG(18),
 	TABARD(19),
 	MAIN_HAND(21),
@@ -29,15 +33,42 @@ public enum Slot {
 	RELIC(28);
 
 	private final int id;
+	private final List<String> simcCommands = new ArrayList<>();
 	public static final String paramSlot = "slot";
 	
 
-	Slot(int id){
+	private Slot(int id, String... simcCommands){
 		this.id = id;
+		this.simcCommands.addAll(Arrays.asList(simcCommands));
+	}
+	
+
+	public int getId(){
+		return id;
+	}
+	
+	public List<String> getSimcCommands(){
+		return simcCommands;
 	}
 	
 	public String getURLPart(){
 		return paramSlot+":"+id+"/";
+	}
+	
+	public static List<String> getSimcCommandForSlot(String requestedSlot) throws Exception{
+		
+		Slot slot = findSlotByName(requestedSlot);
+		return slot.getSimcCommands();
+	}
+	
+	
+	public static Slot findSlotByName(String requestedSlot) throws Exception{
+		for(Slot slot : Slot.values()){
+			if(slot.name().equalsIgnoreCase(requestedSlot)){
+				return slot;
+			}
+		}
+		throw new Exception(); //TODO
 	}
 
 }

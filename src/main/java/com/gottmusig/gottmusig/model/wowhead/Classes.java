@@ -1,5 +1,10 @@
 package com.gottmusig.gottmusig.model.wowhead;
 
+import com.gottmusig.gottmusig.model.blizzard.WowChar;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public enum Classes {
 		
 	WARRIOR(1),
@@ -30,6 +35,29 @@ public enum Classes {
 	
 	public int getID(){
 		return id;
+	}
+	
+	
+	public static Classes getClassIdFor(WowChar wowChar){
+		
+		int id = wowChar.getClass_();
+		
+		for(Classes WoWclass : Classes.values()){
+			if((WoWclass.getID()) == id){
+				log.debug("Found class with id= "+id);
+				return WoWclass;
+			}
+		}
+		return null; //TODO
+	}
+	
+	public static Classes findClassByName(String name){
+		for(Classes wowClasse : Classes.values()){
+			if(wowClasse.name().equalsIgnoreCase(name)){
+				return wowClasse;
+			}
+		}
+		return null; //TODO
 	}
 
 }

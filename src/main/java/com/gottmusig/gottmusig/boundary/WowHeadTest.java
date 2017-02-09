@@ -23,10 +23,8 @@ public class WowHeadTest {
 	@Path("test")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSimulationCraftData() {
+	public Response getSimulationCraftData(@QueryParam("class") String wowClass, @QueryParam("slot") String slot) {
 		log.debug("Requesting WowHeadItems");
-		return Response.status(200).entity(control.test()).build();
+		return Response.status(200).entity(control.wowHeadTest(wowClass, slot)).build();
 	}
-	
-	
 }

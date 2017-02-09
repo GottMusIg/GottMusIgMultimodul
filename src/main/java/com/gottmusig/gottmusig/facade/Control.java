@@ -65,34 +65,27 @@ public class Control {
 	}
 	
 
-	public List<BlizzardItem> test(){
+	public List<BlizzardItem> wowHeadTest(String requestedWowClass, String requestedSlot){
 		
 		List<BlizzardItem> blizzardItems = new ArrayList<>();
-		
+			
 		try {
-			WowHead wowhead =  wowHeadDatabaseGateway.getItemsFor(Classes.WARRIOR, Slot.HEAD, Quality.EPIC);
+			Classes wowClass = Classes.findClassByName(requestedWowClass);
+			Slot slot = Slot.findSlotByName(requestedSlot);
+			
+			WowHead wowhead =  wowHeadDatabaseGateway.getItemsFor(wowClass, 110,110, slot, Quality.EPIC);
 			
 			BlizzardItem blizzardItem;
 			for(Item item : wowhead.getItems()){
-				blizzardItem = blizzardGateway.getItemWithId(""+item.getId(), null);
+				blizzardItem = blizzardGateway.getItemWithId(""+item.getId(), null); //Zum Testen nicht alle Contexte (hc, mythic etc.)
 				blizzardItems.add(blizzardItem);
 			}
 			return blizzardItems;
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 	
-	public BlizzardItem blizzardTest(String id){
-		try {
-			return blizzardGateway.getItemWithId(id, null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 }

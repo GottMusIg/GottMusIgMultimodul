@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import lombok.EqualsAndHashCode;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "armor",
@@ -30,9 +32,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "firstseenpatch",
     "reqclass"
 })
+@EqualsAndHashCode(of={"id"})
 public class Item {
 
-    @JsonProperty("armor")
+	@JsonProperty("armor")
     private Integer armor;
     @JsonProperty("classs")
     private Integer classs;
@@ -248,5 +251,5 @@ public class Item {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
+    
 }

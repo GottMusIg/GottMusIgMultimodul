@@ -12,5 +12,7 @@ public class SimulationCraftInputs {
 	private String user;
 	private String command;
 	
-	
+	public void addCommand(String command){
+		this.command+=" "+command;
+	}
 }
