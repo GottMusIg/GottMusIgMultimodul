@@ -10,6 +10,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.gottmusig.gottmusig.gateway.WowHeadDatabaseGateway;
+
+import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -20,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "icon",
     "stackable",
     "allowableClasses",
+    "allowableRaces",
     "itemBind",
     "bonusStats",
     "itemSpells",
@@ -56,8 +61,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "bonusSummary",
     "artifactId"
 })
-public class BlizzardItem {
 
+@Slf4j
+@EqualsAndHashCode(of={"name","context"})
+public class BlizzardItem {
+	
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("disenchantingSkillRank")
@@ -72,6 +80,8 @@ public class BlizzardItem {
     private Integer stackable;
     @JsonProperty("allowableClasses")
     private List<Integer> allowableClasses = null;
+    @JsonProperty("allowableRaces")
+    private List<Integer> allowableRaces = null;
     @JsonProperty("itemBind")
     private Integer itemBind;
     @JsonProperty("bonusStats")
@@ -209,12 +219,22 @@ public class BlizzardItem {
     public List<Integer> getAllowableClasses() {
         return allowableClasses;
     }
-
+   
     @JsonProperty("allowableClasses")
     public void setAllowableClasses(List<Integer> allowableClasses) {
         this.allowableClasses = allowableClasses;
     }
+    
+    @JsonProperty("allowableRaces")
+    public List<Integer> getAllowableRaces() {
+    return allowableRaces;
+    }
 
+    @JsonProperty("allowableRaces")
+    public void setAllowableRaces(List<Integer> allowableRaces) {
+    this.allowableRaces = allowableRaces;
+    }
+    
     @JsonProperty("itemBind")
     public Integer getItemBind() {
         return itemBind;
@@ -574,5 +594,13 @@ public class BlizzardItem {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
+       
+    public String getWowHeadToolTipLink(){
+    	String url =  WowHeadDatabaseGateway.BASE_URL+"item="+this.id;
+    	
+    	if(this.bonusLists != null && !this.bonusLists.isEmpty()){
+    		url += "&bonus="+bonusLists.get(0);
+    	}
+    	return url; 	
+    }
 }

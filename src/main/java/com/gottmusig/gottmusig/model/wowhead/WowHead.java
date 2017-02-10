@@ -25,24 +25,24 @@ import lombok.extern.slf4j.Slf4j;
 public class WowHead {
 
     @JsonProperty("items")
-    private List<Item> items = null;
+    private List<WowHeadItem> items = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("items")
-    public List<Item> getItems() {
+    public List<WowHeadItem> getItems() {
         return items;
     }
     
-    private List<Item> removeDoubleItems(List<Item> originalList){
+    private List<WowHeadItem> removeDoubleItems(List<WowHeadItem> originalList){
     	log.debug("Original item size: "+originalList.size());
-    	List<Item> deduped = originalList.stream().distinct().collect(Collectors.toList());
+    	List<WowHeadItem> deduped = originalList.stream().distinct().collect(Collectors.toList());
     	log.debug("New size :"+deduped.size());
     	return deduped;
     }
 
     @JsonProperty("items")
-    public void setItems(List<Item> items) {
+    public void setItems(List<WowHeadItem> items) {
         this.items = removeDoubleItems(items);
     }
 

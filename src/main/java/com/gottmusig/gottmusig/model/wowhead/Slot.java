@@ -55,7 +55,7 @@ public enum Slot {
 		return paramSlot+":"+id+"/";
 	}
 	
-	public static List<String> getSimcCommandForSlot(String requestedSlot) throws Exception{
+	public static List<String> getSimcCommandFor(String requestedSlot) throws Exception{
 		
 		Slot slot = findSlotByName(requestedSlot);
 		return slot.getSimcCommands();

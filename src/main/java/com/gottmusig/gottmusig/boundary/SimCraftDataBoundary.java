@@ -1,5 +1,9 @@
 package com.gottmusig.gottmusig.boundary;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import com.gottmusig.gottmusig.facade.Control;
 import com.gottmusig.gottmusig.facade.ItemComparison;
+import com.gottmusig.gottmusig.model.blizzard.BlizzardItem;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 
 import lombok.extern.slf4j.Slf4j;
@@ -79,15 +84,16 @@ public class SimCraftDataBoundary {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSlotItemList(@QueryParam("region") String region, //
-			@QueryParam("server") String server, @QueryParam("user") String user, @QueryParam("slot") String slot) {
+			@QueryParam("server") String server, @QueryParam("user") String user, @QueryParam("slot") String slot,
+			@QueryParam("quality") String quality) {
 		
-		SimulationCraft simulationCraft=null;
+		Map<BlizzardItem, Double> result = new LinkedHashMap<>();
 		try {
-			simulationCraft = itemcomparison.getItemSlotRanking(region, server,user,slot);
+			 result = itemcomparison.getItemRankingBy(region, server, user, slot, quality);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return Response.status(200).entity(simulationCraft).build();
+		return Response.status(200).entity(result).build();
 	}
 
 }

@@ -27,7 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class WowHeadDatabaseGateway {
 	
 
-	private static final String BASE_URL = "http://www.wowhead.com/items/";
+	public static final String BASE_URL = "http://www.wowhead.com/";
+	private static final String ITEM_PARAM = "items/";
 	private static final String WOW_LIST_VIEW_ITEMS_REGEX = "(?<=listviewitems\\s=\\s)\\[.*\\]?(?=;)";
 	private final ObjectMapper objectMapper;
 	
@@ -69,7 +70,7 @@ public class WowHeadDatabaseGateway {
 	//TODO
 	private String buildUrl(Classes wowClass,int minLvl,int maxLvl, Slot slot, Quality quality ){
 		
-		String finalUrl = BASE_URL+Filters.getMinRequiredLevelUrlPart(maxLvl) + Filters.getMaxRequiredLevelUrlPart(minLvl)+wowClass.getURLPart();
+		String finalUrl = BASE_URL+ITEM_PARAM+Filters.getMinRequiredLevelUrlPart(maxLvl) + Filters.getMaxRequiredLevelUrlPart(minLvl)+wowClass.getURLPart();
 		
 		if(quality != null){
 			finalUrl += quality.getURLPart();

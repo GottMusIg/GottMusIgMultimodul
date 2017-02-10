@@ -33,7 +33,7 @@ import lombok.EqualsAndHashCode;
     "reqclass"
 })
 @EqualsAndHashCode(of={"id"})
-public class Item {
+public class WowHeadItem {
 
 	@JsonProperty("armor")
     private Integer armor;

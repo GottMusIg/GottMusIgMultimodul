@@ -2,7 +2,9 @@ package com.gottmusig.gottmusig.model.blizzard;
 
 public enum BlizzardParams {
 	
-	BASE_URL("http://eu.battle.net/api/wow"),
+	PROTOCOL("http://"),
+	BASE_URL(".battle.net/api/wow"),
+	DEFAULT_REGION("eu"),
 	ITEM_PARA("item"),
 	CHAR_PARAM("character");
 	
@@ -15,6 +17,14 @@ public enum BlizzardParams {
 	
 	public String getParam(){
 		return param;
+	}
+	
+	
+	public static String getBaseUrlFor(String region){
+		return PROTOCOL.getParam()+region+BASE_URL.getParam();
+		
+		
+		
 	}
 	
 

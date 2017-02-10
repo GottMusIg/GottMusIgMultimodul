@@ -29,9 +29,10 @@ public class BlizzardGateway {
 
 	public BlizzardItem getItemWithId(String id, String bonus) throws JsonParseException, JsonMappingException, IOException{
 		
-		String requestUrl = buildUrl(BlizzardParams.ITEM_PARA,id, bonus);
+		String requestUrl = buildUrl(BlizzardParams.DEFAULT_REGION.getParam(),BlizzardParams.ITEM_PARA,id, bonus);
 		log.debug(requestUrl+" was called!");
 		String itemJsonString = request(requestUrl);
+		log.debug(itemJsonString);
 		return (BlizzardItem) convertJsonStringToObject(itemJsonString, BlizzardItem.class);
 
 	}
@@ -40,9 +41,9 @@ public class BlizzardGateway {
 		return getItemWithId(id,null);
 	}
 	
-	public WowChar getCharWith(String realm, String name) throws JsonParseException, JsonMappingException, IOException{
+	public WowChar getCharWith(String region, String realm, String name) throws JsonParseException, JsonMappingException, IOException{
 	
-		String requestUrl = buildUrl(BlizzardParams.CHAR_PARAM, realm, name);
+		String requestUrl = buildUrl(region, BlizzardParams.CHAR_PARAM, realm, name);
 		log.debug(requestUrl+" was called!");
 		String charJsonStrimg = request(requestUrl);
 		log.debug(charJsonStrimg);
@@ -50,8 +51,8 @@ public class BlizzardGateway {
 		
 	}
 	
-	private String buildUrl(BlizzardParams searchParam, String... values){
-		String finalUrl = BlizzardParams.BASE_URL.getParam() +"/"+ searchParam.getParam();
+	private String buildUrl(String region, BlizzardParams searchParam, String... values){
+		String finalUrl = BlizzardParams.getBaseUrlFor(region)+"/"+ searchParam.getParam();
 		
 		for(String value : values){
 			if(value != null){

@@ -13,7 +13,7 @@ import com.gottmusig.gottmusig.model.blizzard.BlizzardItem;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraftInputs;
 import com.gottmusig.gottmusig.model.wowhead.Classes;
-import com.gottmusig.gottmusig.model.wowhead.Item;
+import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
 import com.gottmusig.gottmusig.model.wowhead.Quality;
 import com.gottmusig.gottmusig.model.wowhead.Slot;
 import com.gottmusig.gottmusig.model.wowhead.WowHead;
@@ -76,7 +76,7 @@ public class Control {
 			WowHead wowhead =  wowHeadDatabaseGateway.getItemsFor(wowClass, 110,110, slot, Quality.EPIC);
 			
 			BlizzardItem blizzardItem;
-			for(Item item : wowhead.getItems()){
+			for(WowHeadItem item : wowhead.getItems()){
 				blizzardItem = blizzardGateway.getItemWithId(""+item.getId(), null); //Zum Testen nicht alle Contexte (hc, mythic etc.)
 				blizzardItems.add(blizzardItem);
 			}

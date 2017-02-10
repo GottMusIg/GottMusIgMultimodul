@@ -36,8 +36,7 @@ public enum Classes {
 	public int getID(){
 		return id;
 	}
-	
-	
+
 	public static Classes getClassIdFor(WowChar wowChar){
 		
 		int id = wowChar.getClass_();
