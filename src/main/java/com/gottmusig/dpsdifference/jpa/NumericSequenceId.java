@@ -17,32 +17,33 @@ import java.util.Objects;
 @Embeddable
 public class NumericSequenceId implements Entity.Id {
 
-    @Column(name="id")
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long value;
-    
+
     public Long getValue() {
         return value;
     }
+
     public void setValue(Long value) {
         this.value = value;
     }
-    
+
     @Override
     public String displayValue() {
         return value == null ? "-" : Long.toString(value);
     }
-    
+
     @Override
     public String toString() {
         return displayValue();
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(value);
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -57,5 +58,5 @@ public class NumericSequenceId implements Entity.Id {
         NumericSequenceId other = (NumericSequenceId) obj;
         return Objects.equals(value, other.value);
     }
-    
+
 }

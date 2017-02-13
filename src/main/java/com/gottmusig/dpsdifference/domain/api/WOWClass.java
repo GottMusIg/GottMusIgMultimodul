@@ -10,7 +10,6 @@ import com.gottmusig.utils.Entity;
 public interface WOWClass extends Entity {
 
     /**
-     *
      * @return the name of the WoW class
      */
     String getName();

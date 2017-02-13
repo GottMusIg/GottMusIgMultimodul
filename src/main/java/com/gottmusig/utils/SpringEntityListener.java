@@ -12,40 +12,42 @@ import javax.persistence.PostPersist;
 /**
  * Entity listener which allows dependency injection inside entities.
  * The listener can be registered via {@link EntityListeners} annotation.
- * 
+ * <p>
  * Dependency injection annotations like {@link Autowired} are supported.
- * 
+ *
  * @author Leon Gottschick
  * @since 0.0.1
  */
 public class SpringEntityListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpringEntityListener.class);
-    
+
     private static final SpringEntityListener INSTANCE = new SpringEntityListener();
-    
+
     private volatile AutowireCapableBeanFactory beanFactory;
-    
+
     public static SpringEntityListener get() {
         return INSTANCE;
     }
-    public AutowireCapableBeanFactory getBeanFactory() {
+
+    private AutowireCapableBeanFactory getBeanFactory() {
         return beanFactory;
     }
+
     public void setBeanFactory(AutowireCapableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
-    
+
     @PostLoad
     @PostPersist
     public void inject(Object object) {
         AutowireCapableBeanFactory beanFactory = get().getBeanFactory();
-        if(beanFactory == null) {
-            LOG.warn("Bean Factory not set! Depdendencies will not be injected into: '{}'", object);
+        if (beanFactory == null) {
+            System.out.println("Bean Factory not set! Depdendencies will not be injected into: '{}'" + object);
             return;
         }
-        LOG.debug("Injecting dependencies into entity: '{}'.", object);
+        System.out.println("Injecting dependencies into entity: '{}'." + object);
         beanFactory.autowireBean(object);
     }
-    
+
 }

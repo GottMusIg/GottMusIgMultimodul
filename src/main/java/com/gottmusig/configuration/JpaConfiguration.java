@@ -1,12 +1,12 @@
 package com.gottmusig.configuration;
 
-import com.mysql.jdbc.Driver;
+import com.gottmusig.utils.SpringEntityListener;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -24,63 +24,68 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Main configuration for all JPA aspects. Couples Eclipse Link with Spring Data JPA. 
+ * Main configuration for all JPA aspects. Couples Eclipse Link with Spring Data JPA.
  *
  * @author Leon Gottschick
  * @since 0.0.1
  */
 @Configuration
-@EnableJpaRepositories(basePackages="com.gottmusig", considerNestedRepositories=true)
+@EnableJpaRepositories(basePackages = "com.gottmusig", considerNestedRepositories = true)
 @ComponentScan("com.gottmusig")
-@PropertySource({"classpath:/database.properties"})
+@PropertySource({ "classpath:database.properties" })
 public class JpaConfiguration {
 
-    @Autowired Environment env;
-    @Autowired AutowireCapableBeanFactory beanFactory;
+    private final Environment env;
+    private final AutowireCapableBeanFactory beanFactory;
 
-//    @Bean
-//    public SpringEntityListener SpringEntityListener() {
-//        SpringEntityListener listener = SpringEntityListener.get();
-//        listener.setBeanFactory(beanFactory);
-//        return listener;
-//    }
-    
-    @Bean(destroyMethod="close")
+    @Autowired
+    public JpaConfiguration(Environment env, AutowireCapableBeanFactory beanFactory) {
+        this.env = env;
+        this.beanFactory = beanFactory;
+    }
+
+    @Bean
+    public SpringEntityListener springEntityListener() {
+        SpringEntityListener listener = SpringEntityListener.get();
+        listener.setBeanFactory(beanFactory);
+        return listener;
+    }
+
+    @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(Driver.class.getName());
         dataSource.setUrl(env.getRequiredProperty("datasource.url"));
         dataSource.setUsername(env.getRequiredProperty("datasource.username"));
         dataSource.setPassword(env.getRequiredProperty("datasource.password"));
-        dataSource.setTestOnBorrow(true);
+        dataSource.setTestOnBorrow(false);
         return dataSource;
     }
-    
+
     @Bean
     protected Map<String, Object> getVendorProperties() {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put(PersistenceUnitProperties.WEAVING, Boolean.FALSE.toString());
         map.put(PersistenceUnitProperties.LOGGING_LEVEL, "FINE");
         return map;
     }
-    
+
     @Bean
     public JpaProperties jpaProperties() {
         return new JpaProperties();
     }
-    
+
     @Bean
     protected EclipseLinkJpaVendorAdapter jpaVendorAdapter() {
         EclipseLinkJpaVendorAdapter adapter = new EclipseLinkJpaVendorAdapter();
         adapter.setDatabase(Database.MYSQL);
-        adapter.setShowSql(true);
+        adapter.setShowSql(false);
         adapter.setGenerateDdl(false);
         return adapter;
     }
-    
+
     @Bean
     public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
-        return new EntityManagerFactoryBuilder(jpaVendorAdapter(), jpaProperties(), null);
+        return new EntityManagerFactoryBuilder(jpaVendorAdapter(), jpaProperties().getProperties(), null);
     }
 
     @Bean
@@ -89,12 +94,12 @@ public class JpaConfiguration {
         return entityManagerFactoryBuilder().dataSource(dataSource())
                                             .packages("com.gottmusig")
                                             .properties(vendorProperties)
-                                            .jta(false)
+                                            .jta(true)
                                             .build();
     }
-    
+
     @Bean
-    public PlatformTransactionManager txManager() {
+    public PlatformTransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 }
