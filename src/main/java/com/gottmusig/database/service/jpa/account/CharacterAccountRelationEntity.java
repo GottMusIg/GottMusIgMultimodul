@@ -1,0 +1,68 @@
+package com.gottmusig.database.service.jpa.account;
+
+import com.gottmusig.database.service.domain.account.CharacterAccountRelation;
+import com.gottmusig.database.service.jpa.NumericSequenceId;
+import com.gottmusig.database.service.jpa.SpringEntityListener;
+import com.gottmusig.database.service.jpa.character.CharacterEntity;
+import org.springframework.data.repository.CrudRepository;
+
+import javax.persistence.*;
+import java.util.List;
+
+/**
+ * Description
+ *
+ * @author lgottschick
+ * @since 1.0.0-SNAPSHOT
+ */
+@Entity
+@Table(name = "characteraccountrelation")
+@EntityListeners(SpringEntityListener.class)
+public class CharacterAccountRelationEntity implements CharacterAccountRelation {
+
+    @EmbeddedId
+    private NumericSequenceId id;
+
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private AccountEntity account;
+
+    @OneToOne
+    @JoinColumn(name = "character_id", referencedColumnName = "id")
+    private CharacterEntity character;
+
+    public CharacterAccountRelationEntity() {
+        this.id = new NumericSequenceId();
+    }
+
+    @Override
+    public Id getId() {
+        return id;
+    }
+
+    @Override
+    public AccountEntity getAccount() {
+        return account;
+    }
+
+    @Override
+    public void setAccount(AccountEntity account) {
+        this.account = account;
+    }
+
+    @Override
+    public CharacterEntity getCharacter() {
+        return character;
+    }
+
+    @Override
+    public void setCharacter(CharacterEntity character) {
+        this.character = character;
+    }
+
+    public interface CharacterAccountRelationRepository extends CrudRepository<CharacterAccountRelationEntity, NumericSequenceId> {
+
+        List<CharacterAccountRelationEntity> findByAccount(AccountEntity account);
+
+    }
+}
