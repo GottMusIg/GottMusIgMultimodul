@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Description
@@ -63,6 +64,10 @@ public class CharacterAccountRelationEntity implements CharacterAccountRelation 
     public interface CharacterAccountRelationRepository extends CrudRepository<CharacterAccountRelationEntity, NumericSequenceId> {
 
         List<CharacterAccountRelationEntity> findByAccount(AccountEntity account);
+
+        CharacterAccountRelationEntity findFirstByAccount(AccountEntity account);
+
+        Optional<CharacterAccountRelationEntity> findFirstByAccountAndCharacter(AccountEntity account, CharacterEntity character);
 
     }
 }

@@ -2,6 +2,7 @@ package com.gottmusig.database.service.jpa.account;
 
 import com.gottmusig.database.service.domain.account.Account;
 import com.gottmusig.database.service.domain.character.Character;
+import com.gottmusig.database.service.domain.character.CharacterService;
 import com.gottmusig.database.service.jpa.NumericSequenceId;
 import com.gottmusig.database.service.jpa.SpringEntityListener;
 import com.gottmusig.database.service.jpa.character.CharacterEntity;
@@ -11,6 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Description
@@ -25,6 +27,9 @@ public class AccountEntity implements Account {
 
     @Autowired
     private transient CharacterAccountRelationEntity.CharacterAccountRelationRepository accountRelationRepository;
+
+    @Autowired
+    private transient CharacterService characterService;
 
     @EmbeddedId
     private NumericSequenceId id;
@@ -60,27 +65,33 @@ public class AccountEntity implements Account {
 
     @Override
     public Character addCharacter(Character character) {
-        boolean isAdded = false;
-        for (Character characterToAdd : getCharacters()) {
-            if (characterToAdd.getName().equals(character.getName()) &&
-                characterToAdd.getRealm().getName().equals(character.getRealm().getName())) {
-                isAdded = true;
-            }
-        }
-        if (!isAdded) {
-            CharacterAccountRelationEntity characterAccountRelation = new CharacterAccountRelationEntity();
-            characterAccountRelation.setCharacter((CharacterEntity) character);
-            characterAccountRelation.setAccount(this);
-            accountRelationRepository.save(characterAccountRelation);
+        Optional<CharacterAccountRelationEntity> relationEntityOptional = accountRelationRepository
+                .findFirstByAccountAndCharacter(
+                this, (CharacterEntity) character);
+        if (!relationEntityOptional.isPresent()) {
+            addAccountRelation(character);
         }
         return character;
     }
 
+    private void addAccountRelation(Character character) {
+        character = characterService.saveCharacter(character);
+        CharacterAccountRelationEntity characterAccountRelationEntity = new CharacterAccountRelationEntity();
+        characterAccountRelationEntity.setAccount(this);
+        characterAccountRelationEntity.setCharacter((CharacterEntity) character);
+        accountRelationRepository.save(characterAccountRelationEntity);
+    }
+
+    public void removeCharacter(Character character) {
+        CharacterAccountRelationEntity characterAccountRelation = accountRelationRepository.findFirstByAccount(this);
+        accountRelationRepository.delete(characterAccountRelation);
+    }
+
     @Override
     public List<Character> getCharacters() {
-        List<CharacterAccountRelationEntity> accounts = accountRelationRepository.findByAccount(this);
+        List<CharacterAccountRelationEntity> relationEntities = accountRelationRepository.findByAccount(this);
         List<Character> characters = new ArrayList<>();
-        for (CharacterAccountRelationEntity entity : accounts) {
+        for (CharacterAccountRelationEntity entity : relationEntities) {
             characters.add(entity.getCharacter());
         }
         return characters;
@@ -93,7 +104,7 @@ public class AccountEntity implements Account {
 
     public interface AccountRepository extends CrudRepository<AccountEntity, NumericSequenceId> {
 
-        AccountEntity findByUserName(String userName);
+        Optional<Account> findByUserName(String userName);
 
     }
 }

@@ -14,14 +14,14 @@ import java.util.List;
 public interface Account extends Entity {
 
     String getUserName();
-
     void setUserName(String userName);
 
     String getPassword();
-
     void setPassword(String password);
 
     Character addCharacter(Character character);
 
     List<Character> getCharacters();
+
+    void removeCharacter(Character character);
 }

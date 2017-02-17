@@ -2,6 +2,8 @@ package com.gottmusig.database.service.jpa.account;
 
 import com.gottmusig.database.service.domain.account.Account;
 import com.gottmusig.database.service.domain.account.AccountService;
+import com.gottmusig.database.service.jpa.account.exception.CharacterAlreadyExistsException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,18 +17,28 @@ import java.util.Optional;
 @Service
 public class AccountServiceImpl implements AccountService {
 
+    @Autowired
+    private transient AccountEntity.AccountRepository accountRepository;
+
     @Override
-    public Account register(String userName, String password) {
-        return null;
+    public Account register(String userName, String password) throws CharacterAlreadyExistsException {
+        AccountEntity account = new AccountEntity();
+        account.setPassword(password);
+        account.setUserName(userName);
+        Optional<Account> accountOptional = accountRepository.findByUserName(userName);
+        if(accountOptional.isPresent()) {
+            throw new CharacterAlreadyExistsException("User name already exists!");
+        }
+        return accountRepository.save(account);
     }
 
     @Override
     public void delete(Account account) {
-
+        accountRepository.delete((AccountEntity) account);
     }
 
     @Override
     public Optional<Account> searchAccount(String userName) {
-        return null;
+        return accountRepository.findByUserName(userName);
     }
 }

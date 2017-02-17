@@ -1,5 +1,7 @@
 package com.gottmusig.database.service.domain.account;
 
+import com.gottmusig.database.service.jpa.account.exception.CharacterAlreadyExistsException;
+
 import java.util.Optional;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Optional;
  */
 public interface AccountService {
 
-    Account register(String userName, String password);
+    Account register(String userName, String password) throws CharacterAlreadyExistsException;
 
     void delete(Account account);
 

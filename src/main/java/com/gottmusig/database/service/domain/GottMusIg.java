@@ -2,6 +2,7 @@ package com.gottmusig.database.service.domain;
 
 import com.gottmusig.database.service.domain.account.AccountService;
 import com.gottmusig.database.service.domain.character.CharacterService;
+import com.gottmusig.database.service.domain.dpsdifference.DPSDifferenceService;
 import com.gottmusig.database.service.domain.item.ItemService;
 import com.gottmusig.database.service.domain.realm.RealmService;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
@@ -22,6 +23,8 @@ public interface GottMusIg {
 
     CharacterService characterService();
 
-    SimulationService dpsDifferenceService();
+    SimulationService simulationService();
+
+    DPSDifferenceService dpsDifferenceService();
 
 }

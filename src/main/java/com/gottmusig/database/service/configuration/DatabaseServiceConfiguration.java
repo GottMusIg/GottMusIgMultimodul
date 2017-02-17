@@ -1,18 +1,26 @@
 package com.gottmusig.database.service.configuration;
 
+import com.gottmusig.database.service.domain.GottMusIg;
 import com.gottmusig.database.service.domain.account.AccountService;
 import com.gottmusig.database.service.domain.character.CharacterService;
+import com.gottmusig.database.service.domain.dpsdifference.DPSDifferenceService;
 import com.gottmusig.database.service.domain.item.ItemService;
 import com.gottmusig.database.service.domain.realm.RealmService;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
+import com.gottmusig.database.service.jpa.GottMusIgImpl;
 import com.gottmusig.database.service.jpa.account.AccountServiceImpl;
 import com.gottmusig.database.service.jpa.character.CharacterServiceImpl;
+import com.gottmusig.database.service.jpa.character.blizzard.SearchCharacterClient;
+import com.gottmusig.database.service.jpa.dpsdifference.DPSDifferenceServiceImpl;
 import com.gottmusig.database.service.jpa.item.ItemServiceImpl;
 import com.gottmusig.database.service.jpa.realm.RealmServiceImpl;
 import com.gottmusig.database.service.jpa.simulation.SimulationServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 /**
  * Description
@@ -22,7 +30,21 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @Import(JpaConfiguration.class)
+@PropertySource({"classpath:blizzard.properties"})
 public class DatabaseServiceConfiguration {
+
+    @Autowired
+    private Environment env;
+
+    @Bean
+    public GottMusIg gottMusIg() {
+        return new GottMusIgImpl(realmService(),
+                                 itemService(),
+                                 accountService(),
+                                 characterService(),
+                                 simulationService(),
+                                 dpsDifferenceService());
+    }
 
     @Bean
     public CharacterService characterService() {
@@ -47,6 +69,16 @@ public class DatabaseServiceConfiguration {
     @Bean
     public SimulationService simulationService() {
         return new SimulationServiceImpl();
+    }
+
+    @Bean
+    public DPSDifferenceService dpsDifferenceService() {
+        return new DPSDifferenceServiceImpl();
+    }
+
+    @Bean
+    public SearchCharacterClient searchCharacterClient() {
+        return new SearchCharacterClient(env.getRequiredProperty("api.path"), env.getRequiredProperty("api.key"));
     }
 
 }

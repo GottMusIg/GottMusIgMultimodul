@@ -2,6 +2,7 @@ package com.gottmusig.database.service.jpa.realm;
 
 import com.gottmusig.database.service.domain.realm.Realm;
 import com.gottmusig.database.service.jpa.NumericSequenceId;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.Column;
@@ -36,7 +37,6 @@ public class RealmEntity implements Realm {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -45,7 +45,6 @@ public class RealmEntity implements Realm {
     public Location getLocation() {
         return Location.valueOf(location);
     }
-
     public void setLocation(Location location) {
         this.location = location.name();
     }
@@ -54,7 +53,6 @@ public class RealmEntity implements Realm {
     public NumericSequenceId getId() {
         return id;
     }
-
     public void setId(NumericSequenceId id) {
         this.id = id;
     }
@@ -65,7 +63,7 @@ public class RealmEntity implements Realm {
 
         Realm findByName(String name);
 
-        List<Realm> find();
+        List<Realm> findAll(Sort sort);
 
     }
 

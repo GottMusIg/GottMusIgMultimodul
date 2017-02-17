@@ -1,12 +1,13 @@
-package com.gottmusig.database.service.jpa.simulation;
+package com.gottmusig.database.service.jpa.dpsdifference;
 
-import com.gottmusig.database.service.domain.character.ClassSpecification;
-import com.gottmusig.database.service.domain.simulation.SpecificationDPS;
+import com.gottmusig.database.service.domain.dpsdifference.SpecificationDPS;
 import com.gottmusig.database.service.jpa.NumericSequenceId;
 import com.gottmusig.database.service.jpa.character.ClassSpecificationEntity;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author leong
@@ -30,19 +31,17 @@ public class SpecificationDPSEntity implements SpecificationDPS {
     }
 
     @Override
-    public int getSpecificationDPS() {
+    public int getDPS() {
         return dps;
     }
-
     public void setDps(int dps) {
         this.dps = dps;
     }
 
     @Override
-    public ClassSpecification getSpecification() {
+    public ClassSpecificationEntity getSpecification() {
         return specification;
     }
-
     public void setSpecification(ClassSpecificationEntity specification) {
         this.specification = specification;
     }
@@ -51,7 +50,6 @@ public class SpecificationDPSEntity implements SpecificationDPS {
     public NumericSequenceId getId() {
         return id;
     }
-
     public void setId(NumericSequenceId id) {
         this.id = id;
     }
@@ -67,7 +65,9 @@ public class SpecificationDPSEntity implements SpecificationDPS {
 
     public interface SpecificationDPSRepository extends CrudRepository<SpecificationDPSEntity, NumericSequenceId> {
 
-        SpecificationDPSEntity findBySpecification(ClassSpecificationEntity classSpecification);
+        List<SpecificationDPS> findByDpsGreaterThan(int dps, Sort sort);
+
+        SpecificationDPS findFirstByDpsGreaterThan(int dps, Sort sort);
 
     }
 }

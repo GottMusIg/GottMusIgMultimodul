@@ -16,7 +16,7 @@ public class CharacterPOJO {
     @SerializedName("calcClass")
     private String mCalcClass;
     @SerializedName("class")
-    private Long _class;
+    private int _class;
     @SerializedName("faction")
     private Long mFaction;
     @SerializedName("gender")
@@ -62,11 +62,11 @@ public class CharacterPOJO {
         mCalcClass = calcClass;
     }
 
-    public Long get_Class() {
+    public int get_Class() {
         return _class;
     }
 
-    public void setClass(Long _class) {
+    public void setClass(int _class) {
         this._class = _class;
     }
 

@@ -10,8 +10,6 @@ import com.gottmusig.database.service.domain.character.Character;
  */
 public interface SimulationService {
 
-    DPSDifference getDPSDifference();
-
     Character simulateDPS(Character character);
 
 }

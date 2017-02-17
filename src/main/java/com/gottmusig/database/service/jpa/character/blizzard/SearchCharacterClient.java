@@ -1,4 +1,4 @@
-package com.gottmusig.database.service.jpa.blizzard;
+package com.gottmusig.database.service.jpa.character.blizzard;
 
 
 import com.gottmusig.database.service.jpa.character.exception.CharacterNotFoundException;
@@ -10,30 +10,29 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.Closeable;
 import java.io.IOException;
-
+import java.util.Objects;
 
 /**
  * @author leong
  * @since 10.12.2016
  */
-public class RestClient implements Closeable {
+public class SearchCharacterClient implements Closeable {
+
+    private static final String QUERY_PARAMS = "?fields=talents&locale=en_GB&apikey=";
+    private static final String CHARACTER_PATH = "character/";
 
     private final Client client;
-    private String path;
-	private String key;
+    private final String blizzardBasePath;
+	private final String blizzardApiKey;
 
-    public RestClient(String path, String key) {
-        this.path = path;
-		this.key = key;
+    public SearchCharacterClient(String path, String key) {
+        this.blizzardBasePath = Objects.requireNonNull(path);
+		this.blizzardApiKey = Objects.requireNonNull(key);
         client = ClientBuilder.newClient();
     }
 
     /**
      * https://eu.api.battle.net/wow/realm/status?locale=en_GB&apikey=apikey
-     * Example:
-     * public static void main(String[] args) {
-     *    request(https://eu.api.battle.net/wow/realm/status?locale=en_GB&apikey=apikey)
-     * }
      *
      * @param url URL as String
      * @return response
@@ -43,15 +42,10 @@ public class RestClient implements Closeable {
         return target.request(MediaType.APPLICATION_JSON).buildGet().invoke();
     }
 
-    public String searchCharacter(String location, String realm, String characterName) throws CharacterNotFoundException {
-        Response response = request(this.path +
-                "characterpojo/" +
-                realm +
-                "/" +
-                characterName +
-                "?fields=talents&locale=en_GB" +
-                "&apikey=" +
-                this.key);
+    public String searchCharacter(String realm, String characterName) throws CharacterNotFoundException {
+        Response response = request(blizzardBasePath + CHARACTER_PATH
+                                    + realm + "/" + characterName +
+                                    QUERY_PARAMS + blizzardApiKey);
 
         if (response.getStatus() != 200) {
             throw new CharacterNotFoundException("Character not found!");
