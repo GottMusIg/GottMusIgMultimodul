@@ -33,11 +33,11 @@ public class CharacterEntity implements Character {
     @Column(name = "thumbnail_id")
     private String thumbnailId;
 
-    @OneToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "realm_id", referencedColumnName = "id")
     private RealmEntity realm;
 
-    @OneToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "classSpecification_id", referencedColumnName = "id")
     private ClassSpecificationEntity classSpecification;
 

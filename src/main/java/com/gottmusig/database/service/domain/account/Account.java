@@ -3,7 +3,7 @@ package com.gottmusig.database.service.domain.account;
 import com.gottmusig.database.service.domain.Entity;
 import com.gottmusig.database.service.domain.character.Character;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Description
@@ -21,7 +21,7 @@ public interface Account extends Entity {
 
     Character addCharacter(Character character);
 
-    List<Character> getCharacters();
+    Set<Character> getCharacters();
 
     void removeCharacter(Character character);
 }

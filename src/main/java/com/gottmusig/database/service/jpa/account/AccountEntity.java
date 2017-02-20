@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Description
@@ -38,6 +38,11 @@ public class AccountEntity implements Account {
     private String password;
     @Column(name = "name")
     private String userName;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "characteraccountrelation", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id")
+            , inverseJoinColumns = @JoinColumn(name = "character_id", referencedColumnName = "id"))
+    private Set<CharacterEntity> characters;
 
     @Autowired
     public AccountEntity() {
@@ -88,11 +93,10 @@ public class AccountEntity implements Account {
     }
 
     @Override
-    public List<Character> getCharacters() {
-        List<CharacterAccountRelationEntity> relationEntities = accountRelationRepository.findByAccount(this);
-        List<Character> characters = new ArrayList<>();
-        for (CharacterAccountRelationEntity entity : relationEntities) {
-            characters.add(entity.getCharacter());
+    public Set<Character> getCharacters() {
+        Set<Character> characters = new HashSet<>();
+        for (CharacterEntity characterEntity : this.characters) {
+            characters.add(characterEntity);
         }
         return characters;
     }

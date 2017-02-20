@@ -21,7 +21,7 @@ public class ClassSpecificationEntity implements ClassSpecification {
 
     private String name;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "WOWClass_id", referencedColumnName = "id")
     private WOWClassEntity wowClass;
 
