@@ -1,7 +1,7 @@
 package com.gottmusig.database.service.domain.realm;
 
 import com.gottmusig.database.service.domain.Entity;
-import com.gottmusig.database.service.jpa.realm.Location;
+import com.gottmusig.database.service.domain.realm.jpa.Location;
 
 /**
  * @author leong

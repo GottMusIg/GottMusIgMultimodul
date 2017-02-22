@@ -1,6 +1,6 @@
 package com.gottmusig.database.service.domain.account;
 
-import com.gottmusig.database.service.jpa.account.exception.CharacterAlreadyExistsException;
+import com.gottmusig.database.service.domain.account.jpa.exception.CharacterAlreadyExistsException;
 
 import java.util.Optional;
 

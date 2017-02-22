@@ -1,8 +1,8 @@
 package com.gottmusig.database.service.domain.account;
 
 import com.gottmusig.database.service.domain.Entity;
-import com.gottmusig.database.service.jpa.account.AccountEntity;
-import com.gottmusig.database.service.jpa.character.CharacterEntity;
+import com.gottmusig.database.service.domain.account.jpa.AccountEntity;
+import com.gottmusig.database.service.domain.character.jpa.CharacterEntity;
 
 /**
  * Description

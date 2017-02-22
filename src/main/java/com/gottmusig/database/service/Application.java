@@ -23,9 +23,7 @@ public class Application extends SpringApplication {
 
         GottMusIg bean = run.getBean(GottMusIg.class);
         Optional<Character> malahkh = bean.characterService()
-                                          .searchCharacter("Malahkh", bean.realmService()
-                                                                          .getAllRealms()
-                                                                          .get(0));
+                                          .searchCharacter("Demonka", bean.realmService().searchRealm("Blackhand").get());
 
     }
 }

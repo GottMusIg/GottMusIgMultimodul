@@ -1,8 +1,9 @@
 package com.gottmusig.database.service.domain.realm;
 
-import com.gottmusig.database.service.jpa.realm.Location;
+import com.gottmusig.database.service.domain.realm.jpa.Location;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Description
@@ -15,5 +16,7 @@ public interface RealmService {
     List<Realm> getAllRealms();
 
     List<Realm> getAllRealms(Location location);
+
+    Optional<Realm> searchRealm(String realm);
 
 }

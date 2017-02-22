@@ -1,6 +1,6 @@
 package com.gottmusig.database.service.configuration;
 
-import com.gottmusig.database.service.jpa.SpringEntityListener;
+import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.springframework.beans.factory.annotation.Autowired;
