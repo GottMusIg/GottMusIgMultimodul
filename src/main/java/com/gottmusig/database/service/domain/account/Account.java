@@ -19,9 +19,23 @@ public interface Account extends Entity {
     String getPassword();
     void setPassword(String password);
 
+    /**
+     * Add a World of Warcraft Character to an existing Account
+     *
+     * @param character, the character to save to the account
+     * @return the Account with the added character.
+     */
     Character addCharacter(Character character);
 
+    /**
+     *
+     * @return all World of Warcraft characters added to this Account
+     */
     Set<Character> getCharacters();
 
+    /**
+     *
+     * @param character, the World of Warcraft Character to remove from the account
+     */
     void removeCharacter(Character character);
 }

@@ -95,9 +95,7 @@ public class AccountEntity implements Account {
     @Override
     public Set<Character> getCharacters() {
         Set<Character> characters = new HashSet<>();
-        for (CharacterEntity characterEntity : this.characters) {
-            characters.add(characterEntity);
-        }
+        characters.addAll(this.characters);
         return characters;
     }
 
