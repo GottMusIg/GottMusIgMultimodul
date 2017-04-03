@@ -19,7 +19,7 @@ public interface CharacterService {
      * @return the accoount as an optional, if the character is present in either the database or is found via the blizzard
      * api, or an empty optional
      */
-    Optional<Character> searchCharacter(String name, Realm realm);
+    Optional<Character> searchCharacter(String realm, String name);
 
     /**
      *

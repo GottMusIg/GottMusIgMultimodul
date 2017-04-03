@@ -8,6 +8,7 @@ import com.gottmusig.database.service.domain.character.jpa.characterpojo.Charact
 import com.gottmusig.database.service.domain.character.jpa.characterpojo.WOWClassId;
 import com.gottmusig.database.service.domain.character.jpa.exception.CharacterNotFoundException;
 import com.gottmusig.database.service.domain.realm.Realm;
+import com.gottmusig.database.service.domain.realm.jpa.RealmEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +32,14 @@ public class CharacterServiceImpl implements CharacterService {
     @Autowired
     private transient WOWClassEntity.WOWClassRepository wowClassRepository;
 
+    @Autowired
+    private transient RealmEntity.RealmRepository realmRepository;
+
     private final transient Gson gson = new Gson();
 
     @Override
-    public Optional<Character> searchCharacter(String name, Realm realm) {
+    public Optional<Character> searchCharacter(String realmName, String name) {
+        Realm realm = realmRepository.findByName(realmName).get();
         Optional<Character> characterOptional = characterRepository.findByNameAndRealm(name, realm);
         if(characterOptional.isPresent()) {
             return characterOptional;
