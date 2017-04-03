@@ -22,8 +22,6 @@ public class Application extends SpringApplication {
         ConfigurableApplicationContext run = new Application().run(args);
 
         GottMusIg bean = run.getBean(GottMusIg.class);
-        Optional<Character> malahkh = bean.characterService()
-                                          .searchCharacter("Demonka", bean.realmService().searchRealm("Blackhand").get());
 
     }
 }
