@@ -3,12 +3,11 @@ package com.gottmusig.gottmusig.gateway;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
+import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -19,11 +18,10 @@ import com.gottmusig.gottmusig.model.wowhead.Filters;
 import com.gottmusig.gottmusig.model.wowhead.Quality;
 import com.gottmusig.gottmusig.model.wowhead.Slot;
 import com.gottmusig.gottmusig.model.wowhead.WowHead;
-
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 public class WowHeadDatabaseGateway {
 	
 

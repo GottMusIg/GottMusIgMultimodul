@@ -23,4 +23,18 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:META-INF/springconfig/gottmusig-context.xml</param-value>
+	</context-param>
+
+	<!-- Any beans annotated with JAX-RS are automatically loaded (@Path...) -->
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
 </web-app>

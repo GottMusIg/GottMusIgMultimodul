@@ -1,7 +1,6 @@
 package com.gottmusig.gottmusig.model.wowhead;
 
 import com.gottmusig.gottmusig.model.blizzard.WowChar;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

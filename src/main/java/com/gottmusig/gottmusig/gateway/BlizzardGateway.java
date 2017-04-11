@@ -1,27 +1,26 @@
 package com.gottmusig.gottmusig.gateway;
 
 import java.io.IOException;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-
+import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gottmusig.gottmusig.model.blizzard.BlizzardItem;
 import com.gottmusig.gottmusig.model.blizzard.BlizzardParams;
 import com.gottmusig.gottmusig.model.blizzard.WowChar;
-
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Service
 public class BlizzardGateway {
 
 
 	private final ObjectMapper objectMapper;
+
 	
 	public BlizzardGateway(){
 		this.objectMapper = new ObjectMapper(); 
@@ -59,6 +58,7 @@ public class BlizzardGateway {
 				finalUrl+= "/"+value;
 			}
 		}
+		finalUrl += "?apikey="+BlizzardParams.API_KEY.getParam();
 		return finalUrl;
 
 	}

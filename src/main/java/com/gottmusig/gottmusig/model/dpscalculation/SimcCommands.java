@@ -3,7 +3,7 @@ package com.gottmusig.gottmusig.model.dpscalculation;
 public enum SimcCommands {
 
 	COMPARE_ITEMS(
-			"iterations=25"
+			"iterations=500"
 			+ "fight_style=\"Patchwerk\" "
 			+ "max_time=\"300\" "
 			+ "calculate_scale_factors=\"0\" "

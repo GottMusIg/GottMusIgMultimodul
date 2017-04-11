@@ -2,9 +2,6 @@ package com.gottmusig.gottmusig.boundary;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
-
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,21 +10,22 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import com.gottmusig.gottmusig.facade.Control;
-import com.gottmusig.gottmusig.facade.ItemComparison;
 import com.gottmusig.gottmusig.model.blizzard.BlizzardItem;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
-
+import com.gottmusig.gottmusig.facade.ItemComparison;
 import lombok.extern.slf4j.Slf4j;
 
-@Path("/")
+@Component
+@Path("/data")
 @Slf4j
 public class SimCraftDataBoundary {
 
-	@Inject
+	@Autowired
 	private Control control;
-	@Inject
+	@Autowired
 	private ItemComparison itemcomparison;
 
 	/**

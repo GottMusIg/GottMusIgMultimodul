@@ -1,7 +1,6 @@
 package com.gottmusig.gottmusig.boundary;
 
 import java.nio.file.Paths;
-
 import com.github.approval.Approval;
 import com.github.approval.Reporter;
 import com.github.approval.reporters.ExecutableDifferenceReporter;
