@@ -1,14 +1,5 @@
 package com.gottmusig.gottmusig.facade;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gottmusig.gottmusig.gateway.BlizzardGateway;
@@ -20,238 +11,237 @@ import com.gottmusig.gottmusig.model.dpscalculation.Player;
 import com.gottmusig.gottmusig.model.dpscalculation.SimcCommands;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraftInputs;
-import com.gottmusig.gottmusig.model.wowhead.ClassSpec;
-import com.gottmusig.gottmusig.model.wowhead.Classes;
-import com.gottmusig.gottmusig.model.wowhead.Quality;
-import com.gottmusig.gottmusig.model.wowhead.Slot;
-import com.gottmusig.gottmusig.model.wowhead.WowHead;
-import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
+import com.gottmusig.gottmusig.model.wowhead.*;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @NoArgsConstructor
 @Service
 public class ItemComparison {
 
-	@Autowired
-	BlizzardGateway blizzardGateway;
-	@Autowired
-	WowHeadDatabaseGateway wowHeadDatabaseGateway;
-	@Autowired
-	SimCraftExecuter simcExecuter;
+    @Autowired
+    BlizzardGateway blizzardGateway;
+    @Autowired
+    WowHeadDatabaseGateway wowHeadDatabaseGateway;
+    @Autowired
+    SimCraftExecuter simcExecuter;
 
-	public Map<BlizzardItem, Double> getItemRanking(Classes wowClass, ClassSpec spec, int minLvl, int maxLvl, Slot slot,
-			Quality quality) {
+    public Map<BlizzardItem, Double> getItemRanking(Classes wowClass, ClassSpec spec, int minLvl, int maxLvl, Slot slot,
+                                                    Quality quality) {
 
-		List<BlizzardItem> items = getItemsBy(wowClass, minLvl, maxLvl, slot, spec, quality);
-		
-		return null; // noch nicht implementiert
-	}
+        List<BlizzardItem> items = getItemsBy(wowClass, minLvl, maxLvl, slot, spec, quality);
 
-	public Map<BlizzardItem, Double> getItemRankingBy(String region, String realm, String name, String slot, String quality)
-			throws Exception {
+        return null; // noch nicht implementiert
+    }
 
-		List<BlizzardItem> items = getItemsBy(region, realm, name, slot, quality);
+    public Map<BlizzardItem, Double> getItemRankingBy(String region, String realm, String name, String slot, String quality)
+            throws Exception {
 
-		SimulationCraftInputs simcInputs = SimulationCraftInputs.builder() //
-				.region(region) //
-				.server(realm) //
-				.user(name)//
-				.command(SimcCommands.COMPARE_ITEMS.getCommand()) //
-				.build();
+        List<BlizzardItem> items = getItemsBy(region, realm, name, slot, quality);
 
-		simcInputs = addCommandsTo(simcInputs, items, slot);
+        SimulationCraftInputs simcInputs = SimulationCraftInputs.builder() //
+                .region(region) //
+                .server(realm) //
+                .user(name)//
+                .command(SimcCommands.COMPARE_ITEMS.getCommand()) //
+                .build();
 
-		SimulationCraft simulation = startComparison(simcInputs);
-		return evaluateSimcResult(simulation, items);
-	}
+        simcInputs = addCommandsTo(simcInputs, items, slot);
 
-	private List<BlizzardItem> getItemsBy(Classes wowClass, int minLvl, int maxLvl, Slot slot, ClassSpec spec,
-			Quality quality) {
+        SimulationCraft simulation = startComparison(simcInputs);
+        return evaluateSimcResult(simulation, items);
+    }
 
-		WowHead wowHead = null;
-		
-		try {
-			wowHead = wowHeadDatabaseGateway.getItemsFor(wowClass, minLvl, maxLvl, slot, quality);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return getItemsFromBlizz(wowHead);
-	}
+    private List<BlizzardItem> getItemsBy(Classes wowClass, int minLvl, int maxLvl, Slot slot, ClassSpec spec,
+                                          Quality quality) {
 
-	private List<BlizzardItem> getItemsBy(String region, String realm, String name, String slot, String quality) {
+        WowHead wowHead = null;
 
-		List<BlizzardItem> blizzItems = new ArrayList<>();
+        try {
+            wowHead = wowHeadDatabaseGateway.getItemsFor(wowClass, minLvl, maxLvl, slot, quality);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return getItemsFromBlizz(wowHead);
+    }
 
-		log.debug("Trying to get Wow-Char");
-		WowChar wowChar;
-		try {
-			wowChar = blizzardGateway.getCharWith(region, realm, name); 
-			WowHead wowHead = wowHeadDatabaseGateway.getItemsFor(wowChar, Slot.findSlotByName(slot), Quality.valueOf(quality));
-			return getItemsFromBlizz(wowHead);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		log.debug("Found Wow-Char. Trying to get wowHead-Items");
+    private List<BlizzardItem> getItemsBy(String region, String realm, String name, String slot, String quality) {
 
-		return blizzItems;
-	}
+        List<BlizzardItem> blizzItems = new ArrayList<>();
 
-	private List<BlizzardItem> getItemsFromBlizz(WowHead wowHead) {
+        log.debug("Trying to get Wow-Char");
+        WowChar wowChar;
+        try {
+            wowChar = blizzardGateway.getCharWith(region, realm, name);
+            WowHead wowHead = wowHeadDatabaseGateway.getItemsFor(wowChar, Slot.findSlotByName(slot), Quality.valueOf(quality));
+            return getItemsFromBlizz(wowHead);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        log.debug("Found Wow-Char. Trying to get wowHead-Items");
 
-		List<BlizzardItem> blizzItems = new ArrayList<>();
+        return blizzItems;
+    }
 
-		BlizzardItem blizzardItem;
+    private List<BlizzardItem> getItemsFromBlizz(WowHead wowHead) {
 
-		if (wowHead != null) {
+        List<BlizzardItem> blizzItems = new ArrayList<>();
 
-			for (WowHeadItem wowheadItem : wowHead.getItems()) {
+        BlizzardItem blizzardItem;
 
-				try {
-					blizzardItem = blizzardGateway.getItemWithId("" + wowheadItem.getId());
+        if (wowHead != null) {
 
-					if (blizzardItem.getAvailableContexts().isEmpty()) {
-						
-						blizzItems.add(blizzardItem);
-					} else {
-						
-						blizzItems.addAll(getAllItemVersions(blizzardItem));
-					}
+            for (WowHeadItem wowheadItem : wowHead.getItems()) {
 
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+                try {
+                    blizzardItem = blizzardGateway.getItemWithId("" + wowheadItem.getId());
 
-		log.debug("collected " + blizzItems.size());
-		return blizzItems;
-	}
+                    if (blizzardItem.getAvailableContexts().isEmpty()) {
 
-	private List<BlizzardItem> getAllItemVersions(BlizzardItem blizzardItem)
-			throws JsonParseException, JsonMappingException, IOException {
+                        blizzItems.add(blizzardItem);
+                    } else {
 
-		List<BlizzardItem> allVerisons = new ArrayList<>();
+                        blizzItems.addAll(getAllItemVersions(blizzardItem));
+                    }
 
-		for (String context : blizzardItem.getAvailableContexts()) {
-			BlizzardItem item;
-			item = blizzardGateway.getItemWithId("" + blizzardItem.getId(), context);
-			allVerisons.add(item);
-		}
-		return allVerisons;
-	}
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-	private SimulationCraftInputs addCommandsTo(SimulationCraftInputs simcInputs, List<BlizzardItem> items,
-			String slot) throws Exception {
+        log.debug("collected " + blizzItems.size());
+        return blizzItems;
+    }
 
-		String copyCommand = "";
-		String itemCommand = "";
+    private List<BlizzardItem> getAllItemVersions(BlizzardItem blizzardItem)
+            throws JsonParseException, JsonMappingException, IOException {
 
-		for (BlizzardItem blizzItem : removeEqualItems(items)) {
+        List<BlizzardItem> allVerisons = new ArrayList<>();
 
-			copyCommand = createCopyCommand(blizzItem);
-			simcInputs.addCommand(copyCommand);
+        for (String context : blizzardItem.getAvailableContexts()) {
+            BlizzardItem item;
+            item = blizzardGateway.getItemWithId("" + blizzardItem.getId(), context);
+            allVerisons.add(item);
+        }
+        return allVerisons;
+    }
 
-			itemCommand = createItemCommand(slot, blizzItem);
-			simcInputs.addCommand(itemCommand);
-		}
-		return simcInputs;
-	}
+    private SimulationCraftInputs addCommandsTo(SimulationCraftInputs simcInputs, List<BlizzardItem> items,
+                                                String slot) throws Exception {
 
-	private List<BlizzardItem> removeEqualItems(List<BlizzardItem> items) {
-		return null;
-		//return items.parallelStream().distinct().collect(Collectors.toList());
-	}
+        String copyCommand = "";
+        String itemCommand = "";
 
-	private String createCopyCommand(BlizzardItem item) {
-		return SimcCommands.COPY.getCommand() + createProfileName(item) + "\n";
-	}
+        for (BlizzardItem blizzItem : removeEqualItems(items)) {
 
-	private String createProfileName(BlizzardItem item) {
-		String profileName = item.getName() + "_" + item.getContext();
-		return replaceTroublingChars(profileName);
-	}
+            copyCommand = createCopyCommand(blizzItem);
+            simcInputs.addCommand(copyCommand);
 
-	private String replaceTroublingChars(String string) {
-		String replacedString = string;
-		replacedString = replacedString.replaceAll("\\s+", "_");
-		replacedString = replacedString.replaceAll("-", "_");
-		return replacedString;
-	}
+            itemCommand = createItemCommand(slot, blizzItem);
+            simcInputs.addCommand(itemCommand);
+        }
+        return simcInputs;
+    }
 
-	private String createItemCommand(String requestedSlot, BlizzardItem item) throws Exception {
+    private List<BlizzardItem> removeEqualItems(List<BlizzardItem> items) {
+        return items.parallelStream().distinct().collect(Collectors.toList());
+    }
 
-		List<String> simcCommands = Slot.getSimcCommandFor(requestedSlot);
-		String command = "";
+    private String createCopyCommand(BlizzardItem item) {
+        return SimcCommands.COPY.getCommand() + createProfileName(item) + "\n";
+    }
 
-		if (item.getBonusLists() == null || item.getBonusLists().isEmpty()) {
-			command = simcCommands.get(0) + item.getName() + SimcCommands.SEPERATOR.getCommand()
-					+ SimcCommands.ID.getCommand() + item.getId();
+    private String createProfileName(BlizzardItem item) {
+        String profileName = item.getName() + "_" + item.getContext();
+        return replaceTroublingChars(profileName);
+    }
 
-		} else {
-			command = simcCommands.get(0) + item.getName() + SimcCommands.SEPERATOR.getCommand()
-					+ SimcCommands.ID.getCommand() + item.getId() + SimcCommands.SEPERATOR.getCommand()
-					+ SimcCommands.BONUS_ID.getCommand() + item.getBonusLists().get(0);
-		}
-		command = replaceTroublingChars(command);
-		return command + "\n";
-	}
+    private String replaceTroublingChars(String string) {
+        String replacedString = string;
+        replacedString = replacedString.replaceAll("\\s+", "_");
+        replacedString = replacedString.replaceAll("-", "_");
+        return replacedString;
+    }
 
-	private SimulationCraft startComparison(SimulationCraftInputs inputs) {
+    private String createItemCommand(String requestedSlot, BlizzardItem item) throws Exception {
 
-		SimulationCraft simulationCraft = null;
+        List<String> simcCommands = Slot.getSimcCommandFor(requestedSlot);
+        String command = "";
 
-		try {
-			simulationCraft = simcExecuter.execute(inputs);
+        if (item.getBonusLists() == null || item.getBonusLists().isEmpty()) {
+            command = simcCommands.get(0) + item.getName() + SimcCommands.SEPERATOR.getCommand()
+                    + SimcCommands.ID.getCommand() + item.getId();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return simulationCraft;
-	}
+        } else {
+            command = simcCommands.get(0) + item.getName() + SimcCommands.SEPERATOR.getCommand()
+                    + SimcCommands.ID.getCommand() + item.getId() + SimcCommands.SEPERATOR.getCommand()
+                    + SimcCommands.BONUS_ID.getCommand() + item.getBonusLists().get(0);
+        }
+        command = replaceTroublingChars(command);
+        return command + "\n";
+    }
 
-	public Map<BlizzardItem, Double> evaluateSimcResult(SimulationCraft simc, List<BlizzardItem> items) {
+    private SimulationCraft startComparison(SimulationCraftInputs inputs) {
 
-		Map<BlizzardItem, Double> dpsPerItem = new HashMap<BlizzardItem, Double>();
+        SimulationCraft simulationCraft = null;
 
-		// TODO BlizzardItem wird immer ersetzt, da key immer gleich ist ->
-		// eignes nochmal schreiben,
-		// andre equals methode + direkte wowhead infos etc. reinpacken? l
+        try {
+            simulationCraft = simcExecuter.execute(inputs);
 
-		for (Player simulatedItem : simc.getSim().getPlayers()) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return simulationCraft;
+    }
 
-			String simulationName = simulatedItem.getName();
+    public Map<BlizzardItem, Double> evaluateSimcResult(SimulationCraft simc, List<BlizzardItem> items) {
 
-			for (BlizzardItem item : items) {
+        Map<BlizzardItem, Double> dpsPerItem = new HashMap<BlizzardItem, Double>();
 
-				String generatedItemName = createProfileName(item);
-				if (simulationName.equals(generatedItemName)) {
+        // TODO BlizzardItem wird immer ersetzt, da key immer gleich ist ->
+        // eignes nochmal schreiben,
+        // andre equals methode + direkte wowhead infos etc. reinpacken? l
 
-					log.debug(simulationName + "=" + generatedItemName + "?");
+        for (Player simulatedItem : simc.getSim().getPlayers()) {
 
-					dpsPerItem.put(item, simulatedItem.getCollectedData().getDps().getMean());
-				}
+            String simulationName = simulatedItem.getName();
 
-			}
-		}
+            for (BlizzardItem item : items) {
 
-		dpsPerItem = sortMapByDps(dpsPerItem);
+                String generatedItemName = createProfileName(item);
+                if (simulationName.equals(generatedItemName)) {
 
-		log.debug(items.size() + "vs" + dpsPerItem.size());
+                    log.debug(simulationName + "=" + generatedItemName + "?");
 
-		for (Map.Entry<BlizzardItem, Double> itemByDps : dpsPerItem.entrySet()) {
-			log.debug(createProfileName(itemByDps.getKey()) + " --> " + itemByDps.getValue());
-			log.debug("URL for wowhead: " + itemByDps.getKey().getWowHeadToolTipLink());
-		}
-		return dpsPerItem;
-	}
+                    dpsPerItem.put(item, simulatedItem.getCollectedData().getDps().getMean());
+                }
 
-	private Map<BlizzardItem, Double> sortMapByDps(Map<BlizzardItem, Double> map) {
-		return null;
-	//	return map.entrySet().stream().sorted(Map.Entry.comparingByValue())
-	//			.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
-	}
+            }
+        }
+
+        dpsPerItem = sortMapByDps(dpsPerItem);
+
+        log.debug(items.size() + "vs" + dpsPerItem.size());
+
+        for (Map.Entry<BlizzardItem, Double> itemByDps : dpsPerItem.entrySet()) {
+            log.debug(createProfileName(itemByDps.getKey()) + " --> " + itemByDps.getValue());
+            log.debug("URL for wowhead: " + itemByDps.getKey().getWowHeadToolTipLink());
+        }
+        return dpsPerItem;
+    }
+
+    private Map<BlizzardItem, Double> sortMapByDps(Map<BlizzardItem, Double> map) {
+        return map.entrySet().stream().sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+    }
 
 }
