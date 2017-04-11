@@ -3,9 +3,8 @@ package com.gottmusig.gottmusig.facade;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.gottmusig.gottmusig.gateway.BlizzardGateway;
 import com.gottmusig.gottmusig.gateway.SimCraftExecuter;
 import com.gottmusig.gottmusig.gateway.WowHeadDatabaseGateway;
@@ -13,24 +12,25 @@ import com.gottmusig.gottmusig.model.blizzard.BlizzardItem;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraftInputs;
 import com.gottmusig.gottmusig.model.wowhead.Classes;
-import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
 import com.gottmusig.gottmusig.model.wowhead.Quality;
 import com.gottmusig.gottmusig.model.wowhead.Slot;
 import com.gottmusig.gottmusig.model.wowhead.WowHead;
-
+import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @NoArgsConstructor
 @Slf4j
+@Service
 public class Control {
 
-	@Inject
+	@Autowired
 	private SimCraftExecuter simcExecuter;
-	@Inject
+	@Autowired
 	private WowHeadDatabaseGateway wowHeadDatabaseGateway;
-	@Inject
+	@Autowired
 	private BlizzardGateway blizzardGateway;
+
 	private SimulationCraft simulationcraft = null;
 
 	public SimulationCraft getSpecificSimulationCraftData(String region, String server, String user) {

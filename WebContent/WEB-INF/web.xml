@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	id="WebApp_ID" version="3.1">
+		 xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+		 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+		 id="WebApp_ID" version="3.1">
 
 	<display-name>GottMusIg</display-name>
 
@@ -13,7 +13,7 @@
 			<param-name>jersey.config.server.provider.packages</param-name>
 			<param-value>com.gottmusig.gottmusig;com.fasterxml.jackson.jaxrs.json</param-value>
 		</init-param>
-		
+
 		<load-on-startup>1</load-on-startup>
 
 	</servlet>
@@ -22,5 +22,19 @@
 		<servlet-name>GottMusIg</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:META-INF/springconfig/gottmusig-context.xml</param-value>
+	</context-param>
+
+	<!-- Any beans annotated with JAX-RS are automatically loaded (@Path...) -->
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 
 </web-app>

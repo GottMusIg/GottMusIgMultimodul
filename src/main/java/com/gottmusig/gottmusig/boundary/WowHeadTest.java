@@ -1,24 +1,23 @@
 package com.gottmusig.gottmusig.boundary;
 
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import com.gottmusig.gottmusig.facade.Control;
-import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
-
 import lombok.extern.slf4j.Slf4j;
 
+@Component
 @Path("/wowhead/")
 @Slf4j
 public class WowHeadTest {
 
-	@Inject
-	Control control;
+	@Autowired
+	private Control control;
 	
 	@Path("test")
 	@GET

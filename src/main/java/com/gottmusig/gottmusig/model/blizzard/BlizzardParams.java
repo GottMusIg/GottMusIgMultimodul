@@ -2,11 +2,12 @@ package com.gottmusig.gottmusig.model.blizzard;
 
 public enum BlizzardParams {
 	
-	PROTOCOL("http://"),
-	BASE_URL(".battle.net/api/wow"),
+	PROTOCOL("https://"),
+	BASE_URL(".api.battle.net/wow"),
 	DEFAULT_REGION("eu"),
 	ITEM_PARA("item"),
-	CHAR_PARAM("character");
+	CHAR_PARAM("character"),
+	API_KEY("4wcyh4e4m52gg5rs9tquqzjgt4p29ax2");
 	
 	
 	private String param;

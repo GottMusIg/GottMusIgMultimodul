@@ -1,12 +1,9 @@
 package com.gottmusig.gottmusig.boundary;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.util.Arrays;
-
 import com.github.approval.Reporter;
 
 public class AssertEqualsReporter implements Reporter {

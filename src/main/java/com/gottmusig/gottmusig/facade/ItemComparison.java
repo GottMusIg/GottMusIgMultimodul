@@ -7,9 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gottmusig.gottmusig.gateway.BlizzardGateway;
@@ -18,28 +17,28 @@ import com.gottmusig.gottmusig.gateway.WowHeadDatabaseGateway;
 import com.gottmusig.gottmusig.model.blizzard.BlizzardItem;
 import com.gottmusig.gottmusig.model.blizzard.WowChar;
 import com.gottmusig.gottmusig.model.dpscalculation.Player;
-
 import com.gottmusig.gottmusig.model.dpscalculation.SimcCommands;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraftInputs;
-
-import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
 import com.gottmusig.gottmusig.model.wowhead.ClassSpec;
 import com.gottmusig.gottmusig.model.wowhead.Classes;
 import com.gottmusig.gottmusig.model.wowhead.Quality;
 import com.gottmusig.gottmusig.model.wowhead.Slot;
 import com.gottmusig.gottmusig.model.wowhead.WowHead;
-
+import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@NoArgsConstructor
+@Service
 public class ItemComparison {
 
-	@Inject
+	@Autowired
 	BlizzardGateway blizzardGateway;
-	@Inject
+	@Autowired
 	WowHeadDatabaseGateway wowHeadDatabaseGateway;
-	@Inject
+	@Autowired
 	SimCraftExecuter simcExecuter;
 
 	public Map<BlizzardItem, Double> getItemRanking(Classes wowClass, ClassSpec spec, int minLvl, int maxLvl, Slot slot,
@@ -162,7 +161,8 @@ public class ItemComparison {
 	}
 
 	private List<BlizzardItem> removeEqualItems(List<BlizzardItem> items) {
-		return items.parallelStream().distinct().collect(Collectors.toList());
+		return null;
+		//return items.parallelStream().distinct().collect(Collectors.toList());
 	}
 
 	private String createCopyCommand(BlizzardItem item) {
@@ -249,8 +249,9 @@ public class ItemComparison {
 	}
 
 	private Map<BlizzardItem, Double> sortMapByDps(Map<BlizzardItem, Double> map) {
-		return map.entrySet().stream().sorted(Map.Entry.comparingByValue())
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+		return null;
+	//	return map.entrySet().stream().sorted(Map.Entry.comparingByValue())
+	//			.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 	}
 
 }
