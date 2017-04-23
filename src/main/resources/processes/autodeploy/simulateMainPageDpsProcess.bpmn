@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.6.0">
+  <bpmn:collaboration id="Collaboration_0etup0p">
+    <bpmn:participant id="simulateMainPageDpsProcess" name="GottMusIg Simulation" processRef="Process_1" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_1" name="Get MainPage dps simulation">
+      <bpmn:outgoing>SequenceFlow_0s5sk3o</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1i92eg1" default="SequenceFlow_16m1ycf">
+      <bpmn:incoming>SequenceFlow_0vl86og</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ypoy6n</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_16m1ycf</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="checkVersionStep" name="Check for new version" camunda:delegateExpression="${checkVersionDelegate}">
+      <bpmn:incoming>SequenceFlow_0s5sk3o</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0vl86og</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0mort0z">
+      <bpmn:incoming>SequenceFlow_0l90m1h</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1jah74n</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ciskq5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_0efbixi" name="process finished">
+      <bpmn:incoming>SequenceFlow_1ciskq5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0s5sk3o" sourceRef="StartEvent_1" targetRef="checkVersionStep" />
+    <bpmn:sequenceFlow id="SequenceFlow_0vl86og" sourceRef="checkVersionStep" targetRef="ExclusiveGateway_1i92eg1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ypoy6n" name="new version" sourceRef="ExclusiveGateway_1i92eg1" targetRef="simulateClassesStep" />
+    <bpmn:sequenceFlow id="SequenceFlow_16m1ycf" name="not new" sourceRef="ExclusiveGateway_1i92eg1" targetRef="noNewDataCallbackStep" />
+    <bpmn:sequenceFlow id="SequenceFlow_1bsdjsm" sourceRef="simulateClassesStep" targetRef="returnDpsDataStep" />
+    <bpmn:sequenceFlow id="SequenceFlow_0l90m1h" sourceRef="returnDpsDataStep" targetRef="ExclusiveGateway_0mort0z" />
+    <bpmn:sequenceFlow id="SequenceFlow_1jah74n" sourceRef="noNewDataCallbackStep" targetRef="ExclusiveGateway_0mort0z" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ciskq5" sourceRef="ExclusiveGateway_0mort0z" targetRef="EndEvent_0efbixi" />
+    <bpmn:serviceTask id="simulateClassesStep" name="simulate classes" camunda:asyncBefore="true" camunda:delegateExpression="${simulateClassesDps}">
+      <bpmn:incoming>SequenceFlow_0ypoy6n</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1bsdjsm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="returnDpsDataStep" name="Return Dpsdata" camunda:asyncBefore="true" camunda:delegateExpression="${returnDpsDataDelegate}">
+      <bpmn:incoming>SequenceFlow_1bsdjsm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0l90m1h</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="noNewDataCallbackStep" name="No new data callback" camunda:asyncBefore="true" camunda:delegateExpression="${noNewDataDelegate}">
+      <bpmn:incoming>SequenceFlow_16m1ycf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1jah74n</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:textAnnotation id="TextAnnotation_0wsabs9">    <bpmn:text>daten zurückgeben (json, dps + genutzte simc version</bpmn:text>
+</bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_03ny9n4">    <bpmn:text>Asynchrone subprozesse zum simulieren der jeweiligen klasse</bpmn:text>
+</bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0bzi4ib">    <bpmn:text>Anfrage von Leon mit letzer simc version</bpmn:text>
+</bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0u3szdt">    <bpmn:text><![CDATA[Keine neuen Daten -> kann daraufhin die alten aus seiner db ziehen]]></bpmn:text>
+</bpmn:textAnnotation>
+    <bpmn:association id="Association_1kx3h0h" sourceRef="StartEvent_1" targetRef="TextAnnotation_0bzi4ib" />
+    <bpmn:association id="Association_0gv7g23" sourceRef="simulateClassesStep" targetRef="TextAnnotation_03ny9n4" />
+    <bpmn:association id="Association_18ozcg4" sourceRef="returnDpsDataStep" targetRef="TextAnnotation_0wsabs9" />
+    <bpmn:association id="Association_05yufen" sourceRef="noNewDataCallbackStep" targetRef="TextAnnotation_0u3szdt" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0etup0p">
+      <bpmndi:BPMNShape id="Participant_0e37n54_di" bpmnElement="simulateMainPageDpsProcess">
+        <dc:Bounds x="10" y="47" width="1156" height="397" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="63" y="124" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="46" y="160" width="72" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1i92eg1_di" bpmnElement="ExclusiveGateway_1i92eg1" isMarkerVisible="true">
+        <dc:Bounds x="359" y="117" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="384" y="171" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0s5sk3o_di" bpmnElement="SequenceFlow_0s5sk3o">
+        <di:waypoint xsi:type="dc:Point" x="99" y="142" />
+        <di:waypoint xsi:type="dc:Point" x="169" y="142" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="134" y="121" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vl86og_di" bpmnElement="SequenceFlow_0vl86og">
+        <di:waypoint xsi:type="dc:Point" x="269" y="142" />
+        <di:waypoint xsi:type="dc:Point" x="359" y="142" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="314" y="121" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ypoy6n_di" bpmnElement="SequenceFlow_0ypoy6n">
+        <di:waypoint xsi:type="dc:Point" x="384" y="167" />
+        <di:waypoint xsi:type="dc:Point" x="384" y="285" />
+        <di:waypoint xsi:type="dc:Point" x="521" y="285" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="399" y="207" width="59" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0s67f4u_di" bpmnElement="checkVersionStep">
+        <dc:Bounds x="169" y="102" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0efbixi_di" bpmnElement="EndEvent_0efbixi">
+        <dc:Bounds x="1066" y="204" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1044" y="244" width="80" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0mort0z_di" bpmnElement="ExclusiveGateway_0mort0z" isMarkerVisible="true">
+        <dc:Bounds x="946" y="197" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="973" y="251" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ciskq5_di" bpmnElement="SequenceFlow_1ciskq5">
+        <di:waypoint xsi:type="dc:Point" x="996" y="222" />
+        <di:waypoint xsi:type="dc:Point" x="1066" y="222" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1031" y="201" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1bsdjsm_di" bpmnElement="SequenceFlow_1bsdjsm">
+        <di:waypoint xsi:type="dc:Point" x="621" y="285" />
+        <di:waypoint xsi:type="dc:Point" x="767" y="285" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="694" y="270" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0l90m1h_di" bpmnElement="SequenceFlow_0l90m1h">
+        <di:waypoint xsi:type="dc:Point" x="867" y="285" />
+        <di:waypoint xsi:type="dc:Point" x="971" y="285" />
+        <di:waypoint xsi:type="dc:Point" x="971" y="247" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="919" y="270" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0wsabs9_di" bpmnElement="TextAnnotation_0wsabs9">
+        <dc:Bounds x="767" y="377" width="100" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_18ozcg4_di" bpmnElement="Association_18ozcg4">
+        <di:waypoint xsi:type="dc:Point" x="817" y="325" />
+        <di:waypoint xsi:type="dc:Point" x="817" y="377" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_03ny9n4_di" bpmnElement="TextAnnotation_03ny9n4">
+        <dc:Bounds x="521" y="377" width="100" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0gv7g23_di" bpmnElement="Association_0gv7g23">
+        <di:waypoint xsi:type="dc:Point" x="571" y="325" />
+        <di:waypoint xsi:type="dc:Point" x="571" y="377" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0bzi4ib_di" bpmnElement="TextAnnotation_0bzi4ib">
+        <dc:Bounds x="51" y="61" width="100" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1kx3h0h_di" bpmnElement="Association_1kx3h0h">
+        <di:waypoint xsi:type="dc:Point" x="86" y="125" />
+        <di:waypoint xsi:type="dc:Point" x="96" y="91" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0u3szdt_di" bpmnElement="TextAnnotation_0u3szdt">
+        <dc:Bounds x="910" y="77" width="100" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_05yufen_di" bpmnElement="Association_05yufen">
+        <di:waypoint xsi:type="dc:Point" x="867" y="125" />
+        <di:waypoint xsi:type="dc:Point" x="918" y="107" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jah74n_di" bpmnElement="SequenceFlow_1jah74n">
+        <di:waypoint xsi:type="dc:Point" x="867" y="142" />
+        <di:waypoint xsi:type="dc:Point" x="971" y="142" />
+        <di:waypoint xsi:type="dc:Point" x="971" y="197" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="919" y="127" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16m1ycf_di" bpmnElement="SequenceFlow_16m1ycf">
+        <di:waypoint xsi:type="dc:Point" x="409" y="142" />
+        <di:waypoint xsi:type="dc:Point" x="767" y="142" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="569" y="121" width="38" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1u47197_di" bpmnElement="simulateClassesStep">
+        <dc:Bounds x="521" y="245" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1qe26np_di" bpmnElement="returnDpsDataStep">
+        <dc:Bounds x="767" y="245" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_08t0ub4_di" bpmnElement="noNewDataCallbackStep">
+        <dc:Bounds x="767" y="102" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

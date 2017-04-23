@@ -1,11 +1,11 @@
-package com.gottmusig.gottmusig.processes;
+package com.gottmusig.gottmusig.facade.processes.delegates.itemRanking;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestDelegate implements JavaDelegate {
+public class CreateItemDpsRankingDelegate implements JavaDelegate {
 
     @Override public void execute(DelegateExecution execution) throws Exception {
 

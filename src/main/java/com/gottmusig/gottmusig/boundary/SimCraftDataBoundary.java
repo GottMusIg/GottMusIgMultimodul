@@ -19,7 +19,7 @@ import com.gottmusig.gottmusig.facade.ItemComparison;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Path("/data")
+@Path("/simulation")
 @Slf4j
 public class SimCraftDataBoundary {
 

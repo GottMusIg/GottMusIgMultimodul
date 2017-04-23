@@ -1,5 +1,14 @@
 package com.gottmusig.gottmusig.facade;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.gottmusig.gottmusig.gateway.BlizzardGateway;
@@ -11,15 +20,14 @@ import com.gottmusig.gottmusig.model.dpscalculation.Player;
 import com.gottmusig.gottmusig.model.dpscalculation.SimcCommands;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraftInputs;
-import com.gottmusig.gottmusig.model.wowhead.*;
+import com.gottmusig.gottmusig.model.wowhead.ClassSpec;
+import com.gottmusig.gottmusig.model.wowhead.Classes;
+import com.gottmusig.gottmusig.model.wowhead.Quality;
+import com.gottmusig.gottmusig.model.wowhead.Slot;
+import com.gottmusig.gottmusig.model.wowhead.WowHead;
+import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @NoArgsConstructor
