@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import com.gottmusig.gottmusig.model.dpscalculation.Proc;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;
@@ -15,19 +16,17 @@ import com.gottmusig.gottmusig.facade.processes.vars.Message;
 import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Slf4j
 public class CamundaAdapter implements BpeAdapter {
 
     @Autowired
     private RuntimeService runtimeService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(CamundaAdapter.class);
-
     @Nonnull
     @Override
-    public String startItemRankingCalculation(@Nonnull String wowClass, @Nonnull String slot) {
+    public String startItemRankingCalculation(@Nonnull String simcVersion) {
         Map<String, Object> args = new HashMap<>();
-        args.put(ProcessVars.WOW_CLASS, wowClass);
-        args.put(ProcessVars.WOW_ITEM_SLOT, slot);
+        args.put(ProcessVars.SIMC_VERSION, simcVersion);
         return startProcessByMessage(Message.START_ITEM_DPS_RANKING, args);
     }
 
@@ -35,7 +34,7 @@ public class CamundaAdapter implements BpeAdapter {
 
         ProcessInstance processInstance = runtimeService.startProcessInstanceByMessage(message.name(),args);
         String processInstanceId =  processInstance.getProcessInstanceId();
-        LOG.debug(">>>>>>>>>>>>>>> Process was started by message: "+message.name());
+        log.debug(">>>>>>>>>>>>>>> Process was started by message: "+message.name());
         return processInstanceId;
     }
 

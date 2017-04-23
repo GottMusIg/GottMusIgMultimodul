@@ -20,11 +20,7 @@ public final class ProcessVars {
 
     public static final String WOW_HEAD_ITEM_IDs = "wowHeadItemIds";
     public static final String WOW_HEAD_ITEM_ID = "wowHeadItemId";
-    public static final String WOW_CLASS = "wowClass";
-    public static final String WOW_ITEM_SLOT = "wowItemSlot";
-    public static final String WOW_ITEM_QUALITY = "wowItemQuality";
-    public static final String WOW_ITEM_MIN_LVL = "wowItemMinLvl";
-    public static final String WOW_Item_MAX_LVL = "wowItemMaxLvl";
+    public static final String WOW_HEAD_OPTS = "wowHeadOpts";
 
 
 

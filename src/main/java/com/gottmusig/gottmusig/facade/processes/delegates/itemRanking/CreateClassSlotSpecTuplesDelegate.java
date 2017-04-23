@@ -1,7 +1,7 @@
 package com.gottmusig.gottmusig.facade.processes.delegates.itemRanking;
 
 import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
-import com.gottmusig.gottmusig.model.wowhead.ClassSlotSpecTuple;
+import com.gottmusig.gottmusig.model.wowhead.WowHeadOpt;
 import com.gottmusig.gottmusig.model.wowhead.ClassSpec;
 import com.gottmusig.gottmusig.model.wowhead.Classes;
 import com.gottmusig.gottmusig.model.wowhead.Slot;
@@ -22,19 +22,22 @@ public class CreateClassSlotSpecTuplesDelegate implements JavaDelegate{
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
 
-        List<ClassSlotSpecTuple> classSlotSpecTuples = new ArrayList<>();
+        List<WowHeadOpt> wowHeadOpts = new ArrayList<>();
 
         for(Classes clazz : Classes.values()){
 
             for(ClassSpec spec : ClassSpec.getSpecBy(clazz)){
 
                 for(Slot slot : Slot.values()){
-                    classSlotSpecTuples.add(new ClassSlotSpecTuple(clazz,spec,slot));
+                    wowHeadOpts.add(WowHeadOpt.builder() //
+                            .clazz(clazz) //
+                            .spec(spec) //
+                            .slot(slot).build());
                 }
             }
         }
 
-        delegateExecution.setVariable(ProcessVars.CLASS_SLOT_TUPLE_LIST, classSlotSpecTuples);
+        delegateExecution.setVariable(ProcessVars.CLASS_SLOT_TUPLE_LIST, wowHeadOpts);
 
     }
 }

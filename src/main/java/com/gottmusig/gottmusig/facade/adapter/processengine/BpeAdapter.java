@@ -6,6 +6,6 @@ import javax.annotation.Nonnull;
 public interface BpeAdapter {
 
     @Nonnull
-    String startItemRankingCalculation(@Nonnull String wowClass, @Nonnull String slot);
+    String startItemRankingCalculation(@Nonnull String simcVersion);
 
 }
