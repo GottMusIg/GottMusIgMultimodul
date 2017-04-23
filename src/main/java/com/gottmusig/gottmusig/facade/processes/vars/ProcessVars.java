@@ -2,17 +2,22 @@ package com.gottmusig.gottmusig.facade.processes.vars;
 
 public final class ProcessVars {
 
+    //PROCESS IDs
+    public static final String ITEM_RANKING_SIMULATION_ID = "itemSimulationProcess";
 
-    //DPS Simulation Constants
-    public static final String PLAYER_NAME = "playerName";
-    public static final String PLAYER_REALM = "playerRealm";
-    public static final String PLAYER_REGION = "playerRegion";
 
     //COMMON
     public static final String SIMULATIONCRAFT = "simulationCraft";
     public static final String Blizzard_ITEMS = "blizzardItems";
+    public static final String SIMC_VERSION = "simcVersion";
+    public static final String IS_NEW_SIMC_VERSION = "isNewSimcVersion";
 
     //ITEM RANKING
+
+    public static final String CLASS_SLOT_TUPLE_LIST = "classSlotTupleList";
+    public static final String CLASS_SLOT_TUPLE = "classSlotTuple";
+    public static final String SIMULATION_RESULT_LIST = "simulationResultList";
+
     public static final String WOW_HEAD_ITEM_IDs = "wowHeadItemIds";
     public static final String WOW_HEAD_ITEM_ID = "wowHeadItemId";
     public static final String WOW_CLASS = "wowClass";
@@ -20,4 +25,9 @@ public final class ProcessVars {
     public static final String WOW_ITEM_QUALITY = "wowItemQuality";
     public static final String WOW_ITEM_MIN_LVL = "wowItemMinLvl";
     public static final String WOW_Item_MAX_LVL = "wowItemMaxLvl";
+
+
+
+
+
 }

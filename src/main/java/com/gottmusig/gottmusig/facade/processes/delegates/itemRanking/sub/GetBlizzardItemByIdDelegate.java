@@ -1,4 +1,4 @@
-package com.gottmusig.gottmusig.facade.processes.delegates.itemRanking;
+package com.gottmusig.gottmusig.facade.processes.delegates.itemRanking.sub;
 
 import java.util.ArrayList;
 import java.util.List;

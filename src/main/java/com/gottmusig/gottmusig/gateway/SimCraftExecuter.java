@@ -19,9 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 public class SimCraftExecuter {
 
 	// TODO ACHTUNG KEINE LEERZEICHEN IM PFAD -- SIMC IST BEHINDERT
-	private static final String SIMULATION_CRAFT_DIR = "C://Simulationcraft(x64)/715-01/";
-	private static final String SIMULATION_CRAFT_RESULTS_DIR = "C://Softwareengineering/Results";
-	private static final String SIMULATION_CRAFT_PROFILES_DIR = "C://Softwareengineering/Profiles";
+	private static final String ROOT_DIR = "C://Softwareengineering/";
+	private static final String SIMC_VERSION = "720-02";
+	private static final String SIMULATION_CRAFT_DIR = ROOT_DIR + "Simulationcraft/" + SIMC_VERSION;
+	private static final String SIMULATION_CRAFT_RESULTS_DIR = ROOT_DIR + "Results";
+	private static final String SIMULATION_CRAFT_PROFILES_DIR =  ROOT_DIR + "Profiles";
 	private static final String JSON = ".json";
 	private static final String SIMC = ".simc";
 
@@ -122,6 +124,10 @@ public class SimCraftExecuter {
 
 		jsonFile.delete();
 		return simulationcraft;
+	}
+
+	public static String getSimcVersion(){
+		return SIMC_VERSION;
 	}
 
 }

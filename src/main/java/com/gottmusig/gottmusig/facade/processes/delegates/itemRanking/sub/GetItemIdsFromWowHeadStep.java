@@ -1,4 +1,4 @@
-package com.gottmusig.gottmusig.facade.processes.delegates.itemRanking;
+package com.gottmusig.gottmusig.facade.processes.delegates.itemRanking.sub;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

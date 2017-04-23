@@ -6,6 +6,6 @@ import javax.annotation.Nonnull;
 public interface BpeAdapter {
 
     @Nonnull
-    String startPlayerDpsCalculation(@Nonnull String name,@Nonnull String realm, @Nonnull String region);
+    String startItemRankingCalculation(@Nonnull String wowClass, @Nonnull String slot);
 
 }

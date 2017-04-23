@@ -3,6 +3,10 @@ package com.gottmusig.gottmusig.facade.adapter.processengine.impl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
+
+import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
+import com.gottmusig.gottmusig.model.dpscalculation.Proc;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
@@ -14,10 +18,9 @@ import com.gottmusig.gottmusig.facade.adapter.processengine.CamundaSupport;
 import com.gottmusig.gottmusig.facade.processes.exceptions.ProcessExecutionNotFoundException;
 import com.gottmusig.gottmusig.facade.processes.vars.Message;
 
+@Slf4j
 public class CamundaSupportImpl implements CamundaSupport {
 
-
-    private static final Logger LOG = LoggerFactory.getLogger(CamundaSupportImpl.class);
     private static final String FOUND_FOR = ") found for ";
 
     @Autowired
@@ -79,6 +82,18 @@ public class CamundaSupportImpl implements CamundaSupport {
         return task;
     }
 
+    public boolean itemRankingSimulationWasAlreadyStartedFor(String simcVersion){
+        return processExistedAlreadyWith(ProcessVars.SIMC_VERSION, simcVersion, ProcessVars.ITEM_RANKING_SIMULATION_ID);
+    }
+
+    private boolean processExistedAlreadyWith(String varName, String value, String processDefinition){
+
+        if (!(assertProcessIsStillRuningWith(varName, value, processDefinition))){
+            return  assertProcessFinishedWith(varName, value, processDefinition);
+        }
+        return true;
+    }
+
     private boolean assertProcessFinishedWith(String varName, String value, String processDefinition){
 
         List<HistoricProcessInstance> processes = historyService.createHistoricProcessInstanceQuery()
@@ -88,6 +103,13 @@ public class CamundaSupportImpl implements CamundaSupport {
             return false;
         }
         return true;
+    }
+
+    private boolean assertProcessIsStillRuningWith(String varName, String value, String processDefinition){
+
+      return !(runtimeService.createExecutionQuery()
+                        .processDefinitionKey(processDefinition)
+                        .variableValueEquals(varName, value).list().isEmpty());
     }
 
 

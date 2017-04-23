@@ -4,14 +4,14 @@
     <bpmn:participant id="itemRankingProcess" name="GottMusIg Simulation" processRef="Process_1" />
   </bpmn:collaboration>
   <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:serviceTask id="getBlizzardItemByIdStep" name="Get item from blizzard by id" camunda:asyncBefore="true" camunda:delegateExpression="${getBlizzardItemByIdDelegate}">
+    <bpmn:serviceTask id="getBlizzardItemById" name="Get item from blizzard by id" camunda:asyncBefore="true" camunda:delegateExpression="${getBlizzardItemByIdDelegate}">
       <bpmn:incoming>SequenceFlow_0md2bgg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0eqzvt1</bpmn:outgoing>
       <bpmn:multiInstanceLoopCharacteristics camunda:asyncBefore="true" camunda:collection="${WowHeadItemIds}" camunda:elementVariable="wowHeadItemId" />
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1tsabzm" sourceRef="startItemDpsRankingSTEP" targetRef="getItemIdsFromWowHeadStep" />
-    <bpmn:sequenceFlow id="SequenceFlow_0md2bgg" sourceRef="getItemIdsFromWowHeadStep" targetRef="getBlizzardItemByIdStep" />
-    <bpmn:sequenceFlow id="SequenceFlow_0eqzvt1" sourceRef="getBlizzardItemByIdStep" targetRef="simulateItemStep" />
+    <bpmn:sequenceFlow id="SequenceFlow_0md2bgg" sourceRef="getItemIdsFromWowHeadStep" targetRef="getBlizzardItemById" />
+    <bpmn:sequenceFlow id="SequenceFlow_0eqzvt1" sourceRef="getBlizzardItemById" targetRef="simulateItemStep" />
     <bpmn:sequenceFlow id="SequenceFlow_119w1lc" sourceRef="simulateItemStep" targetRef="createItemDpsRankingStep" />
     <bpmn:serviceTask id="getItemIdsFromWowHeadStep" name="Get item ids form wowhead" camunda:asyncBefore="true" camunda:delegateExpression="${getItemIdsFromWowHeadDelegate}">
       <bpmn:incoming>SequenceFlow_1tsabzm</bpmn:incoming>
@@ -26,7 +26,7 @@
       <bpmn:incoming>SequenceFlow_119w1lc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0k1g8mu</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:startEvent id="startItemDpsRankingSTEP" name="get item ranking for class, spec and slot">
+    <bpmn:startEvent id="startItemDpsRankingSTEP" name="get item ranking for class and slot">
       <bpmn:outgoing>SequenceFlow_1tsabzm</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_0rtp56x" />
     </bpmn:startEvent>
@@ -40,7 +40,7 @@
       <bpmndi:BPMNShape id="Participant_1ecwlb3_di" bpmnElement="itemRankingProcess">
         <dc:Bounds x="123" y="61" width="994" height="250" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1exn4n3_di" bpmnElement="getBlizzardItemByIdStep">
+      <bpmndi:BPMNShape id="ServiceTask_1exn4n3_di" bpmnElement="getBlizzardItemById">
         <dc:Bounds x="458" y="138" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1tsabzm_di" bpmnElement="SequenceFlow_1tsabzm">
@@ -72,9 +72,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_0r2oyx6_di" bpmnElement="EndEvent_0r2oyx6">
-        <dc:Bounds x="1017" y="160" width="36" height="36" />
+        <dc:Bounds x="1031" y="160" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="991" y="200" width="88" height="12" />
+          <dc:Bounds x="1005" y="200" width="88" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0f9t65c_di" bpmnElement="getItemIdsFromWowHeadStep">
@@ -85,9 +85,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0k1g8mu_di" bpmnElement="SequenceFlow_0k1g8mu">
         <di:waypoint xsi:type="dc:Point" x="924" y="178" />
-        <di:waypoint xsi:type="dc:Point" x="1017" y="178" />
+        <di:waypoint xsi:type="dc:Point" x="1031" y="178" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="925.5" y="163" width="90" height="0" />
+          <dc:Bounds x="932.5" y="163" width="90" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1st5qqv_di" bpmnElement="createItemDpsRankingStep">
@@ -96,7 +96,7 @@
       <bpmndi:BPMNShape id="StartEvent_1mqdyr3_di" bpmnElement="startItemDpsRankingSTEP">
         <dc:Bounds x="186" y="160" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="166" y="196" width="77" height="36" />
+          <dc:Bounds x="163" y="196" width="83" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
