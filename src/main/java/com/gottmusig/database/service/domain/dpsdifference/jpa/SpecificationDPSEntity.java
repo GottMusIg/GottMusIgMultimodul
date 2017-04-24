@@ -3,6 +3,8 @@ package com.gottmusig.database.service.domain.dpsdifference.jpa;
 import com.gottmusig.database.service.domain.character.jpa.ClassSpecificationEntity;
 import com.gottmusig.database.service.domain.dpsdifference.SpecificationDPS;
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
+import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 
@@ -15,6 +17,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "specificationdps")
+@EntityListeners(SpringEntityListener.class)
 public class SpecificationDPSEntity implements SpecificationDPS {
 
     @EmbeddedId

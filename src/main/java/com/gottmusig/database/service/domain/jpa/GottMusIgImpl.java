@@ -1,5 +1,7 @@
 package com.gottmusig.database.service.domain.jpa;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.gottmusig.database.service.domain.GottMusIg;
 import com.gottmusig.database.service.domain.account.AccountService;
 import com.gottmusig.database.service.domain.character.CharacterService;
@@ -16,23 +18,18 @@ import com.gottmusig.database.service.domain.simulation.SimulationService;
  */
 public class GottMusIgImpl implements GottMusIg {
 
-    private final RealmService realmService;
-    private final ItemService itemService;
-    private final AccountService accountService;
-    private final CharacterService characterService;
-    private final SimulationService simulationService;
-    private final DPSDifferenceService dpsDifferenceService;
-
-    public GottMusIgImpl(RealmService realmService, ItemService itemService, AccountService accountService, CharacterService
-            characterService, SimulationService simulationService, DPSDifferenceService dpsDifferenceService) {
-        this.realmService = realmService;
-        this.itemService = itemService;
-        this.accountService = accountService;
-        this.characterService = characterService;
-        this.simulationService = simulationService;
-        this.dpsDifferenceService = dpsDifferenceService;
-
-    }
+	@Autowired
+    private RealmService realmService;
+	@Autowired
+	private ItemService itemService;
+	@Autowired
+	private AccountService accountService;
+	@Autowired
+	private CharacterService characterService;
+	@Autowired
+	private SimulationService simulationService;
+	@Autowired
+	private DPSDifferenceService dpsDifferenceService;
 
     @Override
     public RealmService realmService() {

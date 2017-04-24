@@ -1,11 +1,19 @@
 package com.gottmusig.database.service.domain.character.jpa;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.springframework.data.repository.CrudRepository;
+
 import com.gottmusig.database.service.domain.character.ClassSpecification;
 import com.gottmusig.database.service.domain.character.WOWClass;
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
-import org.springframework.data.repository.CrudRepository;
-
-import javax.persistence.*;
+import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 
 /**
  * @author leong
@@ -13,6 +21,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "classspecification")
+@EntityListeners(SpringEntityListener.class)
 public class ClassSpecificationEntity implements ClassSpecification {
 
     @EmbeddedId

@@ -1,12 +1,10 @@
 package com.gottmusig.database.service;
 
-import com.gottmusig.database.service.configuration.DatabaseServiceConfiguration;
-import com.gottmusig.database.service.domain.GottMusIg;
-import com.gottmusig.database.service.domain.character.Character;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.Optional;
+import com.gottmusig.database.service.configuration.DatabaseServiceConfiguration;
+import com.gottmusig.database.service.domain.GottMusIg;
 
 /**
  * @author leong
