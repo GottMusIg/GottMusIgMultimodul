@@ -21,5 +21,7 @@ public class Application extends SpringApplication {
 
         GottMusIg bean = run.getBean(GottMusIg.class);
 
+        System.out.println(bean.realmService().getAllRealms().iterator().next());
     }
+    
 }

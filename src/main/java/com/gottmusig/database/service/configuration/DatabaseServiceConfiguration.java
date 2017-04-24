@@ -31,7 +31,7 @@ import com.gottmusig.database.service.domain.simulation.jpa.SimulationServiceImp
  */
 @Configuration
 @Import(JpaConfiguration.class)
-@PropertySource({"classpath:blizzard.properties"})
+@PropertySource({"classpath:/blizzard.properties"})
 public class DatabaseServiceConfiguration {
 
     @Autowired
@@ -39,7 +39,12 @@ public class DatabaseServiceConfiguration {
 
     @Bean
     public GottMusIg gottMusIg() {
-        return new GottMusIgImpl();
+        return new GottMusIgImpl(realmService(),
+        						 itemService(),
+        						 accountService(),
+        						 characterService(),
+        						 simulationService(),
+        						 dpsDifferenceService());
     }
 
     @Bean

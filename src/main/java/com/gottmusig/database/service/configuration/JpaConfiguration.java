@@ -35,7 +35,7 @@ import com.mysql.jdbc.Driver;
 @Configuration
 @EnableJpaRepositories(basePackages = "com.gottmusig", considerNestedRepositories = true)
 @ComponentScan("com.gottmusig")
-@PropertySource({ "classpath:database.properties" })
+@PropertySource({"classpath:/database.properties"})
 public class JpaConfiguration {
 
     @Autowired Environment env;

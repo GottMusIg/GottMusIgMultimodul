@@ -19,8 +19,7 @@ public class DPSDifferenceServiceImpl implements DPSDifferenceService {
 
     private final static transient Sort DPSDIFFERENCE_SORT_ORDER = new Sort(Sort.Direction.DESC, "dps");
 
-    @Autowired
-    private transient SpecificationDPSEntity.SpecificationDPSRepository dpsRepository;
+    @Autowired SpecificationDPSEntity.SpecificationDPSRepository dpsRepository;
 
     @Override
     public List<SpecificationDPS> getDPSDifference() {

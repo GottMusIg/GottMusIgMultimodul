@@ -1,18 +1,21 @@
 package com.gottmusig.database.service.domain.character.jpa;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.google.gson.Gson;
 import com.gottmusig.database.service.domain.character.Character;
 import com.gottmusig.database.service.domain.character.CharacterService;
+import com.gottmusig.database.service.domain.character.jpa.CharacterEntity.CharacterRepository;
+import com.gottmusig.database.service.domain.character.jpa.WOWClassEntity.WOWClassRepository;
 import com.gottmusig.database.service.domain.character.jpa.blizzard.SearchCharacterClient;
 import com.gottmusig.database.service.domain.character.jpa.characterpojo.CharacterPOJO;
 import com.gottmusig.database.service.domain.character.jpa.characterpojo.WOWClassId;
 import com.gottmusig.database.service.domain.character.jpa.exception.CharacterNotFoundException;
 import com.gottmusig.database.service.domain.realm.Realm;
-import com.gottmusig.database.service.domain.realm.jpa.RealmEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import com.gottmusig.database.service.domain.realm.jpa.RealmEntity.RealmRepository;
 
 /**
  * Description
@@ -23,17 +26,10 @@ import java.util.Optional;
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
-    @Autowired
-    private transient SearchCharacterClient searchCharacterClient;
-
-    @Autowired
-    private transient CharacterEntity.CharacterRepository characterRepository;
-
-    @Autowired
-    private transient WOWClassEntity.WOWClassRepository wowClassRepository;
-
-    @Autowired
-    private transient RealmEntity.RealmRepository realmRepository;
+    @Autowired SearchCharacterClient searchCharacterClient;
+    @Autowired CharacterRepository characterRepository;
+    @Autowired WOWClassRepository wowClassRepository;
+    @Autowired RealmRepository realmRepository;
 
     private final transient Gson gson = new Gson();
 
