@@ -1,6 +1,7 @@
 package com.gottmusig.database.service.domain.realm.jpa;
 
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
+import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import com.gottmusig.database.service.domain.realm.Realm;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Table;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +20,7 @@ import java.util.Optional;
  */
 @Entity
 @Table(name = "realm")
+@EntityListeners(SpringEntityListener.class)
 public class RealmEntity implements Realm {
 
     @EmbeddedId

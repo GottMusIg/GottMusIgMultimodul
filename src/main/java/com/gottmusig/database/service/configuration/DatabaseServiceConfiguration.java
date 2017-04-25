@@ -1,5 +1,12 @@
 package com.gottmusig.database.service.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+
 import com.gottmusig.database.service.domain.GottMusIg;
 import com.gottmusig.database.service.domain.account.AccountService;
 import com.gottmusig.database.service.domain.account.jpa.AccountServiceImpl;
@@ -15,12 +22,6 @@ import com.gottmusig.database.service.domain.realm.RealmService;
 import com.gottmusig.database.service.domain.realm.jpa.RealmServiceImpl;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
 import com.gottmusig.database.service.domain.simulation.jpa.SimulationServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 
 /**
  * Description
@@ -30,7 +31,7 @@ import org.springframework.core.env.Environment;
  */
 @Configuration
 @Import(JpaConfiguration.class)
-@PropertySource({"classpath:blizzard.properties"})
+@PropertySource({"classpath:/blizzard.properties"})
 public class DatabaseServiceConfiguration {
 
     @Autowired
@@ -39,11 +40,11 @@ public class DatabaseServiceConfiguration {
     @Bean
     public GottMusIg gottMusIg() {
         return new GottMusIgImpl(realmService(),
-                                 itemService(),
-                                 accountService(),
-                                 characterService(),
-                                 simulationService(),
-                                 dpsDifferenceService());
+        						 itemService(),
+        						 accountService(),
+        						 characterService(),
+        						 simulationService(),
+        						 dpsDifferenceService());
     }
 
     @Bean

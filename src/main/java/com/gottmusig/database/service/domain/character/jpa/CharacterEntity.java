@@ -4,6 +4,7 @@ import com.gottmusig.database.service.domain.character.Character;
 import com.gottmusig.database.service.domain.character.ClassSpecification;
 import com.gottmusig.database.service.domain.character.WOWClass;
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
+import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
 import com.gottmusig.database.service.domain.realm.Realm;
 import com.gottmusig.database.service.domain.realm.jpa.RealmEntity;
 import org.springframework.data.repository.CrudRepository;
@@ -19,6 +20,7 @@ import java.util.Optional;
  */
 @Entity
 @Table(name = "wowcharacter")
+@EntityListeners(SpringEntityListener.class)
 public class CharacterEntity implements Character {
 
     @EmbeddedId

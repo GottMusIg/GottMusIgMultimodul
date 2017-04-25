@@ -1,13 +1,15 @@
 package com.gottmusig.database.service.domain.realm.jpa;
 
-import com.gottmusig.database.service.domain.realm.Realm;
-import com.gottmusig.database.service.domain.realm.RealmService;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.gottmusig.database.service.domain.realm.Realm;
+import com.gottmusig.database.service.domain.realm.RealmService;
+import com.gottmusig.database.service.domain.realm.jpa.RealmEntity.RealmRepository;
 
 /**
  * Description
@@ -18,8 +20,7 @@ import java.util.Optional;
 @Service
 public class RealmServiceImpl implements RealmService {
 
-    @Autowired
-    private RealmEntity.RealmRepository realmRepository;
+    @Autowired RealmRepository realmRepository;
 
     @Override
     public List<Realm> getAllRealms() {

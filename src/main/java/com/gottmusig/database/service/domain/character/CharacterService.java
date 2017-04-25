@@ -1,7 +1,5 @@
 package com.gottmusig.database.service.domain.character;
 
-import com.gottmusig.database.service.domain.realm.Realm;
-
 import java.util.Optional;
 
 /**

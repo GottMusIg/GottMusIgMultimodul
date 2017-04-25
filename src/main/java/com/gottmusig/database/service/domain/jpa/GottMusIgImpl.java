@@ -16,24 +16,27 @@ import com.gottmusig.database.service.domain.simulation.SimulationService;
  */
 public class GottMusIgImpl implements GottMusIg {
 
-    private final RealmService realmService;
-    private final ItemService itemService;
-    private final AccountService accountService;
-    private final CharacterService characterService;
-    private final SimulationService simulationService;
-    private final DPSDifferenceService dpsDifferenceService;
+	private final RealmService realmService;
+	private final ItemService itemService;
+	private final AccountService accountService;
+	private final CharacterService characterService;
+	private final SimulationService simulationService;
+	private final DPSDifferenceService dpsDifferenceService;
 
-    public GottMusIgImpl(RealmService realmService, ItemService itemService, AccountService accountService, CharacterService
-            characterService, SimulationService simulationService, DPSDifferenceService dpsDifferenceService) {
-        this.realmService = realmService;
-        this.itemService = itemService;
-        this.accountService = accountService;
-        this.characterService = characterService;
-        this.simulationService = simulationService;
-        this.dpsDifferenceService = dpsDifferenceService;
-
-    }
-
+	public GottMusIgImpl(RealmService realmService,
+						 ItemService itemService,
+						 AccountService accountService,
+						 CharacterService characterService,
+						 SimulationService simulationService,
+						 DPSDifferenceService dpsDifferenceService) {
+		this.realmService = realmService;
+		this.itemService = itemService;
+		this.accountService = accountService;
+		this.characterService = characterService;
+		this.simulationService = simulationService;
+		this.dpsDifferenceService = dpsDifferenceService;
+	}
+	
     @Override
     public RealmService realmService() {
         return realmService;
