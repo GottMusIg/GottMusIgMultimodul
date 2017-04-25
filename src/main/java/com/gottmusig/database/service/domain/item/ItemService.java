@@ -7,4 +7,7 @@ package com.gottmusig.database.service.domain.item;
  * @since 1.0.0-SNAPSHOT
  */
 public interface ItemService {
+
+
+
 }
