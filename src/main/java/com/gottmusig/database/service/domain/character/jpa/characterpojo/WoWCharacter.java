@@ -1,3 +1,4 @@
+
 package com.gottmusig.database.service.domain.character.jpa.characterpojo;
 
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +8,7 @@ import java.util.List;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class CharacterPOJO {
+public class WoWCharacter {
 
     @SerializedName("achievementPoints")
     private Long mAchievementPoints;
@@ -16,11 +17,13 @@ public class CharacterPOJO {
     @SerializedName("calcClass")
     private String mCalcClass;
     @SerializedName("class")
-    private int _class;
+    private int mClass;
     @SerializedName("faction")
     private Long mFaction;
     @SerializedName("gender")
     private Long mGender;
+    @SerializedName("items")
+    private Items mItems;
     @SerializedName("lastModified")
     private Long mLastModified;
     @SerializedName("level")
@@ -62,12 +65,12 @@ public class CharacterPOJO {
         mCalcClass = calcClass;
     }
 
-    public int get_Class() {
-        return _class;
+    public int getClazz() {
+        return mClass;
     }
 
-    public void setClass(int _class) {
-        this._class = _class;
+    public void setClass(int clazz) {
+        mClass = clazz;
     }
 
     public Long getFaction() {
@@ -84,6 +87,14 @@ public class CharacterPOJO {
 
     public void setGender(Long gender) {
         mGender = gender;
+    }
+
+    public Items getItems() {
+        return mItems;
+    }
+
+    public void setItems(Items items) {
+        mItems = items;
     }
 
     public Long getLastModified() {

@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 public class SearchCharacterClient implements Closeable {
 
-    private static final String QUERY_PARAMS = "?fields=talents&locale=en_GB&apikey=";
+    private static final String QUERY_PARAMS = "?fields=talents,items&locale=en_GB&apikey=";
     private static final String CHARACTER_PATH = "character/";
 
     private final Client client;
