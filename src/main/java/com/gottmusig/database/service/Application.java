@@ -1,10 +1,10 @@
 package com.gottmusig.database.service;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-
 import com.gottmusig.database.service.configuration.DatabaseServiceConfiguration;
 import com.gottmusig.database.service.domain.GottMusIg;
+import com.gottmusig.database.service.domain.character.Character;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author leong
@@ -21,7 +21,8 @@ public class Application extends SpringApplication {
 
         GottMusIg bean = run.getBean(GottMusIg.class);
 
-        System.out.println(bean.realmService().getAllRealms().iterator().next());
+        Character character = bean.characterService().searchCharacter("Blackhand", "Malahkh").get();
+        bean.characterService().saveCharacter(character);
     }
     
 }

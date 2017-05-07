@@ -10,64 +10,53 @@ import javax.annotation.Generated;
 public class TooltipParams {
 
     @SerializedName("enchant")
-    private Long mEnchant;
+    private Long enchant;
     @SerializedName("gem0")
-    private Long mGem0;
+    private Long gem0;
     @SerializedName("gem1")
-    private Long mGem1;
+    private Long gem1;
     @SerializedName("gem2")
-    private Long mGem2;
-    @SerializedName("timewalkerLevel")
-    private Long mTimewalkerLevel;
+    private Long gem2;
     @SerializedName("transmogItem")
-    private Long mTransmogItem;
+    private Long transmogItem;
 
     public Long getEnchant() {
-        return mEnchant;
+        return enchant;
     }
 
     public void setEnchant(Long enchant) {
-        mEnchant = enchant;
+        this.enchant = enchant;
     }
 
     public Long getGem0() {
-        return mGem0;
+        return gem0;
     }
 
     public void setGem0(Long gem0) {
-        mGem0 = gem0;
+        this.gem0 = gem0;
     }
 
     public Long getGem1() {
-        return mGem1;
+        return gem1;
     }
 
     public void setGem1(Long gem1) {
-        mGem1 = gem1;
+        this.gem1 = gem1;
     }
 
     public Long getGem2() {
-        return mGem2;
+        return gem2;
     }
 
     public void setGem2(Long gem2) {
-        mGem2 = gem2;
-    }
-
-    public Long getTimewalkerLevel() {
-        return mTimewalkerLevel;
-    }
-
-    public void setTimewalkerLevel(Long timewalkerLevel) {
-        mTimewalkerLevel = timewalkerLevel;
+        this.gem2 = gem2;
     }
 
     public Long getTransmogItem() {
-        return mTransmogItem;
+        return transmogItem;
     }
 
     public void setTransmogItem(Long transmogItem) {
-        mTransmogItem = transmogItem;
+        this.transmogItem = transmogItem;
     }
-
 }

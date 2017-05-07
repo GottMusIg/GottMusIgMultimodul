@@ -1,18 +1,12 @@
 package com.gottmusig.database.service.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-
 import com.gottmusig.database.service.domain.GottMusIg;
 import com.gottmusig.database.service.domain.account.AccountService;
 import com.gottmusig.database.service.domain.account.jpa.AccountServiceImpl;
 import com.gottmusig.database.service.domain.character.CharacterService;
 import com.gottmusig.database.service.domain.character.jpa.CharacterServiceImpl;
 import com.gottmusig.database.service.domain.character.jpa.blizzard.SearchCharacterClient;
+import com.gottmusig.database.service.domain.character.jpa.characterpojo.CharacterConverter;
 import com.gottmusig.database.service.domain.dpsdifference.DPSDifferenceService;
 import com.gottmusig.database.service.domain.dpsdifference.jpa.DPSDifferenceServiceImpl;
 import com.gottmusig.database.service.domain.item.ItemService;
@@ -22,6 +16,12 @@ import com.gottmusig.database.service.domain.realm.RealmService;
 import com.gottmusig.database.service.domain.realm.jpa.RealmServiceImpl;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
 import com.gottmusig.database.service.domain.simulation.jpa.SimulationServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 /**
  * Description
@@ -80,6 +80,11 @@ public class DatabaseServiceConfiguration {
     @Bean
     public SearchCharacterClient searchCharacterClient() {
         return new SearchCharacterClient(env.getRequiredProperty("api.path"), env.getRequiredProperty("api.key"));
+    }
+
+    @Bean
+    public CharacterConverter characterConverter() {
+        return new CharacterConverter();
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Head {
+public class Head implements GeneralItem {
 
     @SerializedName("appearance")
     private Appearance mAppearance;
@@ -115,11 +115,11 @@ public class Head {
         mIcon = icon;
     }
 
-    public Long getId() {
+    public Long getItemId() {
         return mId;
     }
 
-    public void setId(Long id) {
+    public void setItemId(Long id) {
         mId = id;
     }
 

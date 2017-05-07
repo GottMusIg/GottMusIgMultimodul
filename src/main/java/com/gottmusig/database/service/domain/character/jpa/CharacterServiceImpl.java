@@ -27,9 +27,11 @@ public class CharacterServiceImpl implements CharacterService {
     @Autowired SearchCharacterClient searchCharacterClient;
     @Autowired CharacterRepository characterRepository;
     @Autowired RealmRepository realmRepository;
+    @Autowired CharacterConverter characterConverter;
 
     private final transient Gson gson = new Gson();
-    private final CharacterConverter characterConverter = new CharacterConverter();
+
+
 
     @Override
     public Optional<Character> searchCharacter(String realmName, String name) {
