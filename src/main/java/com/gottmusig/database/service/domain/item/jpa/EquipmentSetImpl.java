@@ -82,22 +82,23 @@ public class EquipmentSetImpl implements EquipmentSet {
 
     private static Item convert(GeneralItem source) {
         ItemEntity itemEntity = new ItemEntity();
-        if (source != null) {
-            itemEntity.setArmor(source.getArmor());
-            itemEntity.setContext(source.getContext());
-            itemEntity.setItemId(source.getItemId());
-            itemEntity.setName(source.getName());
-            itemEntity.setQuality(source.getQuality());
-            itemEntity.setItemLevel(source.getItemLevel());
-            TooltipParamsEntity tooltipParamsEntity = new TooltipParamsEntity();
-            TooltipParams tooltipParams = source.getTooltipParams();
-            tooltipParamsEntity.setEnchant(tooltipParams.getEnchant());
-            tooltipParamsEntity.setGem0(tooltipParams.getGem0());
-            tooltipParamsEntity.setGem1(tooltipParams.getGem1());
-            tooltipParamsEntity.setGem2(tooltipParams.getGem2());
-            tooltipParamsEntity.setTransmogItemId(tooltipParams.getTransmogItem());
-            itemEntity.setTooltipParams(tooltipParamsEntity);
+        if (source == null) {
+            return itemEntity.getUnusedSlot();
         }
+        itemEntity.setArmor(source.getArmor());
+        itemEntity.setContext(source.getContext());
+        itemEntity.setItemId(source.getItemId());
+        itemEntity.setName(source.getName());
+        itemEntity.setQuality(source.getQuality());
+        itemEntity.setItemLevel(source.getItemLevel());
+        TooltipParamsEntity tooltipParamsEntity = new TooltipParamsEntity();
+        TooltipParams tooltipParams = source.getTooltipParams();
+        tooltipParamsEntity.setEnchant(tooltipParams.getEnchant());
+        tooltipParamsEntity.setGem0(tooltipParams.getGem0());
+        tooltipParamsEntity.setGem1(tooltipParams.getGem1());
+        tooltipParamsEntity.setGem2(tooltipParams.getGem2());
+        tooltipParamsEntity.setTransmogItemId(tooltipParams.getTransmogItem());
+        itemEntity.setTooltipParams(tooltipParamsEntity);
 
         return itemEntity;
     }

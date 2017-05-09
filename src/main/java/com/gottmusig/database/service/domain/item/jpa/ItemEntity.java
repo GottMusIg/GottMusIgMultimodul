@@ -44,6 +44,13 @@ public class ItemEntity implements Item {
         this.id = new NumericSequenceId();
     }
 
+    public ItemEntity getUnusedSlot() {
+        this.setItemLevel(0L);
+        this.setItemId(0L);
+        this.setName("unused");
+        return this;
+    }
+
     public NumericSequenceId getId() {
         return id;
     }
