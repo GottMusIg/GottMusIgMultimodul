@@ -94,4 +94,14 @@ public class SimCraftDataBoundary {
 		return Response.status(200).entity(result).build();
 	}
 
+	@Path("camundaTest")
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public Response testCamunda(@QueryParam("simcVersion") String simcVersion){
+
+		String processId = control.startItemComparisonProcess(simcVersion);
+		return Response.ok().entity(processId).build();
+
+	}
+
 }

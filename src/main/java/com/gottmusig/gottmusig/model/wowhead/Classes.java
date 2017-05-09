@@ -1,5 +1,6 @@
 package com.gottmusig.gottmusig.model.wowhead;
 
+import java.io.Serializable;
 import com.gottmusig.gottmusig.model.blizzard.WowChar;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,6 +53,15 @@ public enum Classes {
 	public static Classes findClassByName(String name){
 		for(Classes wowClasse : Classes.values()){
 			if(wowClasse.name().equalsIgnoreCase(name)){
+				return wowClasse;
+			}
+		}
+		return null; //TODO
+	}
+
+	public static Classes findClassById(int id){
+		for(Classes wowClasse : Classes.values()){
+			if(wowClasse.getID() == id){
 				return wowClasse;
 			}
 		}

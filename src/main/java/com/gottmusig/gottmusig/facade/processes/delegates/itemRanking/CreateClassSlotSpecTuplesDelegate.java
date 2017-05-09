@@ -1,6 +1,7 @@
 package com.gottmusig.gottmusig.facade.processes.delegates.itemRanking;
 
 import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
+import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
 import com.gottmusig.gottmusig.model.wowhead.WowHeadOpt;
 import com.gottmusig.gottmusig.model.wowhead.ClassSpec;
 import com.gottmusig.gottmusig.model.wowhead.Classes;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Christoph on 23.04.2017.
@@ -23,6 +25,7 @@ public class CreateClassSlotSpecTuplesDelegate implements JavaDelegate{
     public void execute(DelegateExecution delegateExecution) throws Exception {
 
         List<WowHeadOpt> wowHeadOpts = new ArrayList<>();
+        List<Map<WowHeadItem, Double>> simulationResults = new ArrayList<>();
 
         for(Classes clazz : Classes.values()){
 
@@ -37,7 +40,8 @@ public class CreateClassSlotSpecTuplesDelegate implements JavaDelegate{
             }
         }
 
-        delegateExecution.setVariable(ProcessVars.CLASS_SLOT_TUPLE_LIST, wowHeadOpts);
+        delegateExecution.setVariable(ProcessVars.SIMULATION_RESULT_LIST, simulationResults);
+        delegateExecution.setVariable(ProcessVars.WOW_HEAD_OPTION_LIST, wowHeadOpts);
 
     }
 }

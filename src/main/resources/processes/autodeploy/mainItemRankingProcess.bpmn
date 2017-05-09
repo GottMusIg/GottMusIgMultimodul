@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.7.2">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.6.0">
   <bpmn:collaboration id="Collaboration_0k9yyx6">
-    <bpmn:participant id="itemSimulationProcess" name="GottMusIg SImulation" processRef="Process_1" />
+    <bpmn:participant id="itemSimulationProcess" name="GottMusIg SImulation" processRef="ItemSimulationProcessId" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_1" isExecutable="false">
+  <bpmn:process id="ItemSimulationProcessId" isExecutable="true">
     <bpmn:startEvent id="calculateAllItemRankings" name="calculate all item rankings">
       <bpmn:outgoing>SequenceFlow_045bmtu</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_0tofvs6" />
@@ -20,8 +20,30 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_10gufta" sourceRef="Task_0pwflmq" targetRef="ExclusiveGateway_0ujd47a" />
     <bpmn:sequenceFlow id="SequenceFlow_0o2v9vr" name="items were already simulated for this version" sourceRef="ExclusiveGateway_0ujd47a" targetRef="ExclusiveGateway_17xe4qr" />
-    <bpmn:sequenceFlow id="SequenceFlow_11htgwl" name="new simc version&#10;&#10;" sourceRef="ExclusiveGateway_0ujd47a" targetRef="createClassSlotTuplesStep" />
+    <bpmn:sequenceFlow id="SequenceFlow_11htgwl" name="new simc version&#10;&#10;" sourceRef="ExclusiveGateway_0ujd47a" targetRef="createClassSlotTuplesStep">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${wasAlreadyStartedWithVersion==false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1d6k06d" sourceRef="createClassSlotTuplesStep" targetRef="calculateClassesAndSlots" />
+    <bpmn:sequenceFlow id="SequenceFlow_0yigjol" sourceRef="returnItemRankingDataStep" targetRef="ExclusiveGateway_17xe4qr" />
+    <bpmn:sequenceFlow id="SequenceFlow_0dfvpdc" sourceRef="calculateClassesAndSlots" targetRef="returnItemRankingDataStep" />
+    <bpmn:serviceTask id="createClassSlotTuplesStep" name="Create class/slot tuples" camunda:asyncBefore="true" camunda:delegateExpression="${createClassSlotSpecTuplesDelegate}">
+      <bpmn:incoming>SequenceFlow_11htgwl</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1d6k06d</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="calculateClassesAndSlots" name="calculate classes with slots" calledElement="sub_Item_Ranking_Process">
+      <bpmn:extensionElements>
+        <camunda:in source="wowHeadOption" target="wowHeadOption" />
+        <camunda:in source="simulationResultList" target="simulationResultList" />
+        <camunda:out source="simulationResultList" target="simulationResultList" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1d6k06d</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0dfvpdc</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:asyncBefore="true" camunda:collection="${wowHeadOptionsList}" camunda:elementVariable="wowHeadOption" />
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="returnItemRankingDataStep" name="evaluate and return data" camunda:asyncBefore="true" camunda:delegateExpression="${returnItemRankingDataDelegate}">
+      <bpmn:incoming>SequenceFlow_0dfvpdc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0yigjol</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:exclusiveGateway id="ExclusiveGateway_17xe4qr">
       <bpmn:incoming>SequenceFlow_0o2v9vr</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0yigjol</bpmn:incoming>
@@ -30,38 +52,13 @@
     <bpmn:endEvent id="EndEvent_1wnm3gn">
       <bpmn:incoming>SequenceFlow_013b16c</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="returnItemRankingDataStep" name="return data" camunda:asyncBefore="true" camunda:delegateExpression="${returnItemRankingDataDelegate}">
-      <bpmn:incoming>SequenceFlow_0mx17rj</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0yigjol</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:callActivity id="calculateClassesAndSlots" name="calculate classes with slots" calledElement="itemRankingProcess">
-      <bpmn:extensionElements>
-        <camunda:in source="classSlotTuple" target="classSlotTuple" />
-        <camunda:in source="simulationResultList" target="simulationResultList" />
-        <camunda:out source="simulationResultList" target="simulationResultList" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1d6k06d</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0dfvpdc</bpmn:outgoing>
-      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:asyncBefore="true" camunda:collection="${classSlotTupleList}" camunda:elementVariable="classSlotTuple" />
-    </bpmn:callActivity>
-    <bpmn:serviceTask id="evaluateResultsStep" name="Evaluate results" camunda:asyncBefore="true" camunda:delegateExpression="${evaluateItemSimulationDelegate}">
-      <bpmn:incoming>SequenceFlow_0dfvpdc</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0mx17rj</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0yigjol" sourceRef="returnItemRankingDataStep" targetRef="ExclusiveGateway_17xe4qr" />
     <bpmn:sequenceFlow id="SequenceFlow_013b16c" sourceRef="ExclusiveGateway_17xe4qr" targetRef="EndEvent_1wnm3gn" />
-    <bpmn:sequenceFlow id="SequenceFlow_0mx17rj" sourceRef="evaluateResultsStep" targetRef="returnItemRankingDataStep" />
-    <bpmn:sequenceFlow id="SequenceFlow_0dfvpdc" sourceRef="calculateClassesAndSlots" targetRef="evaluateResultsStep" />
-    <bpmn:serviceTask id="createClassSlotTuplesStep" name="Create class/slot tuples" camunda:asyncBefore="true" camunda:delegateExpression="${CreateClassSlotSpecTuplesDelegate}">
-      <bpmn:incoming>SequenceFlow_11htgwl</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1d6k06d</bpmn:outgoing>
-    </bpmn:serviceTask>
   </bpmn:process>
-  <bpmn:message id="Message_0tofvs6" name="START_ITEM_RANKING_CALCULATION" />
+  <bpmn:message id="Message_0tofvs6" name="START_ITEM_DPS_RANKING" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0k9yyx6">
       <bpmndi:BPMNShape id="Participant_13vefhq_di" bpmnElement="itemSimulationProcess">
-        <dc:Bounds x="123" y="82" width="1379" height="420" />
+        <dc:Bounds x="123" y="82" width="1178" height="420" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_1bx551i_di" bpmnElement="calculateAllItemRankings">
         <dc:Bounds x="183" y="179" width="36" height="36" />
@@ -80,9 +77,9 @@
         <dc:Bounds x="304" y="157" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1wnm3gn_di" bpmnElement="EndEvent_1wnm3gn">
-        <dc:Bounds x="1418" y="253" width="36" height="36" />
+        <dc:Bounds x="1217" y="253" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1436" y="293" width="0" height="12" />
+          <dc:Bounds x="1235" y="293" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0ujd47a_di" bpmnElement="ExclusiveGateway_0ujd47a" isMarkerVisible="true">
@@ -100,10 +97,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0o2v9vr_di" bpmnElement="SequenceFlow_0o2v9vr">
         <di:waypoint xsi:type="dc:Point" x="548" y="197" />
-        <di:waypoint xsi:type="dc:Point" x="1331" y="197" />
-        <di:waypoint xsi:type="dc:Point" x="1331" y="246" />
+        <di:waypoint xsi:type="dc:Point" x="1130" y="197" />
+        <di:waypoint xsi:type="dc:Point" x="1130" y="246" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="970.2946817960698" y="152.0001117975065" width="85" height="36" />
+          <dc:Bounds x="850" y="152" width="88" height="36" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_11htgwl_di" bpmnElement="SequenceFlow_11htgwl">
@@ -114,56 +111,46 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="CallActivity_1ehn4c4_di" bpmnElement="calculateClassesAndSlots">
-        <dc:Bounds x="674" y="315" width="100" height="80" />
+        <dc:Bounds x="726" y="315" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0dfvpdc_di" bpmnElement="SequenceFlow_0dfvpdc">
-        <di:waypoint xsi:type="dc:Point" x="774" y="355" />
-        <di:waypoint xsi:type="dc:Point" x="885" y="355" />
+        <di:waypoint xsi:type="dc:Point" x="826" y="355" />
+        <di:waypoint xsi:type="dc:Point" x="952" y="355" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="829.5" y="334" width="0" height="12" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_166zd7t_di" bpmnElement="evaluateResultsStep">
-        <dc:Bounds x="885" y="315" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0mx17rj_di" bpmnElement="SequenceFlow_0mx17rj">
-        <di:waypoint xsi:type="dc:Point" x="985" y="355" />
-        <di:waypoint xsi:type="dc:Point" x="1082" y="355" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1033.5" y="334" width="0" height="12" />
+          <dc:Bounds x="889" y="340" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_17xe4qr_di" bpmnElement="ExclusiveGateway_17xe4qr" isMarkerVisible="true">
-        <dc:Bounds x="1306.398" y="245.769" width="50" height="50" />
+        <dc:Bounds x="1105" y="246" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1331.398" y="299.769" width="0" height="12" />
+          <dc:Bounds x="1130" y="300" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0yigjol_di" bpmnElement="SequenceFlow_0yigjol">
-        <di:waypoint xsi:type="dc:Point" x="1182" y="355" />
-        <di:waypoint xsi:type="dc:Point" x="1331" y="355" />
-        <di:waypoint xsi:type="dc:Point" x="1331" y="295" />
+        <di:waypoint xsi:type="dc:Point" x="1052" y="355" />
+        <di:waypoint xsi:type="dc:Point" x="1130" y="355" />
+        <di:waypoint xsi:type="dc:Point" x="1130" y="296" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1256.5" y="334" width="0" height="12" />
+          <dc:Bounds x="1091" y="340" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_013b16c_di" bpmnElement="SequenceFlow_013b16c">
-        <di:waypoint xsi:type="dc:Point" x="1356" y="271" />
-        <di:waypoint xsi:type="dc:Point" x="1386" y="271" />
-        <di:waypoint xsi:type="dc:Point" x="1386" y="271" />
-        <di:waypoint xsi:type="dc:Point" x="1418" y="271" />
+        <di:waypoint xsi:type="dc:Point" x="1155" y="271" />
+        <di:waypoint xsi:type="dc:Point" x="1185" y="271" />
+        <di:waypoint xsi:type="dc:Point" x="1185" y="271" />
+        <di:waypoint xsi:type="dc:Point" x="1217" y="271" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1401" y="265" width="0" height="12" />
+          <dc:Bounds x="1200" y="265" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_014vl68_di" bpmnElement="returnItemRankingDataStep">
-        <dc:Bounds x="1082" y="315" width="100" height="80" />
+        <dc:Bounds x="952" y="315" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1d6k06d_di" bpmnElement="SequenceFlow_1d6k06d">
         <di:waypoint xsi:type="dc:Point" x="573" y="355" />
-        <di:waypoint xsi:type="dc:Point" x="674" y="355" />
+        <di:waypoint xsi:type="dc:Point" x="726" y="355" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="623.5" y="334" width="0" height="12" />
+          <dc:Bounds x="650" y="340" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1yjy8td_di" bpmnElement="createClassSlotTuplesStep">

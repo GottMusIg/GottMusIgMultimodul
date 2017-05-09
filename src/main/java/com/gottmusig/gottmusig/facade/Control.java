@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.gottmusig.gottmusig.facade.adapter.processengine.BpeAdapter;
 import com.gottmusig.gottmusig.gateway.BlizzardGateway;
 import com.gottmusig.gottmusig.gateway.SimCraftExecuter;
 import com.gottmusig.gottmusig.gateway.WowHeadDatabaseGateway;
@@ -31,6 +32,9 @@ public class Control {
 	@Autowired
 	private BlizzardGateway blizzardGateway;
 
+	@Autowired
+	private BpeAdapter bpeAdapter;
+
 	private SimulationCraft simulationcraft = null;
 
 	public SimulationCraft getSpecificSimulationCraftData(String region, String server, String user) {
@@ -47,7 +51,7 @@ public class Control {
 			// Test output
 			System.out.println(simulationcraft.getSim().getPlayers().get(0).getName());
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return simulationcraft;
@@ -63,7 +67,11 @@ public class Control {
 		}
 		return "";
 	}
-	
+
+
+	public String startItemComparisonProcess(String simcVersion){
+		return bpeAdapter.startItemRankingCalculation(simcVersion);
+	}
 
 	public List<BlizzardItem> wowHeadTest(String requestedWowClass, String requestedSlot){
 		

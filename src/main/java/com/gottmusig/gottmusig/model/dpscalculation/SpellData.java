@@ -1,6 +1,7 @@
 
 package com.gottmusig.gottmusig.model.dpscalculation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -54,7 +55,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Getter
 @ToString
-public class SpellData {
+public class SpellData implements Serializable {
 
     
     @JsonProperty("category")

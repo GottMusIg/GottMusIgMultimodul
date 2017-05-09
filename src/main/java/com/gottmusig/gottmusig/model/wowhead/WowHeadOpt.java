@@ -1,5 +1,6 @@
 package com.gottmusig.gottmusig.model.wowhead;
 
+import java.io.Serializable;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,7 +9,7 @@ import lombok.Getter;
  */
 @Getter
 @Builder
-public class WowHeadOpt {
+public class WowHeadOpt implements Serializable {
 
     private final Classes clazz;
     private final ClassSpec spec;

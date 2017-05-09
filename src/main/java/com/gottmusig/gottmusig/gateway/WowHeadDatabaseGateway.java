@@ -18,6 +18,7 @@ import com.gottmusig.gottmusig.model.wowhead.Filters;
 import com.gottmusig.gottmusig.model.wowhead.Quality;
 import com.gottmusig.gottmusig.model.wowhead.Slot;
 import com.gottmusig.gottmusig.model.wowhead.WowHead;
+import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -47,13 +48,20 @@ public class WowHeadDatabaseGateway {
 	}
 	
 	public WowHead getItemsFor(Classes wowClass, int minLvl, int maxLvl, Slot slot, Quality quality) throws IOException{
-		
+
 		String requestUrl = buildUrl(wowClass,minLvl, maxLvl, slot, quality);
 		
 		Document wowheadResultPage =  Jsoup.connect(requestUrl).get();
 		String itemsAsJsonString = getJsonItemListString(wowheadResultPage);
 		WowHead wowhead = convertJsonStringToObject(itemsAsJsonString);
 		log.debug("Found: "+wowhead.getItems().size()+ " wowheaditems :)");
+
+		for(WowHeadItem item : wowhead.getItems()){
+			log.info("-------->"+item.getBonuses().toString());
+		}
+
+
+
 		return wowhead;
 	}
 

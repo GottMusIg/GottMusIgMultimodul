@@ -1,6 +1,7 @@
 
 package com.gottmusig.gottmusig.model.dpscalculation;
 
+import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -18,6 +19,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Getter
 @ToString
-public class BaseStats {
+public class BaseStats implements Serializable {
 
 }

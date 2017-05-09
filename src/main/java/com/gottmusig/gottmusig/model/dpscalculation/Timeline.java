@@ -1,6 +1,7 @@
 
 package com.gottmusig.gottmusig.model.dpscalculation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,7 +23,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Getter
 @ToString
-public class Timeline {
+public class Timeline implements Serializable {
 
     
     @JsonProperty("data")

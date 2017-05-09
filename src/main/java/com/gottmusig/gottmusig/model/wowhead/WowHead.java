@@ -1,6 +1,7 @@
 
 package com.gottmusig.gottmusig.model.wowhead;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 })
 
 @Slf4j
-public class WowHead {
+public class WowHead implements Serializable {
 
     @JsonProperty("items")
     private List<WowHeadItem> items = null;
@@ -29,13 +30,6 @@ public class WowHead {
     @JsonProperty("items")
     public List<WowHeadItem> getItems() {
         return items;
-    }
-    
-    private List<WowHeadItem> removeDoubleItems(List<WowHeadItem> originalList){
-    	log.debug("Original item size: "+originalList.size());
-    	List<WowHeadItem> deduped = originalList.stream().distinct().collect(Collectors.toList());
-    	log.debug("New size :"+deduped.size());
-    	return deduped;
     }
 
     @JsonProperty("items")
@@ -51,6 +45,13 @@ public class WowHead {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    private List<WowHeadItem> removeDoubleItems(List<WowHeadItem> originalList){
+        log.debug("Original item size: "+originalList.size());
+        List<WowHeadItem> deduped = originalList.stream().distinct().collect(Collectors.toList());
+        log.debug("New size :"+deduped.size());
+        return deduped;
     }
 
 }

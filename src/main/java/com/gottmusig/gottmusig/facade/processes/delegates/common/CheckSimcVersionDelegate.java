@@ -6,12 +6,14 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by Christoph on 23.04.2017.
  */
 
 @Service
+@Slf4j
 public class CheckSimcVersionDelegate implements JavaDelegate {
 
     @Autowired
@@ -26,6 +28,8 @@ public class CheckSimcVersionDelegate implements JavaDelegate {
         if(camundaSupport.itemRankingSimulationWasAlreadyStartedFor(requestedSimcVersion)){
             versionWasAlreadySimulated = true;
         }
-        execution.setVariable(ProcessVars.IS_NEW_SIMC_VERSION, versionWasAlreadySimulated);
+
+        log.info("CheckSimcVersionDelegate: Version was already simulated:  "+versionWasAlreadySimulated);
+        execution.setVariable(ProcessVars.WAS_ALREADY_STARTED_WITH_WANTED_VERSION, versionWasAlreadySimulated);
     }
 }

@@ -4,6 +4,7 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.context.annotation.Configuration;
 import lombok.extern.slf4j.Slf4j;
 
 @RunAsClient

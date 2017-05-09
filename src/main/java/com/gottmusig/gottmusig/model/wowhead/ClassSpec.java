@@ -70,12 +70,12 @@ public enum ClassSpec {
 	private int id;
 	private Classes clazz;
 
-	private ClassSpec(Classes clazz, int id){
+	ClassSpec(Classes clazz, int id){
 		this.clazz = clazz;
 		this.id = id;
 	}
-	
-	private ClassSpec(Classes wowClass){
+
+	ClassSpec(Classes wowClass){
 		this.id = wowClass.getID();
 	}
 
@@ -98,7 +98,7 @@ public enum ClassSpec {
 		List<ClassSpec> specs = new ArrayList<>();
 
 		for(ClassSpec spec : ClassSpec.values()){
-			if(spec.getClazz().equals(clazz)){
+			if(clazz.equals(spec.getClazz())){
 				specs.add(spec);
 			}
 		}

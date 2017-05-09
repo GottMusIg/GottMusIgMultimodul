@@ -35,11 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ItemComparison {
 
     @Autowired
-    BlizzardGateway blizzardGateway;
+    private BlizzardGateway blizzardGateway;
     @Autowired
-    WowHeadDatabaseGateway wowHeadDatabaseGateway;
+    private WowHeadDatabaseGateway wowHeadDatabaseGateway;
     @Autowired
-    SimCraftExecuter simcExecuter;
+    private SimCraftExecuter simcExecuter;
 
     public Map<BlizzardItem, Double> getItemRanking(Classes wowClass, ClassSpec spec, int minLvl, int maxLvl, Slot slot,
                                                     Quality quality) {

@@ -16,7 +16,7 @@ public enum SimcCommands {
 	ID("id="),
 	BONUS_ID("bonus_id="),
 	ARMORY("armory="),
-	RESULT("json="),
+	RESULT("json2="),
 	SEPERATOR(",");
 	
 	private String command;
