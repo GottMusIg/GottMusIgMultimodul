@@ -2,6 +2,7 @@ import com.gottmusig.database.service.configuration.DatabaseServiceConfiguration
 import com.gottmusig.database.service.domain.GottMusIg;
 import com.gottmusig.database.service.domain.account.AccountService;
 import com.gottmusig.database.service.domain.character.CharacterService;
+import com.gottmusig.database.service.domain.character.jpa.characterpojo.CharacterConverter;
 import com.gottmusig.database.service.domain.dpsdifference.DPSDifferenceService;
 import com.gottmusig.database.service.domain.item.ItemService;
 import com.gottmusig.database.service.domain.realm.RealmService;
@@ -45,9 +46,13 @@ public class DatabaseServiceConfigurationTest {
     @Autowired
     private DPSDifferenceService dpsDifferenceService;
 
+    @Autowired
+    private CharacterConverter characterConverter;
+
 
     @Test
     public void testDatabaseServiceConfiguration() throws Exception {
+
         assertNotNull(characterService);
         assertNotNull(itemService);
         assertNotNull(gottMusIg);
@@ -55,6 +60,8 @@ public class DatabaseServiceConfigurationTest {
         assertNotNull(realmService);
         assertNotNull(accountService);
         assertNotNull(dpsDifferenceService);
+        assertNotNull(characterConverter);
+
     }
 
 }
