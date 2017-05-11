@@ -6,6 +6,8 @@ import com.gottmusig.database.service.domain.character.jpa.characterpojo.Tooltip
 import com.gottmusig.database.service.domain.item.EquipmentSet;
 import com.gottmusig.database.service.domain.item.Item;
 
+import java.util.Optional;
+
 /**
  * @author leong
  * @since 07.05.2017
@@ -85,12 +87,7 @@ public class EquipmentSetImpl implements EquipmentSet {
         if (source == null) {
             return itemEntity.getUnusedSlot();
         }
-        itemEntity.setArmor(source.getArmor());
-        itemEntity.setContext(source.getContext());
         itemEntity.setItemId(source.getItemId());
-        itemEntity.setName(source.getName());
-        itemEntity.setQuality(source.getQuality());
-        itemEntity.setItemLevel(source.getItemLevel());
         TooltipParamsEntity tooltipParamsEntity = new TooltipParamsEntity();
         TooltipParams tooltipParams = source.getTooltipParams();
         tooltipParamsEntity.setEnchant(tooltipParams.getEnchant());
@@ -98,6 +95,19 @@ public class EquipmentSetImpl implements EquipmentSet {
         tooltipParamsEntity.setGem1(tooltipParams.getGem1());
         tooltipParamsEntity.setGem2(tooltipParams.getGem2());
         tooltipParamsEntity.setTransmogItemId(tooltipParams.getTransmogItem());
+
+        //TODO inject Repository here
+        Optional<ItemEntity> itemEntityOptional = itemEntity.searchItem(source.getItemId(), tooltipParamsEntity);
+
+        if (itemEntityOptional.isPresent()) {
+            return itemEntityOptional.get();
+        }
+
+        itemEntity.setArmor(source.getArmor());
+        itemEntity.setContext(source.getContext());
+        itemEntity.setName(source.getName());
+        itemEntity.setQuality(source.getQuality());
+        itemEntity.setItemLevel(source.getItemLevel());
         itemEntity.setTooltipParams(tooltipParamsEntity);
 
         return itemEntity;

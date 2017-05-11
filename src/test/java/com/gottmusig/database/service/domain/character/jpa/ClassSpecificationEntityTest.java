@@ -1,12 +1,7 @@
+package com.gottmusig.database.service.domain.character.jpa;
+
 import com.google.common.base.Splitter;
 import com.gottmusig.database.service.configuration.DatabaseServiceConfiguration;
-import com.gottmusig.database.service.domain.GottMusIg;
-import com.gottmusig.database.service.domain.account.AccountService;
-import com.gottmusig.database.service.domain.character.CharacterService;
-import com.gottmusig.database.service.domain.dpsdifference.DPSDifferenceService;
-import com.gottmusig.database.service.domain.item.ItemService;
-import com.gottmusig.database.service.domain.realm.RealmService;
-import com.gottmusig.database.service.domain.simulation.SimulationService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,18 +20,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
- * Description
- *
- * @author lgottschick
- * @since 1.0.0-SNAPSHOT
+ * @author leong
+ * @since 11.05.2017
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DatabaseServiceConfiguration.class })
 @TestPropertySource("classpath:test-h2-context.properties")
-public class DatabaseServiceConfigurationTest {
+public class ClassSpecificationEntityTest {
 
     @Autowired
     ResourceLoader loader;
@@ -46,32 +40,27 @@ public class DatabaseServiceConfigurationTest {
     EntityManager entityManager;
 
     @Autowired
-    private CharacterService characterService;
+    WOWClassEntity.WOWClassRepository wowClassRepository;
 
     @Autowired
-    private ItemService itemService;
+    ClassSpecificationEntity.ClassSpecificationRepository classSpecificationRepository;
 
-    @Autowired
-    private GottMusIg gottMusIg;
+    public WOWClassEntity wowClassEntity() {
+        WOWClassEntity wowClassEntity = new WOWClassEntity();
+        wowClassEntity.setName("Test");
+        return wowClassEntity;
+    }
 
-    @Autowired
-    private SimulationService simulationService;
-
-    @Autowired
-    private RealmService realmService;
-
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private DPSDifferenceService dpsDifferenceService;
-
+    public ClassSpecificationEntity classSpecificationEntity() {
+        ClassSpecificationEntity entity = new ClassSpecificationEntity();
+        entity.setName("TestSpezifikation");
+        return entity;
+    }
 
     @Before
     public void setUp() throws Exception {
         execute(Files.readAllBytes(loader.getResource("classpath:create_schema.sql").getFile().toPath()));
         execute(Files.readAllBytes(loader.getResource("classpath:create_tables.sql").getFile().toPath()));
-        execute(Files.readAllBytes(loader.getResource("classpath:initialize_tables.sql").getFile().toPath()));
     }
 
     @After
@@ -80,16 +69,33 @@ public class DatabaseServiceConfigurationTest {
     }
 
     @Test
-    public void testDatabaseServiceConfiguration() throws Exception {
+    public void testClassSpecificationInsert() {
+        String expectedName = "TestSpezifikation";
+        ClassSpecificationEntity classSpecificationEntity = classSpecificationEntity();
+        classSpecificationEntity.setWowClass(wowClassRepository.save(wowClassEntity()));
 
-        assertNotNull(characterService);
-        assertNotNull(itemService);
-        assertNotNull(gottMusIg);
-        assertNotNull(simulationService);
-        assertNotNull(realmService);
-        assertNotNull(accountService);
-        assertNotNull(dpsDifferenceService);
+        ClassSpecificationEntity save = classSpecificationRepository.save(classSpecificationEntity);
 
+        assertEquals(expectedName, save.getName());
+        assertEquals("Test", save.getWOWClass().getName());
+
+        classSpecificationRepository.deleteAll();
+        wowClassRepository.deleteAll();
+    }
+
+    @Test
+    public void testClassSpecificationDelete() {
+
+        ClassSpecificationEntity classSpecificationEntity = classSpecificationEntity();
+        classSpecificationEntity.setWowClass(wowClassRepository.save(wowClassEntity()));
+
+        ClassSpecificationEntity save = classSpecificationRepository.save(classSpecificationEntity);
+        classSpecificationRepository.delete(save);
+
+        assertFalse(classSpecificationRepository.findAll().iterator().hasNext());
+
+        classSpecificationRepository.deleteAll();
+        wowClassRepository.deleteAll();
     }
 
     private void execute(byte[] bytes) throws SQLException {
@@ -103,5 +109,6 @@ public class DatabaseServiceConfigurationTest {
             });
         }
     }
+
 
 }

@@ -3,8 +3,11 @@ package com.gottmusig.database.service.domain.item.jpa;
 import com.gottmusig.database.service.domain.item.Item;
 import com.gottmusig.database.service.domain.jpa.NumericSequenceId;
 import com.gottmusig.database.service.domain.jpa.SpringEntityListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 /**
  * @author leong
@@ -14,6 +17,8 @@ import javax.persistence.*;
 @Table( name = "item")
 @EntityListeners(SpringEntityListener.class)
 public class ItemEntity implements Item {
+
+    @Autowired transient ItemRepository itemRepository;
 
     @EmbeddedId
     private NumericSequenceId id;
@@ -44,11 +49,13 @@ public class ItemEntity implements Item {
         this.id = new NumericSequenceId();
     }
 
+    //TODO repository doesnt get initialized
     public ItemEntity getUnusedSlot() {
-        this.setItemLevel(0L);
-        this.setItemId(0L);
-        this.setName("unused");
-        return this;
+        return itemRepository.findByItemId(0L);
+    }
+
+    Optional<ItemEntity> searchItem(Long itemId, TooltipParamsEntity tooltipParams) {
+        return itemRepository.findByItemIdAndTooltipParams(itemId, tooltipParams);
     }
 
     public NumericSequenceId getId() {
@@ -119,5 +126,13 @@ public class ItemEntity implements Item {
 
     public void setContext(String context) {
         this.context = context;
+    }
+
+    public interface ItemRepository extends CrudRepository<ItemEntity, NumericSequenceId> {
+
+        ItemEntity findByItemId(Long itemId);
+
+        Optional<ItemEntity> findByItemIdAndTooltipParams(Long itemId, TooltipParamsEntity tooltipParams);
+
     }
 }

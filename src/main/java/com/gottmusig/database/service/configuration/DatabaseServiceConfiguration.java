@@ -6,7 +6,6 @@ import com.gottmusig.database.service.domain.account.jpa.AccountServiceImpl;
 import com.gottmusig.database.service.domain.character.CharacterService;
 import com.gottmusig.database.service.domain.character.jpa.CharacterServiceImpl;
 import com.gottmusig.database.service.domain.character.jpa.blizzard.SearchCharacterClient;
-import com.gottmusig.database.service.domain.character.jpa.characterpojo.CharacterConverter;
 import com.gottmusig.database.service.domain.dpsdifference.DPSDifferenceService;
 import com.gottmusig.database.service.domain.dpsdifference.jpa.DPSDifferenceServiceImpl;
 import com.gottmusig.database.service.domain.item.ItemService;
@@ -80,11 +79,6 @@ public class DatabaseServiceConfiguration {
     @Bean
     public SearchCharacterClient searchCharacterClient() {
         return new SearchCharacterClient(env.getRequiredProperty("api.path"), env.getRequiredProperty("api.key"));
-    }
-
-    @Bean
-    public CharacterConverter characterConverter() {
-        return new CharacterConverter();
     }
 
 }

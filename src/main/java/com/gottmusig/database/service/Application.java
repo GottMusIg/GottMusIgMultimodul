@@ -2,9 +2,13 @@ package com.gottmusig.database.service;
 
 import com.gottmusig.database.service.configuration.DatabaseServiceConfiguration;
 import com.gottmusig.database.service.domain.GottMusIg;
+import com.gottmusig.database.service.domain.account.Account;
+import com.gottmusig.database.service.domain.account.jpa.AccountEntity;
 import com.gottmusig.database.service.domain.character.Character;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import java.util.Optional;
 
 /**
  * @author leong
@@ -21,8 +25,9 @@ public class Application extends SpringApplication {
 
         GottMusIg bean = run.getBean(GottMusIg.class);
 
-        Character character = bean.characterService().searchCharacter("Blackhand", "Malahkh").get();
-        bean.characterService().saveCharacter(character);
+        AccountEntity accountEntity = new AccountEntity();
+        Optional<Account> leon = bean.accountService().searchAccount("Leon");
+        Character character = bean.characterService().searchCharacter("Blackrock", "Døsenöffner").get();
     }
     
 }

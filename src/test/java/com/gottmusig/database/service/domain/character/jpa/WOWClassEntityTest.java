@@ -1,12 +1,7 @@
+package com.gottmusig.database.service.domain.character.jpa;
+
 import com.google.common.base.Splitter;
 import com.gottmusig.database.service.configuration.DatabaseServiceConfiguration;
-import com.gottmusig.database.service.domain.GottMusIg;
-import com.gottmusig.database.service.domain.account.AccountService;
-import com.gottmusig.database.service.domain.character.CharacterService;
-import com.gottmusig.database.service.domain.dpsdifference.DPSDifferenceService;
-import com.gottmusig.database.service.domain.item.ItemService;
-import com.gottmusig.database.service.domain.realm.RealmService;
-import com.gottmusig.database.service.domain.simulation.SimulationService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,18 +20,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Description
- *
- * @author lgottschick
- * @since 1.0.0-SNAPSHOT
+ * @author leong
+ * @since 11.05.2017
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { DatabaseServiceConfiguration.class })
 @TestPropertySource("classpath:test-h2-context.properties")
-public class DatabaseServiceConfigurationTest {
+public class WOWClassEntityTest {
 
     @Autowired
     ResourceLoader loader;
@@ -46,32 +40,18 @@ public class DatabaseServiceConfigurationTest {
     EntityManager entityManager;
 
     @Autowired
-    private CharacterService characterService;
+    WOWClassEntity.WOWClassRepository wowClassRepository;
 
-    @Autowired
-    private ItemService itemService;
-
-    @Autowired
-    private GottMusIg gottMusIg;
-
-    @Autowired
-    private SimulationService simulationService;
-
-    @Autowired
-    private RealmService realmService;
-
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private DPSDifferenceService dpsDifferenceService;
-
+    public WOWClassEntity wowClassEntity() {
+        WOWClassEntity wowClassEntity = new WOWClassEntity();
+        wowClassEntity.setName("Test");
+        return wowClassEntity;
+    }
 
     @Before
     public void setUp() throws Exception {
         execute(Files.readAllBytes(loader.getResource("classpath:create_schema.sql").getFile().toPath()));
         execute(Files.readAllBytes(loader.getResource("classpath:create_tables.sql").getFile().toPath()));
-        execute(Files.readAllBytes(loader.getResource("classpath:initialize_tables.sql").getFile().toPath()));
     }
 
     @After
@@ -80,16 +60,20 @@ public class DatabaseServiceConfigurationTest {
     }
 
     @Test
-    public void testDatabaseServiceConfiguration() throws Exception {
+    public void testWoWClassRepositoryInsert() {
+        String expectedName = "Test";
+        wowClassRepository.save(wowClassEntity());
+        WOWClassEntity classEntity = wowClassRepository.findByName(expectedName);
 
-        assertNotNull(characterService);
-        assertNotNull(itemService);
-        assertNotNull(gottMusIg);
-        assertNotNull(simulationService);
-        assertNotNull(realmService);
-        assertNotNull(accountService);
-        assertNotNull(dpsDifferenceService);
+        assertEquals(expectedName, classEntity.getName());
+        wowClassRepository.deleteAll();
+    }
 
+    @Test
+    public void testWoWClassRepositoryDeletion() {
+        WOWClassEntity save = wowClassRepository.save(wowClassEntity());
+        wowClassRepository.delete(save);
+        assertTrue(!wowClassRepository.findAll().iterator().hasNext());
     }
 
     private void execute(byte[] bytes) throws SQLException {
