@@ -1,9 +1,19 @@
 package com.gottmusig.gottmusig.model.wowhead;
 
+import static com.gottmusig.gottmusig.model.wowhead.Classes.DEATH_KNIGHT;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.DEMON_HUNTER;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.DRUID;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.HUNTER;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.MAGE;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.MONK;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.PALADIN;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.PRIEST;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.ROGUE;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.SHAMAN;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.WARLOCK;
+import static com.gottmusig.gottmusig.model.wowhead.Classes.WARRIOR;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.gottmusig.gottmusig.model.wowhead.Classes.*;
 
 public enum ClassSpec {
 

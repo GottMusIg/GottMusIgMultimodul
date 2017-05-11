@@ -5,15 +5,11 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.gottmusig.gottmusig.facade.ItemComparison;
 import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
 import com.gottmusig.gottmusig.gateway.SimCraftExecuter;
-import com.gottmusig.gottmusig.model.blizzard.BlizzardItem;
 import com.gottmusig.gottmusig.model.dpscalculation.SimcCommands;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraftInputs;
-import com.gottmusig.gottmusig.model.wowhead.ClassSpec;
-import com.gottmusig.gottmusig.model.wowhead.Classes;
 import com.gottmusig.gottmusig.model.wowhead.Slot;
 import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
 import com.gottmusig.gottmusig.model.wowhead.WowHeadOpt;
@@ -30,12 +26,10 @@ public class SimulateItemDelegate implements JavaDelegate {
         List<WowHeadItem> items = (List<WowHeadItem>) execution.getVariable(ProcessVars.WOW_HEAD_ITEMS);
         WowHeadOpt wowHeadOpt = (WowHeadOpt) execution.getVariable(ProcessVars.WOW_HEAD_OPTION);
 
-        //TODO standartprofil o.ä benutzen falls möglich.
-
         SimulationCraftInputs simcInputs = SimulationCraftInputs.builder() //
                 .clazz(wowHeadOpt.getClazz())
                 .spec(wowHeadOpt.getSpec())
-                .command(SimcCommands.COMPARE_ITEMS.getCommand()) //
+                .commandType(SimcCommands.COMPARE_ITEMS) //
                 .build();
 
         simcInputs = addCommandsTo(simcInputs, items);

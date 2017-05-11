@@ -1,11 +1,11 @@
 package com.gottmusig.gottmusig.facade.processes.delegates.common;
 
-import com.gottmusig.gottmusig.facade.adapter.processengine.impl.CamundaSupportImpl;
-import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.gottmusig.gottmusig.facade.adapter.processengine.impl.CamundaSupportImpl;
+import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
 import lombok.extern.slf4j.Slf4j;
 
 /**

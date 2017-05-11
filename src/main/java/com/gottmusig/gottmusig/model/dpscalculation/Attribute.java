@@ -2,29 +2,36 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
-    "attribute",
-    "value"
+    "strength",
+    "agility",
+    "stamina",
+    "intellect",
+    "spirit"
 })
-@EqualsAndHashCode
 @Getter
-@ToString
-public class Attribute implements Serializable {
+@Setter
+public class Attribute implements Serializable
+{
 
-    @JsonProperty("attribute")
-    private String attribute;
+    @JsonProperty("strength")
+    private Double strength;
+    @JsonProperty("agility")
+    private Double agility;
+    @JsonProperty("stamina")
+    private Double stamina;
+    @JsonProperty("intellect")
+    private Double intellect;
+    @JsonProperty("spirit")
+    private Double spirit;
 
-    @JsonProperty("value")
-    private Double value;
-   
+    private final static long serialVersionUID = 3673984915754824704L;
+
 }

@@ -3,18 +3,13 @@ package com.gottmusig.gottmusig.facade.adapter.processengine.impl;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
-import javax.inject.Inject;
-
-import com.gottmusig.gottmusig.model.dpscalculation.Proc;
-import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.gottmusig.gottmusig.facade.adapter.processengine.BpeAdapter;
 import com.gottmusig.gottmusig.facade.processes.vars.Message;
 import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CamundaAdapter implements BpeAdapter {
@@ -28,6 +23,13 @@ public class CamundaAdapter implements BpeAdapter {
         Map<String, Object> args = new HashMap<>();
         args.put(ProcessVars.SIMC_VERSION, simcVersion);
         return startProcessByMessage(Message.START_ITEM_DPS_RANKING, args);
+    }
+
+    @Nonnull
+    @Override public String startMainPageDpsSimulation(@Nonnull String simcVersion) {
+        Map<String, Object> args = new HashMap<>();
+        args.put(ProcessVars.SIMC_VERSION, simcVersion);
+        return startProcessByMessage(Message.START_MAIN_PAGE_DPS_SIMULATION, args);
     }
 
     private String startProcessByMessage(@Nonnull  Message message,@Nonnull Map<String, Object> args){

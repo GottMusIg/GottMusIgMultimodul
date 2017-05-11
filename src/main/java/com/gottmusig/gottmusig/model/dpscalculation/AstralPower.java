@@ -2,41 +2,38 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
-    "count",
-    "max",
     "mean",
+    "mean_std_dev",
     "min",
-    "sum"
+    "max",
+    "data"
 })
-@EqualsAndHashCode
 @Getter
-@ToString
-public class AstralPower implements Serializable {
-
-    @JsonProperty("count")
-    private Double count;
-
-    @JsonProperty("max")
-    private Double max;
+@Setter
+public class AstralPower implements Serializable
+{
 
     @JsonProperty("mean")
     private Double mean;
-
+    @JsonProperty("mean_std_dev")
+    private Double meanStdDev;
     @JsonProperty("min")
     private Double min;
+    @JsonProperty("max")
+    private Double max;
+    @JsonProperty("data")
+    private List<Double> data = new ArrayList<Double>();
 
-    @JsonProperty("sum")
-    private Double sum;
-   
+    private final static long serialVersionUID = 3727110546969054556L;
+
 }

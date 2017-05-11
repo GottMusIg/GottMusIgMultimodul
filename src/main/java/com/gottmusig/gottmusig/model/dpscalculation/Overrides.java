@@ -2,40 +2,35 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
-@JsonIgnoreProperties(ignoreUnknown = true)
+import lombok.Setter;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+    "mortal_wounds",
     "bleeding",
     "bloodlust",
-    "mortal_wounds",
-    "target_health"
+    "bloodlust_percent",
+    "bloodlust_time"
 })
-
-@EqualsAndHashCode
 @Getter
-@ToString
-public class Overrides implements Serializable {
+@Setter
+public class Overrides implements Serializable
+{
 
-    
-    @JsonProperty("bleeding")
-    private Double bleeding;
-    
-    @JsonProperty("bloodlust")
-    private Double bloodlust;
-    
     @JsonProperty("mortal_wounds")
-    private Double mortalWounds;
-    
-    @JsonProperty("target_health")
-    private List<Object> targetHealth = new ArrayList<Object>();
- 
+    private Integer mortalWounds;
+    @JsonProperty("bleeding")
+    private Integer bleeding;
+    @JsonProperty("bloodlust")
+    private Integer bloodlust;
+    @JsonProperty("bloodlust_percent")
+    private Integer bloodlustPercent;
+    @JsonProperty("bloodlust_time")
+    private Double bloodlustTime;
+    private final static long serialVersionUID = -5213963085009840499L;
+
 }

@@ -2,34 +2,26 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
-@JsonIgnoreProperties(ignoreUnknown = true)
+import lombok.Setter;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "charges",
-    "duration",
-    "name"
+    "name",
+    "duration"
 })
-
-@EqualsAndHashCode
 @Getter
-@ToString
-public class Cooldown implements Serializable {
+@Setter
+public class Cooldown implements Serializable
+{
 
-    
-    @JsonProperty("charges")
-    private Double charges;
-    
-    @JsonProperty("duration")
-    private Double duration;
-    
     @JsonProperty("name")
     private String name;
- 
+    @JsonProperty("duration")
+    private Double duration;
+    private final static long serialVersionUID = -1666414231445769355L;
+
 }

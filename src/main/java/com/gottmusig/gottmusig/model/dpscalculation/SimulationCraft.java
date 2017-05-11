@@ -2,47 +2,41 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
-@JsonIgnoreProperties(ignoreUnknown = true)
+import lombok.Setter;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
+    "version",
+    "ptr_enabled",
     "beta_enabled",
     "build_date",
     "build_time",
-    "ptr_enabled",
-    "sim",
-    "version"
+    "git_revision",
+    "sim"
 })
-
-@EqualsAndHashCode
 @Getter
-@ToString
-public class SimulationCraft implements Serializable {
+@Setter
+public class SimulationCraft implements Serializable
+{
 
-    
-    @JsonProperty("beta_enabled")
-    private Double betaEnabled;
-    
-    @JsonProperty("build_date")
-    private String buildDate;
-    
-    @JsonProperty("build_time")
-    private String buildTime;
-    
-    @JsonProperty("ptr_enabled")
-    private Double ptrEnabled;
-    
-    @JsonProperty("sim")
-    private Sim sim;
-    
     @JsonProperty("version")
     private String version;
-  
+    @JsonProperty("ptr_enabled")
+    private Integer ptrEnabled;
+    @JsonProperty("beta_enabled")
+    private Integer betaEnabled;
+    @JsonProperty("build_date")
+    private String buildDate;
+    @JsonProperty("build_time")
+    private String buildTime;
+    @JsonProperty("git_revision")
+    private String gitRevision;
+    @JsonProperty("sim")
+    private Sim sim;
+    private final static long serialVersionUID = 8833734967808221722L;
 
 }

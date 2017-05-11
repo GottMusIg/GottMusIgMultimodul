@@ -1,18 +1,17 @@
 package com.gottmusig.gottmusig.facade.processes.delegates.itemRanking;
 
-import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
-import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
-import com.gottmusig.gottmusig.model.wowhead.WowHeadOpt;
-import com.gottmusig.gottmusig.model.wowhead.ClassSpec;
-import com.gottmusig.gottmusig.model.wowhead.Classes;
-import com.gottmusig.gottmusig.model.wowhead.Slot;
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.stereotype.Service;
+import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
+import com.gottmusig.gottmusig.model.wowhead.ClassSpec;
+import com.gottmusig.gottmusig.model.wowhead.Classes;
+import com.gottmusig.gottmusig.model.wowhead.Slot;
+import com.gottmusig.gottmusig.model.wowhead.WowHeadItem;
+import com.gottmusig.gottmusig.model.wowhead.WowHeadOpt;
 
 /**
  * Created by Christoph on 23.04.2017.

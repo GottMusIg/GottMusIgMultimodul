@@ -2,7 +2,6 @@ package com.gottmusig.gottmusig.gateway;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -31,6 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 
     private static final String SIMULATION_CRAFT_PROFILES_DIR = ROOT_DIR + "Profiles";
 
+    private static final String MYTHIC = "M";
+
+    private static final String RAID = "Raid";
+
     private static final String JSON = ".json";
 
     private static final String SIMC = ".simc";
@@ -46,56 +49,48 @@ import lombok.extern.slf4j.Slf4j;
         File simcraftResultDir = new File(dirPath);
         if (!simcraftResultDir.exists()) {
             simcraftResultDir.mkdir();
-            System.out.println(simcraftResultDir.getAbsolutePath());
         }
     }
 
     public SimulationCraft execute(SimulationCraftInputs inputs) throws Exception {
 
-        File jsonResult = createNewJsonFile();
-        SimulationCraft simulationcraft = null;
-        File simcProfile = createNewSimcProfile();
-        String simcProfileString = "";
+        File jsonResult = createFile(SIMULATION_CRAFT_RESULTS_DIR, JSON);
+        File simcProfile = createFile(SIMULATION_CRAFT_PROFILES_DIR, SIMC);
 
-        if (inputs.simulateWithGeneratedClass()) {
+        SimulationCraft simulationcraft = null;
+        String simcExecutionString = "";
+
+        if (inputs.simulateAndCompareItems()) {
 
             File standartProfile = getMatchingProfileFile(inputs.getClazz(), inputs.getSpec());
-            simcProfileString = "\"" + standartProfile.getAbsolutePath() + "\" " + inputs.getCommand() + " " + SimcCommands.RESULT
+            simcExecutionString = "\"" + standartProfile.getAbsolutePath() + "\" " + inputs.getCommandString() + " " + SimcCommands.RESULT
                     .getCommand() + jsonResult.getAbsolutePath();
 
         } else {
-            simcProfileString =
-                    SimcCommands.ARMORY.getCommand() + "\"" + inputs.getRegion() + "," + inputs.getServer() + "," + inputs
-                            .getUser() + "\" " + inputs.getCommand() + " " + SimcCommands.RESULT.getCommand() + jsonResult
-                            .getAbsolutePath();
 
+            if(inputs.simulatePlayer()){
+                simcExecutionString =
+                        SimcCommands.ARMORY.getCommand() + "\"" + inputs.getRegion() + "," + inputs.getServer() + "," + inputs
+                                .getUser() + "\" " + inputs.getCommandString() + " " + SimcCommands.RESULT.getCommand() + jsonResult
+                                .getAbsolutePath();
+            } else {
+
+                File raidFile = getRaidFile();
+                simcExecutionString = "\"" + raidFile.getAbsolutePath() + "\" iterations=100 " + SimcCommands.RESULT
+                        .getCommand() + jsonResult.getAbsolutePath();
+            }
         }
 
-        Files.write(simcProfile.toPath(), simcProfileString.getBytes());
+        Files.write(simcProfile.toPath(), simcExecutionString.getBytes());
 
         String command = "simc.exe input=\"" + simcProfile.getAbsolutePath() + "\"";
-        log.debug("SimcCommand: " + command);
         ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", command);
 
         simulationcraft = getSimulationCraftData(builder, jsonResult);
 
         simcProfile.delete();
+        jsonResult.delete();
         return simulationcraft;
-    }
-
-    public SimulationCraft execute(String inputfile) throws IOException {
-
-        File simFile = new File(SIMULATION_CRAFT_DIR + "/profiles/" + inputfile);
-        System.out.println(simFile.getAbsolutePath());
-        if (simFile.exists()) {
-            File jsonResult = createNewJsonFile();
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c",
-                    "simc.exe input=" + simFile.getAbsolutePath() + " json=" + jsonResult.getAbsolutePath());
-
-            return getSimulationCraftData(builder, jsonResult);
-        } else {
-            throw new FileNotFoundException();
-        }
     }
 
     private SimulationCraft getSimulationCraftData(ProcessBuilder builder, File jsonResult) throws IOException {
@@ -116,22 +111,11 @@ import lombok.extern.slf4j.Slf4j;
         return unmarshallJson(jsonResult);
     }
 
-    private File createNewSimcProfile() throws IOException {
+    private File createFile(String location, String type) throws IOException {
         UUID uuid = UUID.randomUUID();
-
-        File result = new File(SIMULATION_CRAFT_PROFILES_DIR + "/" + uuid.toString() + SIMC);
-        System.out.println(result.getAbsolutePath());
-        result.createNewFile();
-        return result;
-    }
-
-    private File createNewJsonFile() throws IOException {
-        UUID uuid = UUID.randomUUID();
-
-        File result = new File(SIMULATION_CRAFT_RESULTS_DIR + "/" + uuid.toString() + JSON);
-        System.out.println(result.getAbsolutePath());
-        result.createNewFile();
-        return result;
+        File file = new File(location+"/"+uuid.toString()+type);
+        file.createNewFile();
+        return file;
     }
 
     private SimulationCraft unmarshallJson(File jsonFile) {
@@ -142,13 +126,27 @@ import lombok.extern.slf4j.Slf4j;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        jsonFile.delete();
         return simulationcraft;
     }
 
-    public static String getSimcVersion() {
-        return SIMC_VERSION;
+    private File getRaidFile() throws Exception {
+
+        File[] files = new File(SIMULATION_CRAFT_STANDARD_PROFILES_DIR).listFiles();
+
+        for (File file : files) {
+            if (file.isDirectory() && file.getName().contains(MYTHIC)) {
+
+                for (File profile : file.listFiles()) {
+
+                    String fileName = profile.getName().toLowerCase();
+
+                    if (fileName.startsWith(RAID.toLowerCase()) && fileName.contains(MYTHIC.toLowerCase())) {
+                        return profile;
+                    }
+                }
+            }
+        }
+        throw new Exception("TODO");
     }
 
     private File getMatchingProfileFile(Classes clazz, ClassSpec spec) throws Exception {
@@ -156,7 +154,7 @@ import lombok.extern.slf4j.Slf4j;
         File[] files = new File(SIMULATION_CRAFT_STANDARD_PROFILES_DIR).listFiles();
 
         for (File file : files) {
-            if (file.isDirectory() && file.getName().contains("M")) {
+            if (file.isDirectory() && file.getName().contains(MYTHIC)) {
 
                 for (File profile : file.listFiles()) {
 

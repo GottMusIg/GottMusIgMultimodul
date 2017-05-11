@@ -3,20 +3,16 @@ package com.gottmusig.gottmusig.facade.adapter.processengine.impl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
-
-import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
-import com.gottmusig.gottmusig.model.dpscalculation.Proc;
-import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.runtime.Execution;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.gottmusig.gottmusig.facade.adapter.processengine.CamundaSupport;
 import com.gottmusig.gottmusig.facade.processes.exceptions.ProcessExecutionNotFoundException;
 import com.gottmusig.gottmusig.facade.processes.vars.Message;
+import com.gottmusig.gottmusig.facade.processes.vars.ProcessVars;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CamundaSupportImpl implements CamundaSupport {

@@ -12,17 +12,37 @@ public class SimulationCraftInputs {
 	private String region;
 	private String server;
 	private String user;
-	private String command;
+	private SimcCommands commandType;
+	private String commandString;
 
 	private Classes clazz;
 	private ClassSpec spec;
 
 	public void addCommand(String command){
-		this.command+=" "+command;
+		this.commandString+=" "+command;
 	}
 
-	public boolean simulateWithGeneratedClass(){
-		if(clazz != null && spec != null){
+
+	public String getCommandString(){
+		return commandType.getCommand() + " " +  commandString;
+	}
+
+	public boolean simulateActualRaid(){
+		if(commandType.equals(SimcCommands.SIMULATE_RAID)){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean simulateAndCompareItems(){
+		if(commandType.equals(SimcCommands.COMPARE_ITEMS)){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean simulatePlayer(){
+		if(commandType.equals(SimcCommands.SIMULATE_PLAYER)){
 			return true;
 		}
 		return false;

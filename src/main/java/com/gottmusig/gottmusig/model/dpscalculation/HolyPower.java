@@ -2,42 +2,50 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
-@JsonIgnoreProperties(ignoreUnknown = true)
+import lombok.Setter;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "count",
-    "max",
-    "mean",
-    "min",
-    "sum"
+
+        "min",
+        "max",
+        "mean",
+        "mean_std_dev",
+        "sum",
+        "actual",
+        "overflow",
+        "count",
+        "data"
 })
-
-@EqualsAndHashCode
 @Getter
-@ToString
-public class HolyPower implements Serializable {
+@Setter
+public class HolyPower implements Serializable
+{
 
-    
-    @JsonProperty("count")
-    private Double count;
-    
-    @JsonProperty("max")
-    private Double max;
-    
-    @JsonProperty("mean")
-    private Double mean;
-    
+    @JsonProperty("mean_std_dev")
+    private Double meanStdDev;
     @JsonProperty("min")
     private Double min;
-    
+    @JsonProperty("max")
+    private Double max;
+    @JsonProperty("data")
+    private List<Double> data = new ArrayList<Double>();
     @JsonProperty("sum")
     private Double sum;
+    @JsonProperty("mean")
+    private Double mean;
+    @JsonProperty("actual")
+    private Double actual;
+    @JsonProperty("overflow")
+    private Double overflow;
+    @JsonProperty("count")
+    private Double count;
+
 
 }
