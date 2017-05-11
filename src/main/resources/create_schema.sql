@@ -1,3 +1,3 @@
-CREATE SCHEMA 'dpsdifference';
+CREATE SCHEMA `gmidb`;
 
-USE 'dpsdifference';
+USE `gmidb`;
