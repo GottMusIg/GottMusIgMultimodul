@@ -2,6 +2,8 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "version",
     "ptr_enabled",
@@ -19,7 +22,6 @@ import lombok.Setter;
     "sim"
 })
 @Getter
-@Setter
 public class SimulationCraft implements Serializable
 {
 

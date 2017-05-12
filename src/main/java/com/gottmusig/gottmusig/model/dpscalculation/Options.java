@@ -2,6 +2,7 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "debug",
     "max_time",
@@ -61,7 +63,6 @@ import lombok.Setter;
     "dbc"
 })
 @Getter
-@Setter
 public class Options implements Serializable
 {
 
@@ -80,7 +81,7 @@ public class Options implements Serializable
     @JsonProperty("threads")
     private Integer threads;
     @JsonProperty("seed")
-    private Integer seed;
+    private Double seed;
     @JsonProperty("single_actor_batch")
     private Boolean singleActorBatch;
     @JsonProperty("queue_lag")

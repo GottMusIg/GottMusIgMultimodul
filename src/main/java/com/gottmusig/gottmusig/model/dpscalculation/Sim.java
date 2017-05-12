@@ -4,6 +4,7 @@ package com.gottmusig.gottmusig.model.dpscalculation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -11,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "options",
     "overrides",
@@ -19,7 +21,6 @@ import lombok.Setter;
     "statistics"
 })
 @Getter
-@Setter
 public class Sim implements Serializable
 {
 

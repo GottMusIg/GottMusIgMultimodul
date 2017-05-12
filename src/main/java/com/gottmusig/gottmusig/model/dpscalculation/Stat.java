@@ -2,11 +2,14 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "name",
     "type",
@@ -28,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "tick_results",
     "num_refreshes"
 })
+@Getter
 public class Stat implements Serializable
 {
 

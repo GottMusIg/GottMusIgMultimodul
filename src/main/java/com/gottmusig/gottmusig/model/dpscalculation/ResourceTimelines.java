@@ -2,6 +2,7 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "runic_power",
     "rune",
@@ -24,11 +26,9 @@ import lombok.Setter;
     "maelstrom",
     "health",
     "soul_shard",
-    "rage",
-	    "health"
+    "rage"
 })
 @Getter
-@Setter
 public class ResourceTimelines implements Serializable
 {
 

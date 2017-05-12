@@ -2,6 +2,7 @@
 package com.gottmusig.gottmusig.model.dpscalculation;
 
 import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "name",
 	"spell",
@@ -25,10 +27,10 @@ import lombok.Setter;
     "default_value",
     "expire_count",
     "item",
-    "cooldown"
+    "cooldown",
+        "stacks"
 })
 @Getter
-@Setter
 public class Buff implements Serializable
 {
 
@@ -62,6 +64,8 @@ public class Buff implements Serializable
     private Item item;
     @JsonProperty("cooldown")
     private Cooldown cooldown;
+    @JsonProperty("stacks")
+    private Integer stacks;
 
     private final static long serialVersionUID = -5629442365183160388L;
 
