@@ -21,7 +21,7 @@ public class OffHand implements GeneralItem {
     @SerializedName("artifactTraits")
     private List<ArtifactTrait> mArtifactTraits;
     @SerializedName("bonusLists")
-    private List<Object> mBonusLists;
+    private List<Long> mBonusLists;
     @SerializedName("context")
     private String mContext;
     @SerializedName("displayInfoId")
@@ -85,11 +85,11 @@ public class OffHand implements GeneralItem {
         mArtifactTraits = artifactTraits;
     }
 
-    public List<Object> getBonusLists() {
+    public List<Long> getBonusLists() {
         return mBonusLists;
     }
 
-    public void setBonusLists(List<Object> bonusLists) {
+    public void setBonusLists(List<Long> bonusLists) {
         mBonusLists = bonusLists;
     }
 

@@ -4,6 +4,8 @@ package com.gottmusig.database.service.domain.character.jpa.characterpojo;
 import com.google.gson.annotations.SerializedName;
 
 import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.List;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
@@ -50,6 +52,20 @@ public class TooltipParams {
 
     public void setGem2(Long gem2) {
         this.gem2 = gem2;
+    }
+
+    public List<Long> getGems() {
+        List<Long> gems = new ArrayList<>();
+        if (gem0 != null) {
+            gems.add(gem0);
+        }
+        if (gem1 != null) {
+            gems.add(gem1);
+        }
+        if (gem2 != null) {
+            gems.add(gem2);
+        }
+        return gems;
     }
 
     public Long getTransmogItem() {

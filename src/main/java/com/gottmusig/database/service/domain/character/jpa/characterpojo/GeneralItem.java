@@ -1,5 +1,7 @@
 package com.gottmusig.database.service.domain.character.jpa.characterpojo;
 
+import java.util.List;
+
 /**
  * @author leong
  * @since 07.05.2017
@@ -19,5 +21,7 @@ public interface GeneralItem {
     TooltipParams getTooltipParams();
 
     String getContext();
+
+    List<Long> getBonusLists();
 
 }

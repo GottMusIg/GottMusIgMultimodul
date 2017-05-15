@@ -1,18 +1,19 @@
 package com.gottmusig.database.service.domain.item.jpa;
 
+import com.gottmusig.database.service.domain.character.jpa.WoWHeadToolTip;
+import com.gottmusig.database.service.domain.character.jpa.WoWHeadTooltipGenerator;
 import com.gottmusig.database.service.domain.character.jpa.characterpojo.GeneralItem;
 import com.gottmusig.database.service.domain.character.jpa.characterpojo.Items;
-import com.gottmusig.database.service.domain.character.jpa.characterpojo.TooltipParams;
 import com.gottmusig.database.service.domain.item.EquipmentSet;
 import com.gottmusig.database.service.domain.item.Item;
-
-import java.util.Optional;
 
 /**
  * @author leong
  * @since 07.05.2017
  */
 public class EquipmentSetImpl implements EquipmentSet {
+
+    private static WoWHeadTooltipGenerator woWHeadTooltipGenerator = new WoWHeadTooltipGenerator();
 
     private Long averageItemLevel;
 
@@ -75,45 +76,41 @@ public class EquipmentSetImpl implements EquipmentSet {
     }
 
     public EquipmentSetImpl(Items items) {
-        this(items.getAverageItemLevel(), items.getAverageItemLevelEquipped(), convert(items.getHead()),
-                convert(items.getNeck()), convert(items.getShoulder()), convert(items.getBack()), convert(items.getShirt()), convert(items.getChest()),
-                convert(items.getWrist()), convert(items.getMainHand()), convert(items.getOffHand()), convert(items.getHands()), convert(items.getFinger1()), convert(items.getFinger2()),
-                convert(items.getWaist()), convert(items.getLegs()), convert(items.getFeet()), convert(items.getTrinket1()), convert(items.getTrinket2()));
+        this(items.getAverageItemLevel(),
+             items.getAverageItemLevelEquipped(),
+             convert(items.getHead()),
+             convert(items.getNeck()),
+             convert(items.getShoulder()),
+             convert(items.getBack()),
+             convert(items.getShirt()),
+             convert(items.getChest()),
+             convert(items.getWrist()),
+             convert(items.getMainHand()),
+             convert(items.getOffHand()),
+             convert(items.getHands()),
+             convert(items.getFinger1()),
+             convert(items.getFinger2()),
+             convert(items.getWaist()),
+             convert(items.getLegs()),
+             convert(items.getFeet()),
+             convert(items.getTrinket1()),
+             convert(items.getTrinket2()));
     }
-
 
     private static Item convert(GeneralItem source) {
         ItemEntity itemEntity = new ItemEntity();
+
         if (source == null) {
-            return itemEntity.getUnusedSlot();
+            itemEntity.setWowHeadTooltip("empty slot");
+            itemEntity.setContext("empty slot");
+            return itemEntity;
         }
-        itemEntity.setItemId(source.getItemId());
-        TooltipParamsEntity tooltipParamsEntity = new TooltipParamsEntity();
-        TooltipParams tooltipParams = source.getTooltipParams();
-        tooltipParamsEntity.setEnchant(tooltipParams.getEnchant());
-        tooltipParamsEntity.setGem0(tooltipParams.getGem0());
-        tooltipParamsEntity.setGem1(tooltipParams.getGem1());
-        tooltipParamsEntity.setGem2(tooltipParams.getGem2());
-        tooltipParamsEntity.setTransmogItemId(tooltipParams.getTransmogItem());
-
-        //TODO inject Repository here
-        Optional<ItemEntity> itemEntityOptional = itemEntity.searchItem(source.getItemId(), tooltipParamsEntity);
-
-        if (itemEntityOptional.isPresent()) {
-            return itemEntityOptional.get();
-        }
-
-        itemEntity.setArmor(source.getArmor());
+        WoWHeadToolTip wowHeadTooltip = woWHeadTooltipGenerator.convert(source);
         itemEntity.setContext(source.getContext());
-        itemEntity.setName(source.getName());
-        itemEntity.setQuality(source.getQuality());
-        itemEntity.setItemLevel(source.getItemLevel());
-        itemEntity.setTooltipParams(tooltipParamsEntity);
+        itemEntity.setWowHeadTooltip(wowHeadTooltip.getTooltip());
 
         return itemEntity;
     }
-
-
 
 
     @Override
