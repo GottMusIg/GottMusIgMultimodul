@@ -7,6 +7,10 @@ import com.gottmusig.database.service.domain.Entity;
  */
 public interface Item extends Entity {
 
+    String getName();
+
+    Long getItemLevel();
+
     String getWowHeadTooltip();
 
     String getContext();

@@ -103,11 +103,15 @@ public class EquipmentSetImpl implements EquipmentSet {
         if (source == null) {
             itemEntity.setWowHeadTooltip("empty slot");
             itemEntity.setContext("empty slot");
+            itemEntity.setName("empty slot");
+            itemEntity.setItemLevel(0L);
             return itemEntity;
         }
         WoWHeadToolTip wowHeadTooltip = woWHeadTooltipGenerator.convert(source);
         itemEntity.setContext(source.getContext());
         itemEntity.setWowHeadTooltip(wowHeadTooltip.getTooltip());
+        itemEntity.setName(source.getName());
+        itemEntity.setItemLevel(source.getItemLevel());
 
         return itemEntity;
     }

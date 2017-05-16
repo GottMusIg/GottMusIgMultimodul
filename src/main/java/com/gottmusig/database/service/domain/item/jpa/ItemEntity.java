@@ -25,6 +25,12 @@ public class ItemEntity implements Item {
     @Column(name = "context")
     private String context;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "item_level")
+    private Long itemLevel;
+
     @Override
     public String getContext() {
         return context;
@@ -53,6 +59,24 @@ public class ItemEntity implements Item {
 
     public void setWowHeadTooltip(String wowHeadTooltip) {
         this.wowHeadTooltip = wowHeadTooltip;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public Long getItemLevel() {
+        return itemLevel;
+    }
+
+    public void setItemLevel(Long itemLevel) {
+        this.itemLevel = itemLevel;
     }
 
     public interface ItemRepository extends CrudRepository<ItemEntity, NumericSequenceId> {
