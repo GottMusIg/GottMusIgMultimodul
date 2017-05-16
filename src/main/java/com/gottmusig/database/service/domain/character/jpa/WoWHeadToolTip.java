@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 public class WoWHeadToolTip {
 
-    private String tooltip;
+    private final String tooltip;
 
     public WoWHeadToolTip(String tooltip) {
         this.tooltip = Objects.requireNonNull(tooltip);
@@ -16,9 +16,5 @@ public class WoWHeadToolTip {
 
     public String getTooltip() {
         return tooltip;
-    }
-
-    public void setTooltip(String tooltip) {
-        this.tooltip = tooltip;
     }
 }
