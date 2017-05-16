@@ -54,4 +54,5 @@ public class CharacterServiceImplTest {
         assertEquals("Warrior", wowClassEntity.getName());
     }
 
+
 }
