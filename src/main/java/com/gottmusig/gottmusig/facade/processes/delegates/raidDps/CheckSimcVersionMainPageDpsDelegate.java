@@ -1,4 +1,4 @@
-package com.gottmusig.gottmusig.facade.processes.delegates.common;
+package com.gottmusig.gottmusig.facade.processes.delegates.raidDps;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class CheckSimcVersionDelegate implements JavaDelegate {
+public class CheckSimcVersionMainPageDpsDelegate implements JavaDelegate {
 
     @Autowired
     private CamundaSupportImpl camundaSupport;
@@ -25,7 +25,7 @@ public class CheckSimcVersionDelegate implements JavaDelegate {
         String requestedSimcVersion = (String) execution.getVariable(ProcessVars.SIMC_VERSION);
         boolean versionWasAlreadySimulated = false;
 
-        if(camundaSupport.itemRankingSimulationWasAlreadyStartedFor(requestedSimcVersion)){
+        if(camundaSupport.mainPageDpsSimulationWasAlreadyStartedFor(requestedSimcVersion)){
             versionWasAlreadySimulated = true;
         }
 

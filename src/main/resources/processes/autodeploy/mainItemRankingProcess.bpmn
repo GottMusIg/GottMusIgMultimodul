@@ -9,7 +9,7 @@
       <bpmn:messageEventDefinition messageRef="Message_0tofvs6" />
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_045bmtu" sourceRef="calculateAllItemRankings" targetRef="Task_0pwflmq" />
-    <bpmn:serviceTask id="Task_0pwflmq" name="Check simc version" camunda:asyncBefore="true" camunda:delegateExpression="${checkSimcVersionDelegate}">
+    <bpmn:serviceTask id="Task_0pwflmq" name="Check simc version" camunda:asyncBefore="true" camunda:delegateExpression="${CheckSimcVersionItemRankingDelegate}">
       <bpmn:incoming>SequenceFlow_045bmtu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_10gufta</bpmn:outgoing>
     </bpmn:serviceTask>

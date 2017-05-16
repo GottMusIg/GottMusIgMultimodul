@@ -82,6 +82,10 @@ public class CamundaSupportImpl implements CamundaSupport {
         return processExistedAlreadyWith(ProcessVars.SIMC_VERSION, simcVersion, ProcessVars.ITEM_RANKING_SIMULATION_ID);
     }
 
+    public boolean mainPageDpsSimulationWasAlreadyStartedFor(String simcVersion){
+        return processExistedAlreadyWith(ProcessVars.SIMC_VERSION, simcVersion, ProcessVars.MAIN_PAGE_DPS_SIMULATION_ID);
+    }
+
     private boolean processExistedAlreadyWith(String varName, String value, String processDefinition){
 
         if (!(assertProcessIsStillRuningWith(varName, value, processDefinition))){
