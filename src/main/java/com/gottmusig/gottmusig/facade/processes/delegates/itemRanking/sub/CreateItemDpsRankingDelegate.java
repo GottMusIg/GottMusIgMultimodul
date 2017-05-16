@@ -35,9 +35,6 @@ public class CreateItemDpsRankingDelegate implements JavaDelegate {
 
                 String generatedItemName = createProfileName(item);
                 if (simulationName.equals(generatedItemName)) {
-
-                    log.debug(simulationName + "=" + generatedItemName + "?");
-
                     dpsPerItem.put(item, simulatedItem.getCollectedData().getDps().getMean());
                 }
 

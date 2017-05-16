@@ -4,6 +4,7 @@ public final class ProcessVars {
 
     //PROCESS IDs
     public static final String ITEM_RANKING_SIMULATION_ID = "itemSimulationProcess";
+    public static final String MAIN_PAGE_DPS_SIMULATION_ID = "simulateMainPageDpsProcessId";
 
 
     //COMMON

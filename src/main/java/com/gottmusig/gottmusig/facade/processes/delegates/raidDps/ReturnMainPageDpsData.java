@@ -18,8 +18,5 @@ public class ReturnMainPageDpsData implements JavaDelegate {
         log.debug(""+simulationCraft.getSim().getPlayers().get(0).getCollectedData().getDps().getMean());
         //
 
-
-
-
     }
 }
