@@ -1,4 +1,4 @@
-package com.gottmusig.gottmusig.processes;
+package com.gottmusig.gottmusig.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

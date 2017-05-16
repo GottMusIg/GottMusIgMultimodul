@@ -1,4 +1,4 @@
-package com.gottmusig.gottmusig.processes;
+package com.gottmusig.gottmusig.utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
