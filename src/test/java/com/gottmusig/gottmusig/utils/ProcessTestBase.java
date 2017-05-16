@@ -21,6 +21,7 @@ import org.camunda.bpm.engine.runtime.Execution;
 import org.camunda.bpm.engine.runtime.Job;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -268,17 +269,18 @@ public abstract class ProcessTestBase {
         return false;
     }
 
-    protected List<ProcessInstance> getProcessInstanceBy(String processInstanceId){
+    protected ProcessInstance getProcessInstanceBy(String processInstanceId){
 
         List<ProcessInstance> processInstances = new ArrayList<>();
 
         for(ProcessInstance processInstance : this.processInstances){
             String id = processInstance.getProcessInstanceId();
             if(id.equals(processInstanceId)){
-                processInstances.add(processInstance);
+                return processInstance;
             }
         }
-        return processInstances;
+        Assert.fail("Could not find processInstance with id: "+processInstanceId);
+        return null; //will be ignored
     }
 
 

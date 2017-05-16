@@ -78,17 +78,17 @@ public class CamundaSupportImpl implements CamundaSupport {
         return task;
     }
 
-    public boolean itemRankingSimulationWasAlreadyStartedFor(String simcVersion){
-        return processExistedAlreadyWith(ProcessVars.SIMC_VERSION, simcVersion, ProcessVars.ITEM_RANKING_SIMULATION_ID);
+    public boolean itemRankingSimulationWasAlreadyStartedFor(String simcVersion, String currentProcessId){
+        return processExistedAlreadyWith(ProcessVars.SIMC_VERSION, simcVersion, ProcessVars.ITEM_RANKING_SIMULATION_ID, currentProcessId);
     }
 
-    public boolean mainPageDpsSimulationWasAlreadyStartedFor(String simcVersion){
-        return processExistedAlreadyWith(ProcessVars.SIMC_VERSION, simcVersion, ProcessVars.MAIN_PAGE_DPS_SIMULATION_ID);
+    public boolean mainPageDpsSimulationWasAlreadyStartedFor(String simcVersion, String currentProcessId){
+        return processExistedAlreadyWith(ProcessVars.SIMC_VERSION, simcVersion, ProcessVars.MAIN_PAGE_DPS_SIMULATION_ID, currentProcessId);
     }
 
-    private boolean processExistedAlreadyWith(String varName, String value, String processDefinition){
+    private boolean processExistedAlreadyWith(String varName, String value, String processDefinition, String currentProcessId){
 
-        if (!(assertProcessIsStillRuningWith(varName, value, processDefinition))){
+        if (!(assertProcessIsStillRuningWith(varName, value, processDefinition, currentProcessId))){
             return  assertProcessFinishedWith(varName, value, processDefinition);
         }
         return true;
@@ -105,11 +105,18 @@ public class CamundaSupportImpl implements CamundaSupport {
         return true;
     }
 
-    private boolean assertProcessIsStillRuningWith(String varName, String value, String processDefinition){
+    private boolean assertProcessIsStillRuningWith(String varName, String value, String processDefinition, String currentProcessId){
 
-      return !(runtimeService.createExecutionQuery()
+       List<Execution> runningProcesses = (runtimeService.createExecutionQuery()
                         .processDefinitionKey(processDefinition)
-                        .variableValueEquals(varName, value).list().isEmpty());
+                        .variableValueEquals(varName, value).list());
+
+       for(Execution execution : runningProcesses){
+           if(!execution.getId().equals(currentProcessId)){
+               return true;
+           }
+       }
+       return false;
     }
 
 

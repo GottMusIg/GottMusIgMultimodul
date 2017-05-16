@@ -24,7 +24,7 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.spring.SpringProcessEngineConfiguration">
+    <bean id="processEngineConfiguration" class="org.camunda.bpm.extension.process_test_coverage.spring.SpringProcessWithCoverageEngineConfiguration">
 
         <property name="processEngineName" value="BssProcessEngine" />
         <property name="dataSource" ref="dataSource"/>

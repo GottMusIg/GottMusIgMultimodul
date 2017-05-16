@@ -23,9 +23,11 @@ public class CheckSimcVersionMainPageDpsDelegate implements JavaDelegate {
     public void execute(DelegateExecution execution) throws Exception {
 
         String requestedSimcVersion = (String) execution.getVariable(ProcessVars.SIMC_VERSION);
+        String currentProcessId = execution.getProcessInstanceId();
+
         boolean versionWasAlreadySimulated = false;
 
-        if(camundaSupport.mainPageDpsSimulationWasAlreadyStartedFor(requestedSimcVersion)){
+        if(camundaSupport.mainPageDpsSimulationWasAlreadyStartedFor(requestedSimcVersion, currentProcessId)){
             versionWasAlreadySimulated = true;
         }
 
