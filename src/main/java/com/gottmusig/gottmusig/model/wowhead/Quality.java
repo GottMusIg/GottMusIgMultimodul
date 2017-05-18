@@ -21,4 +21,19 @@ public enum Quality {
 	public String getURLPart(){
 		return paramQuality+":"+id+"/";
 	}
+
+	public static Quality findQualityByName(String quality){
+
+		for(Quality slotQuality : Quality.values()){
+
+			if(slotQuality.name().equalsIgnoreCase(quality)){
+				return slotQuality;
+			}
+
+		}
+
+		return  null; //TODO
+
+
+	}
 }

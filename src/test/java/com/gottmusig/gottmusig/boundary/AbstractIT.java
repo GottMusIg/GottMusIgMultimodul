@@ -16,13 +16,13 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AbstractIT extends AbstractBoundaryTest {
+public abstract class AbstractIT extends AbstractBoundaryTest {
 
 	@ArquillianResource
 	private URI baseUri;
 
 	@Deployment(testable = false)
-	static WebArchive createTestArchive() {
+	public static WebArchive createTestArchive() {
 
 		WebArchive archive = createFromWar("target/gottmusig.war");
 

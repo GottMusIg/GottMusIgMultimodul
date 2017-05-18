@@ -58,4 +58,13 @@ public enum Classes {
 		return null; //TODO
 	}
 
+	public static Classes findClassById(int id){
+		for(Classes wowClasse : Classes.values()){
+			if(wowClasse.getID() == id){
+				return wowClasse;
+			}
+		}
+		return null; //TODO
+	}
+
 }

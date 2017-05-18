@@ -71,4 +71,13 @@ public enum Slot {
 		throw new Exception(); //TODO
 	}
 
+	public static Slot findSlotById (int requestedSlot) throws Exception{
+		for(Slot slot : Slot.values()){
+			if(slot.getId() == requestedSlot){
+				return slot;
+			}
+		}
+		throw new Exception(); //TODO
+	}
+
 }

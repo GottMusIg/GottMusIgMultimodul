@@ -1,82 +1,72 @@
 
 package com.gottmusig.gottmusig.model.dpscalculation;
 
+import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
-    "activated",
-    "can_cancel",
-    "constant",
-    "cooldown",
-    "default_chance",
-    "default_value",
     "name",
-    "overridden",
-    "quiet",
-    "reactable",
-    "reverse",
+	"spell",
+    "start_count",
+    "uptime",
+    "benefit",
+    "spell",
     "source",
-    "spell_data",
-    "uptime_array",
-    "stacks"
+    "refresh_count",
+    "interval",
+    "trigger",
+    "overflow_stacks",
+    "overflow_total",
+    "default_value",
+    "expire_count",
+    "item",
+    "cooldown",
+        "stacks"
 })
-
-@EqualsAndHashCode
 @Getter
-@ToString
-public class Buff {
-
-    @JsonProperty("activated")
-    private Boolean activated;
-
-    @JsonProperty("can_cancel")
-    private Boolean canCancel;
-
-    @JsonProperty("constant")
-    private Boolean constant;
-
-    @JsonProperty("cooldown")
-    private Cooldown cooldown;
-
-    @JsonProperty("default_chance")
-    private Double defaultChance;
-
-    @JsonProperty("default_value")
-    private Double defaultValue;
+public class Buff implements Serializable
+{
 
     @JsonProperty("name")
     private String name;
-
-    @JsonProperty("overridden")
-    private Boolean overridden;
-
-    @JsonProperty("quiet")
-    private Boolean quiet;
-
-    @JsonProperty("reactable")
-    private Boolean reactable;
-
-    @JsonProperty("reverse")
-    private Boolean reverse;
-
+    @JsonProperty("start_count")
+    private Double startCount;
+    @JsonProperty("uptime")
+    private Double uptime;
+    @JsonProperty("benefit")
+    private Double benefit;
+    @JsonProperty("spell")
+    private Integer spell;
     @JsonProperty("source")
     private String source;
-
-    @JsonProperty("spell_data")
-    private SpellData spellData;
-
-    @JsonProperty("uptime_array")
-    private UptimeArray uptimeArray;
-    
+    @JsonProperty("refresh_count")
+    private Double refreshCount;
+    @JsonProperty("interval")
+    private Double interval;
+    @JsonProperty("trigger")
+    private Double trigger;
+    @JsonProperty("overflow_stacks")
+    private Double overflowStacks;
+    @JsonProperty("overflow_total")
+    private Double overflowTotal;
+    @JsonProperty("default_value")
+    private Double defaultValue;
+    @JsonProperty("expire_count")
+    private Double expireCount;
+    @JsonProperty("item")
+    private Item item;
+    @JsonProperty("cooldown")
+    private Cooldown cooldown;
     @JsonProperty("stacks")
-    private int stacks;
- 
+    private Integer stacks;
+
+    private final static long serialVersionUID = -5629442365183160388L;
+
 }

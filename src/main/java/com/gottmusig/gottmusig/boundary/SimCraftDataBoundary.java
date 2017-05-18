@@ -1,10 +1,6 @@
 package com.gottmusig.gottmusig.boundary;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -13,20 +9,16 @@ import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.gottmusig.gottmusig.facade.Control;
-import com.gottmusig.gottmusig.model.blizzard.BlizzardItem;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
-import com.gottmusig.gottmusig.facade.ItemComparison;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Path("/data")
+@Path("/simulation")
 @Slf4j
 public class SimCraftDataBoundary {
 
 	@Autowired
 	private Control control;
-	@Autowired
-	private ItemComparison itemcomparison;
 
 	/**
 	 * For Testing try this urls Magier:
@@ -56,7 +48,7 @@ public class SimCraftDataBoundary {
 	 * Aegwynn&user=Imnotdaisy
 	 */
 
-	@Path("simulationcraftdata")
+	@Path("player")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSimulationCraftData(@QueryParam("region") String region, //
@@ -66,32 +58,24 @@ public class SimCraftDataBoundary {
 		return Response.status(200).entity(simulationCraftData).build();
 	}
 
-	//BSP mit curl
-	//curl -H "Content-Type:text/plain" --data "Tier19H/Mage_Arcane_T19H.simc" http://localhost:8080/gottmusig/dps
-	@Path("dps")
-	@POST
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response getCommandsForCalculation(String file) {
-		log.info("POST COMMANDS: "+file);
-		String dps = control.getDpsForStartPage(file);
-		return Response.status(200).entity(dps).build();
-	}
-	
-	@Path("slotItem")
+	@Path("itemComparison")
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getSlotItemList(@QueryParam("region") String region, //
-			@QueryParam("server") String server, @QueryParam("user") String user, @QueryParam("slot") String slot,
-			@QueryParam("quality") String quality) {
-		
-		Map<BlizzardItem, Double> result = new LinkedHashMap<>();
-		try {
-			 result = itemcomparison.getItemRankingBy(region, server, user, slot, quality);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return Response.status(200).entity(result).build();
+	@Produces(MediaType.TEXT_HTML)
+	public Response testCamunda(@QueryParam("simcVersion") String simcVersion){
+
+		String processId = control.startItemComparisonProcess(simcVersion);
+		return Response.ok().entity(processId).build();
+
+	}
+
+	@Path("mainPageDps")
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public Response startMainPageDpsSimulation(@QueryParam("simcVersion") String simcVersion){
+
+		String processId = control.startMainPageDpsSimulation(simcVersion);
+		return Response.ok().entity(processId).build();
+
 	}
 
 }

@@ -8,11 +8,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser.Feature;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gottmusig.gottmusig.model.blizzard.WowChar;
 import com.gottmusig.gottmusig.model.wowhead.Classes;
 import com.gottmusig.gottmusig.model.wowhead.Filters;
 import com.gottmusig.gottmusig.model.wowhead.Quality;
@@ -34,20 +31,9 @@ public class WowHeadDatabaseGateway {
 		objectMapper = new ObjectMapper();
 		objectMapper.configure(Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 	}
-	
-	public WowHead getItemsFor(WowChar wowChar, Slot slot, Quality quality) throws Exception{
-		
-		if(wowChar == null){
-			throw new Exception(); //mind char muss angegeben werden TODO Exception schreiben
-		}
-		
-		Classes characterClass = Classes.getClassIdFor(wowChar);
-		int charLvl = wowChar.getLevel();
-		return getItemsFor(characterClass, charLvl, charLvl, slot, quality);
-	}
-	
+
 	public WowHead getItemsFor(Classes wowClass, int minLvl, int maxLvl, Slot slot, Quality quality) throws IOException{
-		
+
 		String requestUrl = buildUrl(wowClass,minLvl, maxLvl, slot, quality);
 		
 		Document wowheadResultPage =  Jsoup.connect(requestUrl).get();
@@ -57,14 +43,6 @@ public class WowHeadDatabaseGateway {
 		return wowhead;
 	}
 
-	public WowHead getItemsFor(WowChar wowChar, Slot slot) throws Exception{
-		return getItemsFor(wowChar,slot,null);
-	}
-	
-	public WowHead getItemsFor(WowChar wowChar) throws Exception{
-		return getItemsFor(wowChar,null,null);
-	}
-	
 	//TODO
 	private String buildUrl(Classes wowClass,int minLvl,int maxLvl, Slot slot, Quality quality ){
 		
@@ -84,7 +62,7 @@ public class WowHeadDatabaseGateway {
 	
 	private String applyStandtartfilters(String url, Classes wowClass){			
 		Filters filter2 = Filters.CAN_BE_EQUIPPED_YES;	
-		return url += filter2.getUrlPart();
+		return url + filter2.getUrlPart();
 	}
 	
 	private String getJsonItemListString(Document doc){
@@ -111,7 +89,7 @@ public class WowHeadDatabaseGateway {
 		return jsonString;
 	}
 	
-	private WowHead convertJsonStringToObject(String jsonString) throws JsonParseException, JsonMappingException, IOException{
+	private WowHead convertJsonStringToObject(String jsonString) throws IOException{
 		return objectMapper.readValue(jsonString, WowHead.class);
 	}
 	

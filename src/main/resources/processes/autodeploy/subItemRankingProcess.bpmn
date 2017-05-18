@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.6.0">
+  <bpmn:collaboration id="Collaboration_0ayw2fv">
+    <bpmn:participant id="subItemRankingProcess" name="GottMusIg Simulation" processRef="sub_Item_Ranking_Process" />
+  </bpmn:collaboration>
+  <bpmn:process id="sub_Item_Ranking_Process" isExecutable="true">
+    <bpmn:sequenceFlow id="SequenceFlow_1tsabzm" sourceRef="startItemDpsRankingSTEP" targetRef="getItemIdsFromWowHeadStep" />
+    <bpmn:serviceTask id="getItemIdsFromWowHeadStep" name="Get items form wowhead" camunda:asyncBefore="true" camunda:delegateExpression="${getItemsFromWowHeadDelegate}">
+      <bpmn:incoming>SequenceFlow_1tsabzm</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1pt8j4c</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="startItemDpsRankingSTEP" name="get item ranking for class, spec and slot">
+      <bpmn:outgoing>SequenceFlow_1tsabzm</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_0rtp56x" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1pt8j4c" sourceRef="getItemIdsFromWowHeadStep" targetRef="simulateItemStep" />
+    <bpmn:serviceTask id="simulateItemStep" name="Simulate item for class" camunda:asyncBefore="true" camunda:delegateExpression="${simulateItemDelegate}">
+      <bpmn:incoming>SequenceFlow_1pt8j4c</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_119w1lc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="createItemDpsRankingStep" name="create item dps ranking" camunda:asyncBefore="true" camunda:delegateExpression="${createItemDpsRankingDelegate}">
+      <bpmn:incoming>SequenceFlow_119w1lc</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0k1g8mu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_0r2oyx6" name="simulation finished">
+      <bpmn:incoming>SequenceFlow_0k1g8mu</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_119w1lc" sourceRef="simulateItemStep" targetRef="createItemDpsRankingStep" />
+    <bpmn:sequenceFlow id="SequenceFlow_0k1g8mu" sourceRef="createItemDpsRankingStep" targetRef="EndEvent_0r2oyx6" />
+  </bpmn:process>
+  <bpmn:message id="Message_0rtp56x" name="START_SUB_ITEM_DPS_RANKING" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0ayw2fv">
+      <bpmndi:BPMNShape id="Participant_1ecwlb3_di" bpmnElement="subItemRankingProcess">
+        <dc:Bounds x="123" y="61" width="807" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1tsabzm_di" bpmnElement="SequenceFlow_1tsabzm">
+        <di:waypoint xsi:type="dc:Point" x="222" y="178" />
+        <di:waypoint xsi:type="dc:Point" x="281" y="178" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="252" y="163" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_119w1lc_di" bpmnElement="SequenceFlow_119w1lc">
+        <di:waypoint xsi:type="dc:Point" x="556" y="178" />
+        <di:waypoint xsi:type="dc:Point" x="637" y="178" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="597" y="163" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0r2oyx6_di" bpmnElement="EndEvent_0r2oyx6">
+        <dc:Bounds x="830" y="160" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="804" y="200" width="88" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0f9t65c_di" bpmnElement="getItemIdsFromWowHeadStep">
+        <dc:Bounds x="281" y="138" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0cziouc_di" bpmnElement="simulateItemStep">
+        <dc:Bounds x="456" y="138" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0k1g8mu_di" bpmnElement="SequenceFlow_0k1g8mu">
+        <di:waypoint xsi:type="dc:Point" x="737" y="178" />
+        <di:waypoint xsi:type="dc:Point" x="830" y="178" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="784" y="163" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1st5qqv_di" bpmnElement="createItemDpsRankingStep">
+        <dc:Bounds x="637" y="138" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1mqdyr3_di" bpmnElement="startItemDpsRankingSTEP">
+        <dc:Bounds x="186" y="160" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="196" width="77" height="36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1pt8j4c_di" bpmnElement="SequenceFlow_1pt8j4c">
+        <di:waypoint xsi:type="dc:Point" x="381" y="178" />
+        <di:waypoint xsi:type="dc:Point" x="456" y="178" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="419" y="163" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,7 +1,9 @@
 
 package com.gottmusig.gottmusig.model.wowhead;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -9,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.gottmusig.gottmusig.gateway.WowHeadDatabaseGateway;
 import lombok.EqualsAndHashCode;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -18,6 +21,7 @@ import lombok.EqualsAndHashCode;
     "displayid",
     "flags2",
     "id",
+    "bonuses",
     "level",
     "name",
     "namedesc",
@@ -31,8 +35,8 @@ import lombok.EqualsAndHashCode;
     "firstseenpatch",
     "reqclass"
 })
-@EqualsAndHashCode(of={"id"})
-public class WowHeadItem {
+@EqualsAndHashCode(of = {"id", "bonus_id_string"})
+public class WowHeadItem implements Serializable {
 
 	@JsonProperty("armor")
     private Integer armor;
@@ -44,6 +48,12 @@ public class WowHeadItem {
     private Integer flags2;
     @JsonProperty("id")
     private Integer id;
+
+    @JsonProperty("bonuses")
+    private List<Integer> bonuses;
+
+    private String bonus_id_string; //TODO einzelner bonus extra speichern & equals darauf anwenden (nicht bonuses)
+
     @JsonProperty("level")
     private Integer level;
     @JsonProperty("name")
@@ -121,6 +131,28 @@ public class WowHeadItem {
         this.id = id;
     }
 
+    @JsonProperty("bonuses")
+    public List<Integer> getBonuses(){ return bonuses;}
+
+    public Integer getFirstBonus(){
+        if(this.bonuses != null || this.bonuses.isEmpty()){
+
+            int bonus = bonuses.get(0);
+
+            if(bonus == 0){
+                return null;
+            }
+            return bonuses.get(0);
+        }
+        return null;
+    }
+
+    @JsonProperty("bonuses")
+    public void setBonuses(List<Integer> bonuses) {
+        this.bonuses = bonuses;
+        this.bonus_id_string = getSimulationBonusString();
+    }
+
     @JsonProperty("level")
     public Integer getLevel() {
         return level;
@@ -138,7 +170,8 @@ public class WowHeadItem {
 
     @JsonProperty("name")
     public void setName(String name) {
-        this.name = name;
+        String replacedName = name.replaceAll("\\d","");
+        this.name = replacedName;
     }
 
     @JsonProperty("namedesc")
@@ -249,6 +282,41 @@ public class WowHeadItem {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public String getWowHeadToolTipLink(){
+        String url =  WowHeadDatabaseGateway.BASE_URL+"item="+this.id;
+        Integer bonus = getFirstBonus();
+
+        if(bonus != null){
+            url += "&bonus="+bonus;
+        }
+        return url;
+    }
+
+    public String getBonusIdString(){
+        return this.bonus_id_string;
+    }
+
+    private String getSimulationBonusString(){
+        String bonuses = "";
+        for(int i=0;i<this.bonuses.size()-1;i++){
+            bonuses += (this.bonuses.get(i)+"/");
+        }
+        return (bonuses+= this.bonuses.get(this.bonuses.size()-1)); //avoid '/' after the last id
+    }
+
+    public String getSimulationName(){
+        String simulationName = "";
+        simulationName+=this.id+"_"+this.bonus_id_string;
+        return replaceTroublingChars(simulationName);
+    }
+
+    private String replaceTroublingChars(String string) {
+        String replacedString = string;
+        replacedString = replacedString.replaceAll("\\s+", "_");
+        replacedString = replacedString.replaceAll("-", "_");
+        return replacedString;
     }
     
 }
