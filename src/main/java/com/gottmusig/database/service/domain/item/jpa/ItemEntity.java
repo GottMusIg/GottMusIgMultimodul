@@ -31,6 +31,9 @@ public class ItemEntity implements Item {
     @Column(name = "item_level")
     private Long itemLevel;
 
+    @Column(name = "icon_tooltip")
+    private String iconTooltip;
+
     @Override
     public String getContext() {
         return context;
@@ -77,6 +80,14 @@ public class ItemEntity implements Item {
 
     public void setItemLevel(Long itemLevel) {
         this.itemLevel = itemLevel;
+    }
+
+    public String getIconTooltip() {
+        return iconTooltip;
+    }
+
+    public void setIconTooltip(String iconTooltip) {
+        this.iconTooltip = iconTooltip;
     }
 
     public interface ItemRepository extends CrudRepository<ItemEntity, NumericSequenceId> {

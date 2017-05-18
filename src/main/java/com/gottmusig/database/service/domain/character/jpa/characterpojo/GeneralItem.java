@@ -24,4 +24,6 @@ public interface GeneralItem {
 
     List<Long> getBonusLists();
 
+    String getIcon();
+
 }

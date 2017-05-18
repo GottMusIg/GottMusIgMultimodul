@@ -15,4 +15,6 @@ public interface Item extends Entity {
 
     String getContext();
 
+    String getIconTooltip();
+
 }
