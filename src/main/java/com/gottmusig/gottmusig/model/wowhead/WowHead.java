@@ -2,7 +2,9 @@
 package com.gottmusig.gottmusig.model.wowhead;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,7 +36,7 @@ public class WowHead implements Serializable {
 
     @JsonProperty("items")
     public void setItems(List<WowHeadItem> items) {
-        this.items = removeDoubleItems(items);
+        this.items = removeDoubleItems2(items);
     }
 
     @JsonAnyGetter
@@ -52,6 +54,12 @@ public class WowHead implements Serializable {
         List<WowHeadItem> deduped = originalList.stream().distinct().collect(Collectors.toList());
         log.debug("New size :"+deduped.size());
         return deduped;
+    }
+
+    private List<WowHeadItem> removeDoubleItems2(List<WowHeadItem> items){
+
+        return new ArrayList<WowHeadItem>(new LinkedHashSet<WowHeadItem>(items));
+
     }
 
 }

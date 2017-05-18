@@ -13,7 +13,8 @@ public class SimulationCraftInputs {
 	private String server;
 	private String user;
 	private SimcCommands commandType;
-	private String commandString;
+	@Builder.Default
+	private String commandString="";
 
 	private Classes clazz;
 	private ClassSpec spec;

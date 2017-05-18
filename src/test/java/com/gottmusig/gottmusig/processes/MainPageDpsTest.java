@@ -5,6 +5,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.camunda.bpm.extension.process_test_coverage.junit.rules.TestCoverageProcessEngineRuleBuilder;
+import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class MainPageDpsTest extends ProcessTestBase {
 
     @PostConstruct
     void initRule() {
-        rule = TestCoverageProcessEngineRuleBuilder.create(processEngine).build();
+        rule = TestCoverageProcessEngineRuleBuilder.create(processEngine).withDetailedCoverageLogging().build();
     }
 
     @Test
@@ -37,6 +38,8 @@ public class MainPageDpsTest extends ProcessTestBase {
         ProcessInstance processInstance = getProcessInstanceBy(id); //Nur 1 ProcessInstance kann ausgeführt worden sein
 
         assertProcessFinished(processInstance);
+
+
     }
 
     @Test

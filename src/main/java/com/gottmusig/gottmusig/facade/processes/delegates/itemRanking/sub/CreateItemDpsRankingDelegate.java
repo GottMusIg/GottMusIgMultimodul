@@ -32,9 +32,7 @@ public class CreateItemDpsRankingDelegate implements JavaDelegate {
             String simulationName = simulatedItem.getName();
 
             for (WowHeadItem item : items) {
-
-                String generatedItemName = createProfileName(item);
-                if (simulationName.equals(generatedItemName)) {
+                if (simulationName.equals(item.getSimulationName())) {
                     dpsPerItem.put(item, simulatedItem.getCollectedData().getDps().getMean());
                 }
 
@@ -46,32 +44,13 @@ public class CreateItemDpsRankingDelegate implements JavaDelegate {
         log.debug(items.size() + "vs" + dpsPerItem.size());
 
         for (Map.Entry<WowHeadItem, Double> itemByDps : dpsPerItem.entrySet()) {
-            log.debug(createProfileName(itemByDps.getKey()) + " --> " + itemByDps.getValue());
+            log.debug(itemByDps.getKey().getName() + " --> " + itemByDps.getValue());
             log.debug("URL for wowhead: " + itemByDps.getKey().getWowHeadToolTipLink());
         }
 
         List<Map<WowHeadItem, Double>> simulationResults = (List<Map<WowHeadItem, Double>>) execution.getVariable(ProcessVars.SIMULATION_RESULT_LIST);
         simulationResults.add(dpsPerItem);
         execution.setVariable(ProcessVars.SIMULATION_RESULT_LIST, simulationResults);
-    }
-
-    private String createProfileName(WowHeadItem item) {
-
-        String profilName = item.getName();
-        Integer bonusId = item.getFirstBonus();
-
-        if(bonusId != null){
-            profilName += "_"+bonusId;
-        }
-        return replaceTroublingChars(profilName);
-    }
-
-    private String replaceTroublingChars(String string) {
-        String replacedString = string;
-        replacedString = replacedString.replaceAll("\\d","");
-        replacedString = replacedString.replaceAll("\\s+", "_");
-        replacedString = replacedString.replaceAll("-", "_");
-        return replacedString;
     }
 
     private Map<WowHeadItem, Double> sortMapByDps(Map<WowHeadItem, Double> map) {

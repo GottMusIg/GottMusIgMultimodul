@@ -58,43 +58,30 @@ public class SimulateItemDelegate implements JavaDelegate {
     }
 
     private String createCopyCommand(WowHeadItem item) {
-        return SimcCommands.COPY.getCommand() + createProfileName(item) + "\n";
+        return SimcCommands.COPY.getCommand() +item.getSimulationName() + "\n";
     }
 
-    private String createProfileName(WowHeadItem item) {
-
-        String profilName = item.getName();
-        Integer bonusId = item.getFirstBonus();
-
-        if(bonusId != null){
-            profilName += "_"+bonusId;
-        }
-        return replaceTroublingChars(profilName);
-    }
-
-    private String replaceTroublingChars(String string) {
-        String replacedString = string;
-        replacedString = replacedString.replaceAll("\\d","");
-        replacedString = replacedString.replaceAll("\\s+", "_");
-        replacedString = replacedString.replaceAll("-", "_");
-        return replacedString;
-    }
 
     private String createItemCommand(Slot slot, WowHeadItem item) throws Exception {
 
         List<String> simcCommands = slot.getSimcCommands();
         String command = "";
 
-        if (item.getFirstBonus() == null) {
+        if (item.getBonuses().isEmpty()) {
             command = simcCommands.get(0) + item.getName() + SimcCommands.SEPERATOR.getCommand()
                     + SimcCommands.ID.getCommand() + item.getId();
 
         } else {
-            command = simcCommands.get(0) + item.getName() + SimcCommands.SEPERATOR.getCommand()
-                    + SimcCommands.ID.getCommand() + item.getId() + SimcCommands.SEPERATOR.getCommand()
-                    + SimcCommands.BONUS_ID.getCommand() + item.getFirstBonus();
+            command = simcCommands.get(0) + item.getName() + SimcCommands.SEPERATOR.getCommand() + SimcCommands.ID.getCommand() + item.getId() + SimcCommands.SEPERATOR.getCommand()
+                    + SimcCommands.BONUS_ID.getCommand() + item.getBonusIdString();
         }
-        command = replaceTroublingChars(command);
-        return command + "\n";
+            return replaceTroublingChars(command) + "\n";
+    }
+
+    private String replaceTroublingChars(String string) {
+        String replacedString = string;
+        replacedString = replacedString.replaceAll("\\s+", "_");
+        replacedString = replacedString.replaceAll("-", "_");
+        return replacedString;
     }
 }

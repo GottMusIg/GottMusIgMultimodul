@@ -78,6 +78,7 @@ public abstract class ProcessTestBase {
      */
     @After
     public void cleanUpProcessInstances() {
+
         List<Execution> runningProcesses = runtimeService.createExecutionQuery().list();
 
         for (Execution execution : runningProcesses) {

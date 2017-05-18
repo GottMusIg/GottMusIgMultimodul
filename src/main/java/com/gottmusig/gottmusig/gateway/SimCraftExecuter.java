@@ -76,7 +76,7 @@ import lombok.extern.slf4j.Slf4j;
             } else {
 
                 File raidFile = getRaidFile();
-                simcExecutionString = "\"" + raidFile.getAbsolutePath() + "\" iterations=100 " + SimcCommands.RESULT
+                simcExecutionString = "\"" + raidFile.getAbsolutePath() + "\" " + SimcCommands.RESULT
                         .getCommand() + jsonResult.getAbsolutePath();
             }
         }

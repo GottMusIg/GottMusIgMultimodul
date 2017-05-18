@@ -35,7 +35,7 @@ import lombok.EqualsAndHashCode;
     "firstseenpatch",
     "reqclass"
 })
-@EqualsAndHashCode(of = {"id", "bonuses"})
+@EqualsAndHashCode(of = {"id", "bonus_id_string"})
 public class WowHeadItem implements Serializable {
 
 	@JsonProperty("armor")
@@ -52,7 +52,7 @@ public class WowHeadItem implements Serializable {
     @JsonProperty("bonuses")
     private List<Integer> bonuses;
 
-    private int bonus_id; //TODO einzelner bonus extra speichern & equals darauf anwenden (nicht bonuses)
+    private String bonus_id_string; //TODO einzelner bonus extra speichern & equals darauf anwenden (nicht bonuses)
 
     @JsonProperty("level")
     private Integer level;
@@ -150,8 +150,7 @@ public class WowHeadItem implements Serializable {
     @JsonProperty("bonuses")
     public void setBonuses(List<Integer> bonuses) {
         this.bonuses = bonuses;
-
-
+        this.bonus_id_string = getSimulationBonusString();
     }
 
     @JsonProperty("level")
@@ -293,6 +292,31 @@ public class WowHeadItem implements Serializable {
             url += "&bonus="+bonus;
         }
         return url;
+    }
+
+    public String getBonusIdString(){
+        return this.bonus_id_string;
+    }
+
+    private String getSimulationBonusString(){
+        String bonuses = "";
+        for(int i=0;i<this.bonuses.size()-1;i++){
+            bonuses += (this.bonuses.get(i)+"/");
+        }
+        return (bonuses+= this.bonuses.get(this.bonuses.size()-1)); //avoid '/' after the last id
+    }
+
+    public String getSimulationName(){
+        String simulationName = "";
+        simulationName+=this.id+"_"+this.bonus_id_string;
+        return replaceTroublingChars(simulationName);
+    }
+
+    private String replaceTroublingChars(String string) {
+        String replacedString = string;
+        replacedString = replacedString.replaceAll("\\s+", "_");
+        replacedString = replacedString.replaceAll("-", "_");
+        return replacedString;
     }
     
 }
