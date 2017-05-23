@@ -1,3 +1,4 @@
+
 package com.gottmusig.database.service.domain.character.jpa.characterpojo;
 
 import com.google.gson.annotations.SerializedName;

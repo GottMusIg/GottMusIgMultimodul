@@ -1,6 +1,7 @@
 package com.gottmusig.database.service.domain.character;
 
 import com.gottmusig.database.service.domain.Entity;
+import com.gottmusig.database.service.domain.item.EquipmentSet;
 import com.gottmusig.database.service.domain.realm.Realm;
 
 /**
@@ -77,4 +78,6 @@ public interface Character extends Entity {
      * @param thumbnail the new thubnail, has to be set after a name/realm change of the character
      */
     void setThumbnailId(String thumbnail);
+
+    EquipmentSet getEquipmentSet();
 }

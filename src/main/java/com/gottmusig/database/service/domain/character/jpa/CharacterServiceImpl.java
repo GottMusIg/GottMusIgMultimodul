@@ -1,21 +1,21 @@
 package com.gottmusig.database.service.domain.character.jpa;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.google.gson.Gson;
 import com.gottmusig.database.service.domain.character.Character;
 import com.gottmusig.database.service.domain.character.CharacterService;
 import com.gottmusig.database.service.domain.character.jpa.CharacterEntity.CharacterRepository;
 import com.gottmusig.database.service.domain.character.jpa.WOWClassEntity.WOWClassRepository;
 import com.gottmusig.database.service.domain.character.jpa.blizzard.SearchCharacterClient;
-import com.gottmusig.database.service.domain.character.jpa.characterpojo.CharacterPOJO;
 import com.gottmusig.database.service.domain.character.jpa.characterpojo.WOWClassId;
+import com.gottmusig.database.service.domain.character.jpa.characterpojo.WoWCharacter;
 import com.gottmusig.database.service.domain.character.jpa.exception.CharacterNotFoundException;
+import com.gottmusig.database.service.domain.item.jpa.EquipmentSetImpl;
 import com.gottmusig.database.service.domain.realm.Realm;
 import com.gottmusig.database.service.domain.realm.jpa.RealmEntity.RealmRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Description
@@ -28,14 +28,18 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Autowired SearchCharacterClient searchCharacterClient;
     @Autowired CharacterRepository characterRepository;
-    @Autowired WOWClassRepository wowClassRepository;
     @Autowired RealmRepository realmRepository;
+    @Autowired WOWClassRepository wowClassRepository;
 
     private final transient Gson gson = new Gson();
 
     @Override
     public Optional<Character> searchCharacter(String realmName, String name) {
-        Realm realm = realmRepository.findByName(realmName).get();
+        Optional<Realm> realmByName = realmRepository.findByName(realmName);
+        if (!realmByName.isPresent()) {
+            return Optional.empty();
+        }
+        Realm realm = realmByName.get();
         Optional<Character> characterOptional = characterRepository.findByNameAndRealm(name, realm);
         if(characterOptional.isPresent()) {
             return characterOptional;
@@ -64,19 +68,15 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     private CharacterEntity createCharacterFromResponse(String response) {
-
-        CharacterPOJO characterPOJO = gson.fromJson(response, CharacterPOJO.class);
-
+        WoWCharacter source = gson.fromJson(response, WoWCharacter.class);
         CharacterEntity characterEntity = new CharacterEntity();
-        characterEntity.setThumbnailId(characterPOJO.getThumbnail().replaceAll("-avatar[.]jpg",""));
-
+        characterEntity.setThumbnailId(source.getThumbnail().replaceAll("-avatar[.]jpg",""));
         ClassSpecificationEntity specificationEntity = new ClassSpecificationEntity();
-        specificationEntity.setName(characterPOJO.getTalents().get(0).getSpec().getName());
-        String wowClassName = WOWClassId.getWowClassName(characterPOJO.get_Class());
+        specificationEntity.setName(source.getTalents().get(0).getSpec().getName());
+        String wowClassName = WOWClassId.getWowClassName(source.getClazz());
         specificationEntity.setWowClass(wowClassRepository.findByName(wowClassName));
-
         characterEntity.setClassSpecification(specificationEntity);
-
+        characterEntity.setEquipmentSet(new EquipmentSetImpl(source.getItems()));
         return characterEntity;
     }
 }
