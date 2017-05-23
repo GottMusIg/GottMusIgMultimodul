@@ -61,6 +61,11 @@ public class WoWHeadTooltipGeneratorTest  {
             public List<Long> getBonusLists() {
                 return Lists.newArrayList(1L, 2L, 3L, 4L);
             }
+
+            @Override
+            public String getIcon() {
+                return "";
+            }
         };
     }
 
