@@ -23,7 +23,7 @@ public class SimulationServiceImpl implements SimulationService {
 
     private static final String REGION = "region";
     private static final String REALM = "realm";
-    private static final String NAME = "name";
+    private static final String USER = "user";
 
 
     @Override
@@ -33,7 +33,7 @@ public class SimulationServiceImpl implements SimulationService {
         WebTarget target = c.target(BASE_URL).path(SIMULATION_PATH) //
              .queryParam(REGION, "eu") //TODO
         .queryParam(REALM, character.getRealm().getName()) //
-        .queryParam(NAME, character.getName());
+        .queryParam(USER, character.getName());
 
 
         SimulationCraft simulation = target.request().get(SimulationCraft.class);
