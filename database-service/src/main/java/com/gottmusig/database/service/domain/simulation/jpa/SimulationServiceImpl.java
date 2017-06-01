@@ -32,7 +32,7 @@ public class SimulationServiceImpl implements SimulationService {
         Client c = ClientBuilder.newClient();
         WebTarget target = c.target(BASE_URL).path(SIMULATION_PATH) //
              .queryParam(REGION, "eu") //TODO
-        .queryParam(REALM, character.getRealm()) //
+        .queryParam(REALM, character.getRealm().getName()) //
         .queryParam(NAME, character.getName());
 
 
