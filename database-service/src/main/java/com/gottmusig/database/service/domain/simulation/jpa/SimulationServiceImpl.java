@@ -5,8 +5,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import com.gottmusig.database.service.domain.character.Character;
 import com.gottmusig.database.service.domain.simulation.SimulationService;
+import com.gottmusig.gottmusig.model.dpscalculation.Player;
 import com.gottmusig.gottmusig.model.dpscalculation.SimulationCraft;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,20 +25,41 @@ public class SimulationServiceImpl implements SimulationService {
     private static final String REALM = "realm";
     private static final String USER = "user";
 
+    private final Client client;
+
+    public SimulationServiceImpl(){
+        client = ClientBuilder.newClient();
+    }
+
 
     @Override
     public Character simulateDPS(Character character) {
 
-        Client c = ClientBuilder.newClient();
-        WebTarget target = c.target(BASE_URL).path(SIMULATION_PATH) //
-             .queryParam(REGION, "eu") //TODO
-        .queryParam(REALM, character.getRealm().getName()) //
-        .queryParam(USER, character.getName());
-
-
-        SimulationCraft simulation = target.request().get(SimulationCraft.class);
-        character.setDPS(simulation.getSim().getPlayers().get(0).getCollectedData().getDps().getMean().intValue());
+        SimulationCraft simulation = getSimulationFor(character);
+        try {
+            int dps = getDpsFor(character, simulation);
+            character.setDPS(dps);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return character;
 
+    }
+
+    private SimulationCraft getSimulationFor(Character character){
+        WebTarget target = client.target(BASE_URL).path(SIMULATION_PATH) //
+                .queryParam(REGION, "eu") //TODO
+                .queryParam(REALM, character.getRealm().getName()) //
+                .queryParam(USER, character.getName());
+        return target.request().get(SimulationCraft.class);
+    }
+
+    private int getDpsFor(Character character, SimulationCraft simulationCraft) throws Exception {
+        for(Player player : simulationCraft.getSim().getPlayers()){
+            if(player.getName().equals(character.getName())){
+                return player.getCollectedData().getDps().getMean().intValue();
+            }
+        }
+        throw new Exception("Something went wrong while getting dps for character "+character.getName());
     }
 }
