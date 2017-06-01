@@ -85,11 +85,18 @@
 
     <dependencies>
 
+
         <dependency>
             <groupId>com.gottmusig</groupId>
             <artifactId>gottmusig-simulation</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <classifier>classes</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+            <type>jar</type>
         </dependency>
 
         <dependency>
