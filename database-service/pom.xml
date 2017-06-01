@@ -85,12 +85,12 @@
 
     <dependencies>
 
-        <!--<dependency>-->
-            <!--<groupId>com.gottmusig</groupId>-->
-            <!--<artifactId>gottmusig-simulation</artifactId>-->
-            <!--<version>0.0.1-SNAPSHOT</version>-->
-            <!--<classifier>classes</classifier>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.gottmusig</groupId>
+            <artifactId>gottmusig-simulation</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <classifier>classes</classifier>
+        </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
