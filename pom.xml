@@ -56,13 +56,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <dependency>
-                <groupId>com.gottmusig</groupId>
-                <artifactId>gottmusig-simulation</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-                <type>pom</type>
-            </dependency>
-
         </dependencies>
 
     </dependencyManagement>

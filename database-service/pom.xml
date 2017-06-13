@@ -86,16 +86,13 @@
     <dependencies>
 
 
+
         <dependency>
             <groupId>com.gottmusig</groupId>
             <artifactId>gottmusig-simulation</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../gottmusig-simulation/target/gottmusig-simulation.jar</systemPath>
             <type>jar</type>
         </dependency>
 
